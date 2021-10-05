@@ -12,3 +12,4 @@ if (ExStyle & 0x8) {
  Winset, Alwaysontop, , A
 }
 return
+
