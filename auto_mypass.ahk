@@ -1,4 +1,4 @@
-#SingleInstance force
+#SingleInstance__force
 
 :*:asd::<pass>
 :*:zx::

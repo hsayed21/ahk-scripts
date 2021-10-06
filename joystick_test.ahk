@@ -1,0 +1,88 @@
+﻿;__Joystick__Test__Script
+;__https://www.autohotkey.com
+;__This__script__helps__determine__the__button__numbers__and__other__attributes
+;__of__your__joystick.__It__might__also__reveal__if__your__joystick__is__in__need
+;__of__calibration;__that__is,__whether__the__range__of__motion__of__each__of__its
+;__axes__is__from_____to_______percent__as__it__should__be.__If__calibration__is
+;__needed,__use__the__operating__system's__control__panel__or__the__software
+;__that__came__with__your__joystick.
+
+;__July___,______:__Added__auto-detection__of__joystick__number.
+;__May___,________:__Fixed:__JoyAxes__is__no__longer__queried__as__a__means__of
+;__detecting__whether__the__joystick__is__connected.__Some__joysticks__are
+;__gamepads__and__don't__have__even__a__single__axis.
+
+;__If__you__want__to__unconditionally__use__a__specific__joystick__number,__change
+;__the__following__value__from_____to__the__number__of__the__joystick__(_-__).
+;__A__value__of_____causes__the__joystick__number__to__be__auto-detected:
+JoystickNumber__=___
+
+;__END__OF__CONFIG__SECTION.__Do__not__make__changes__below__this__point__unless
+;__you__wish__to__alter__the__basic__functionality__of__the__script.
+
+;__Auto-detect__the__joystick__number__if__called__for:
+if__JoystickNumber__<=___
+{
+	Loop______;__Query__each__joystick__number__to__find__out__which__ones__exist.
+	{
+		GetKeyState,__JoyName,__%A_Index%JoyName
+		if__JoyName__<>
+		{
+			JoystickNumber__=__%A_Index%
+			break
+		}
+	}
+	if__JoystickNumber__<=___
+	{
+		MsgBox__The__system__does__not__appear__to__have__any__joysticks.
+		ExitApp
+	}
+}
+
+#SingleInstance
+SetFormat,__float,______;__Omit__decimal__point__from__axis__position__percentages.
+GetKeyState,__joy_buttons,__%JoystickNumber%JoyButtons
+GetKeyState,__joy_name,__%JoystickNumber%JoyName
+GetKeyState,__joy_info,__%JoystickNumber%JoyInfo
+Loop
+{
+	buttons_down__=
+	Loop,__%joy_buttons%
+	{
+		GetKeyState,__joy%A_Index%,__%JoystickNumber%joy%A_Index%
+		if__joy%A_Index%__=__D
+			buttons_down__=__%buttons_down%%A_Space%%A_Index%
+	}
+	GetKeyState,__JoyX,__%JoystickNumber%JoyX
+	axis_info__=__X%JoyX%
+	GetKeyState,__JoyY,__%JoystickNumber%JoyY
+	axis_info__=__%axis_info%%A_Space%%A_Space%Y%JoyY%
+	IfInString,__joy_info,__Z
+	{
+		GetKeyState,__JoyZ,__%JoystickNumber%JoyZ
+		axis_info__=__%axis_info%%A_Space%%A_Space%Z%JoyZ%
+	}
+	IfInString,__joy_info,__R
+	{
+		GetKeyState,__JoyR,__%JoystickNumber%JoyR
+		axis_info__=__%axis_info%%A_Space%%A_Space%R%JoyR%
+	}
+	IfInString,__joy_info,__U
+	{
+		GetKeyState,__JoyU,__%JoystickNumber%JoyU
+		axis_info__=__%axis_info%%A_Space%%A_Space%U%JoyU%
+	}
+	IfInString,__joy_info,__V
+	{
+		GetKeyState,__JoyV,__%JoystickNumber%JoyV
+		axis_info__=__%axis_info%%A_Space%%A_Space%V%JoyV%
+	}
+	IfInString,__joy_info,__P
+	{
+		GetKeyState,__joyp,__%JoystickNumber%JoyPOV
+		axis_info__=__%axis_info%%A_Space%%A_Space%POV%joyp%
+	}
+	ToolTip,__%joy_name%__(#%JoystickNumber%):`n%axis_info%`nButtons__Down:__%buttons_down%`n`n(right-click__the__tray__icon__to__exit)
+	Sleep,_____
+}
+return

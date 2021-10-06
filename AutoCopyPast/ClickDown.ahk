@@ -1,20 +1,20 @@
-﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
-; #Warn  ; Enable warnings to assist with detecting common errors.
-SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
-SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+﻿#NoEnv__;__Recommended__for__performance__and__compatibility__with__future__AutoHotkey__releases.
+;__#Warn__;__Enable__warnings__to__assist__with__detecting__common__errors.
+SendMode__Input__;__Recommended__for__new__scripts__due__to__its__superior__speed__and__reliability.
+SetWorkingDir__%A_ScriptDir%__;__Ensures__a__consistent__starting__directory.
 
 
-~LButton:: 
-Click, down
-while GetKeyState("LButton")
+~LButton::__
+Click,__down
+while__GetKeyState("LButton")
 {
 }
-send ^c
+send__^c
 
-ControlSend, Edit1, %clipboard% , Untitled - Notepad
+ControlSend,__Edit_,__%clipboard%__,__Untitled__-__Notepad
 return
 
 ~MButton::
 click
-send ^v 
+send__^v__
 return

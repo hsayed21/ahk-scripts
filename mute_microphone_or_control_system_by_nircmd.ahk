@@ -3,7 +3,27 @@
 SendMode__Input__;__Recommended__for__new__scripts__due__to__its__superior__speed__and__reliability.
 SetWorkingDir__%A_ScriptDir%__;__Ensures__a__consistent__starting__directory.
 
-~MButton::
-click
-send__^v__
-return
+/*
+	First__download__nircmd.exe
+	can__do__a__lot__of__things__:)
+
+*/
+
+
+;Mute
+F_::
+	Run__nircmd.exe__mutesysvolume_____microphone
+	return
+	
+	
+;Unmute
+F__::
+	Run__nircmd.exe__mutesysvolume_____microphone
+	return	
+	
+	
+	
+;Toggle
+F__::
+	Run__nircmd.exe__mutesysvolume_____microphone
+	return

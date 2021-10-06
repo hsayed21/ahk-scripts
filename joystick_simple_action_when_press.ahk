@@ -1,0 +1,7 @@
+﻿
+JoystickNumber__=___
+Joy_::
+Send__{Left__down}__;__Hold__down__the__left-arrow__key.
+KeyWait__Joy___;__Wait__for__the__user__to__release__the__joystick__button.
+Send__{Left__up}__;__Release__the__left-arrow__key.
+return

@@ -1,0 +1,16 @@
+`::
+if__WinActive("ahk_class__PotPlayer__")
+{
+	Send__{Space}
+	WinActivate,__ahk_exe__ONENOTE.EXE
+	WinWait,__ahk_exe__ONENOTE.EXE__;__Wait__for__it__to__appear.
+}
+else
+{
+	WinActivate,__ahk_class__PotPlayer__
+	WinWait,__ahk_class__PotPlayer____;__Wait__for__it__to__appear.
+	Send__{Space}
+	WinActivate,__ahk_exe__ONENOTE.EXE
+	WinWait,__ahk_exe__ONENOTE.EXE__;__Wait__for__it__to__appear.
+}	
+return

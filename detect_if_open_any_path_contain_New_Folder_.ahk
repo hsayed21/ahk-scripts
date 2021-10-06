@@ -1,0 +1,11 @@
+﻿q::
+GroupAdd,__vGroupFolder,__ahk_class__CabinetWClass
+GroupAdd,__vGroupFolder,__ahk_class__ExploreWClass
+SetTitleMatchMode,___
+hWnd___:=__WinExist("New__Folder__ahk_group__vGroupFolder")
+hWnd___:=__WinExist("New__Folder__(_)__ahk_group__vGroupFolder")
+if__(hWnd___&&__hWnd_)
+MsgBox__%__"both__windows__exist"
+else
+MsgBox__%__"at__least__one__window__doesn't__exist"
+Return

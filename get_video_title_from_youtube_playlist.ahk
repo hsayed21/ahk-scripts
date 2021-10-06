@@ -1,23 +1,23 @@
-#SingleInstance force
+#SingleInstance__force
 
 
 result_Lec=
 result_Code=
 
-RunWait, %ComSpec% /c ""youtube-dl.exe" "--flat-playlist" "--get-title" "https://www.youtube.com/playlist?list=PLfHPAKSz_DJqmJJIW1P3DM9hMlaP24ivp" >"out_tmp.txt"",,Hide
+RunWait,__%ComSpec%__/c__""youtube-dl.exe"__"--flat-playlist"__"--get-title"__"https://www.youtube.com/playlist?list=PLfHPAKSz_DJqmJJIW_P_DM_hMlaP__ivp"__>"out_tmp.txt"",,Hide
 
-FileRead, titles, out_tmp.txt
-FileDelete, out_tmp.txt
+FileRead,__titles,__out_tmp.txt
+FileDelete,__out_tmp.txt
 
-Loop, Parse, titles, `n
+Loop,__Parse,__titles,__`n
 {
-	result_Lec .= "- [ ] " A_LoopField "`n"
-	result_Code .= "##### " A_LoopField "`n``````autohotkey`n`n```````n"
-	;~ MsgBox, % result_Code
+	result_Lec__.=__"-__[__]__"__A_LoopField__"`n"
+	result_Code__.=__"#####__"__A_LoopField__"`n``````autohotkey`n`n```````n"
+	;~__MsgBox,__%__result_Code
 }	
 	
-result := "# <u>Lectures:</u>`n" result_Lec "`n# <u>Codes:</u> `n" result_Code
-Clipboard:= result 
+result__:=__"#__<u>Lectures:</u>`n"__result_Lec__"`n#__<u>Codes:</u>__`n"__result_Code
+Clipboard:=__result__
 	
 return
 Esc::ExitApp

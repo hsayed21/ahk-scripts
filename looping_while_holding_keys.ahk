@@ -3,7 +3,11 @@
 SendMode__Input__;__Recommended__for__new__scripts__due__to__its__superior__speed__and__reliability.
 SetWorkingDir__%A_ScriptDir%__;__Ensures__a__consistent__starting__directory.
 
-~MButton::
-click
-send__^v__
-return
+
+x::
+	while__(GetKeyState("x",__"P"))__{____;__P__==__Pressed
+		send_____
+		sleep_____
+	}
+	
+	
