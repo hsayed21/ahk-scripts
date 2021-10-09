@@ -1,74 +1,74 @@
-;;__List__Files__and__Folders__Sorted__(By__Num)
+;; List Files and Folders Sorted (By Num)
 /*
-#singleInstance,__force
-result__=__
-folderNames__=__
-fileNames__=__
-path__=__C:\Users\HS\Downloads\Intermediate__AutoHotkey\[__DevCourseWeb.com__]__Intermediate__AutoHotkey__-__Windows__Desktop__Automation__(RPA)
-Loop,__Files,__%path%\*.*,__D
+#singleInstance, force
+result = 
+folderNames = 
+fileNames = 
+path = C:\Users\HS\Downloads\Intermediate AutoHotkey\[ DevCourseWeb.com ] Intermediate AutoHotkey - Windows Desktop Automation (RPA)
+Loop, Files, %path%\*.*, D
 {
-	folderNames__.=__A_LoopFileName__"`n"
+	folderNames .= A_LoopFileName "`n"
 }
-Sort,__folderNames,__N
+Sort, folderNames, N
 
-Loop,__parse,__folderNames,__"`n"
+Loop, parse, folderNames, "`n"
 {
-	folderName__:=__A_LoopField
-	folderIndex__:=__A_Index
-	Loop,__Files,__%path%\%folderName%\*.*,__F
+	folderName := A_LoopField
+	folderIndex := A_Index
+	Loop, Files, %path%\%folderName%\*.*, F
 	{
-		if__(A_LoopFileExt__=__"mp_")
+		if (A_LoopFileExt = "mp4")
 		{
-			filename__:=__SubStr(A_LoopFileName,_,StrLen(A_LoopFileName)-_)
-			;~__filename__:=__StrReplace(filename,"---__[__DevCourseWeb.com__]__---","")
-			fileNames__.=__filename__"`n"
+			filename := SubStr(A_LoopFileName,1,StrLen(A_LoopFileName)-4)
+			;~ filename := StrReplace(filename,"--- [ DevCourseWeb.com ] ---","")
+			fileNames .= filename "`n"
 		}
 	}
-	Sort,__fileNames,__N
-	Loop,__parse,__fileNames,__"`n"
+	Sort, fileNames, N
+	Loop, parse, fileNames, "`n"
 	{
-		result__.=__"-__[__]__["__folderName__"__#"__folderIndex__"]__"__A_LoopField__"`n"
+		result .= "- [ ] [" folderName " #" folderIndex "] "  A_LoopField "`n"
 	}
-	fileNames__=__
+	fileNames = 
 }
 
-Clipboard:=__result
+Clipboard:= result
 
 return
 Esc::ExitApp
 */
-;;__Get__Files__Content__From__a__Specific__Folder__(obsidain)
-;~__/*
-#singleInstance,__force
+;; Get Files Content From a Specific Folder (obsidain)
+;~ /*
+#singleInstance, force
 result_Lec=
 result_Code=
 fileNames=
-path__=__F:\_S\IS\ZNotes\My_Plan_____\Ethical__Hacking\__-__Linux\RH____RHEL___(Admin___)
-Loop,__Files,__%path%\*.*,__F
+path = F:\7S\IS\ZNotes\My_Plan_2020\Ethical Hacking\00- Linux\RH124_RHEL7 (Admin 1)
+Loop, Files, %path%\*.*, F
 {
-	fileNames__.=__A_LoopFileName__"`n"
+	fileNames .= A_LoopFileName "`n"
 }
-Sort,__fileNames,__p___N__D
-;~__MsgBox__%__fileNames
-Loop,__parse,__fileNames,__"`n"
+Sort, fileNames, p8 N D
+;~ MsgBox % fileNames
+Loop, parse, fileNames, "`n"
 {
-	fext__:=__SubStr(A_LoopField,StrLen(A_LoopField)-_,StrLen(A_LoopField))
-	if__(fext__==__"txt")
+	fext := SubStr(A_LoopField,StrLen(A_LoopField)-2,StrLen(A_LoopField))
+	if (fext == "txt")
 	{
-		filename__:=__SubStr(A_LoopField,_,StrLen(A_LoopField)-_)
-		FileRead,Rfile,__%path%\%A_LoopField%
-		result_Lec__.=__"-__[__]__"__filename__"`n"
-		result_Code__.=__"#####__"__filename__"`n``````__`n"__Rfile__"`n``````__`n`n"
+		filename := SubStr(A_LoopField,1,StrLen(A_LoopField)-4)
+		FileRead,Rfile, %path%\%A_LoopField%
+		result_Lec .= "- [ ] " filename "`n"
+		result_Code .= "##### " filename "`n`````` `n" Rfile "`n`````` `n`n"
 	}
 }
 
-result__:=__"#__<u>Lectures:</u>`n"__result_Lec__"`n#__<u>Codes:</u>__`n"__result_Code
-Clipboard:=__result__
+result := "# <u>Lectures:</u>`n" result_Lec "`n# <u>Codes:</u> `n" result_Code
+Clipboard:= result 
 	
 return
 Esc::ExitApp
 
-;~__*/
+;~ */
 
 
 

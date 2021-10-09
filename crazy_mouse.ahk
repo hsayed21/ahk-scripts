@@ -1,12 +1,12 @@
-﻿#SingleInstance,__Force
-CoordMode,__Mouse,__Screen
+﻿#SingleInstance, Force
+CoordMode, Mouse, Screen
 
 LButton::
-	MouseGetPos,__x,__y
-	x___:=__x__+____
-	y___:=__y__-____
-	Tooltip,__%__"x:__"__x__"`ny:__"__y
-	MouseMove,__%x_%,%y_%
-return__
+	MouseGetPos, x, y
+	x_ := x + 50
+	y_ := y - 50
+	Tooltip, % "x: " x "`ny: " y
+	MouseMove, %x_%,%y_%
+return 
 
 ESC::ExitApp

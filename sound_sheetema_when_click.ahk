@@ -1,9 +1,9 @@
-﻿#singleInstance,__force
+﻿#singleInstance, force
 
-FileInstall,taq.wav,__taq.wav,_
+FileInstall,taq.wav, taq.wav,1
 ~LButton::
-SoundSet,___
-SoundPlay,__taq.wav
+SoundSet,100
+SoundPlay, taq.wav
 return
 
 

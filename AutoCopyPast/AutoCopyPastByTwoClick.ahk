@@ -1,19 +1,19 @@
-﻿#NoEnv__;__Recommended__for__performance__and__compatibility__with__future__AutoHotkey__releases.
-;__#Warn__;__Enable__warnings__to__assist__with__detecting__common__errors.
-SendMode__Input__;__Recommended__for__new__scripts__due__to__its__superior__speed__and__reliability.
-SetWorkingDir__%A_ScriptDir%__;__Ensures__a__consistent__starting__directory.
+﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+; #Warn  ; Enable warnings to assist with detecting common errors.
+SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
-#SingleInstance__Force
+#SingleInstance Force
 ~LButton::
-{	KeyWait,__LButton,__T_.___;Wait__for__half__sec__to__start__copying__things.
-	If__ErrorLevel
-	{	SoundBeep,_____,____
-		;IfWinActive,__ahk_exe__WINWORD.EXE
-		;{	Keywait,__LButton__;Wait__for__LButton__to__be__released
-		Send,__^c
+{	KeyWait, LButton, T0.5 ;Wait for half sec to start copying things.
+	If ErrorLevel
+	{	SoundBeep, 100, 10
+		;IfWinActive, ahk_exe WINWORD.EXE
+		;{	Keywait, LButton ;Wait for LButton to be released
+		Send, ^c
 		;}
-		IfWinActive,__ahk_exe__firefox.exe__;If__you__are__not__using__FireFox,__just__make__sure__to__Replace__ahk_exe__firefox.exe__with__the__internet__browser__you__are__using__Gmail__with.
-		{	Keywait,__LButton__;Wait__for__LButton__to__be__released
-			Send,__^v
-}	}	}__Return
+		IfWinActive, ahk_exe firefox.exe ;If you are not using FireFox, just make sure to Replace ahk_exe firefox.exe with the internet browser you are using Gmail with.
+		{	Keywait, LButton ;Wait for LButton to be released
+			Send, ^v
+}	}	} Return
 ~Esc::ExitApp

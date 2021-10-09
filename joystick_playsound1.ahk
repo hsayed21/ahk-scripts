@@ -1,33 +1,33 @@
-﻿ToggleKeys__:=___
+﻿ToggleKeys := 1
 
-Hotkey,__Joy_,__PlaySound_,__On
-Hotkey,__JOy_,__PlaySound_,__On
+Hotkey, Joy1, PlaySound1, On
+Hotkey, JOy2, PlaySound2, On
 return
 
-PlaySound_:
-SoundPlay,__C:\WINDOWS\Media\chimes.wav
+PlaySound1:
+SoundPlay, C:\WINDOWS\Media\chimes.wav
 Return
 
-PlaySound_:
-SoundPlay,__C:\WINDOWS\Media\chord.wav
+PlaySound2:
+SoundPlay, C:\WINDOWS\Media\chord.wav
 Return
 
-^F_::	;__Ctrl+F___disables__hotkeys.
-ToggleKeys__:=__!ToggleKeys
-If__ToggleKeys
+^F2::	; Ctrl+F2 disables hotkeys.
+ToggleKeys := !ToggleKeys
+If ToggleKeys
 {
-	Hotkey,__Joy_,__PlaySound_,__On
-	Hotkey,__Joy_,__PlaySound_,__On
+	Hotkey, Joy1, PlaySound1, On
+	Hotkey, Joy2, PlaySound2, On
 }
 Else
 {
-	Hotkey,__Joy_,__PlaySound_,__Off
-	Hotkey,__Joy_,__PlaySound_,__Off
+	Hotkey, Joy1, PlaySound1, Off
+	Hotkey, Joy2, PlaySound2, Off
 }
 return
 
 
-#CommentFlag__//__;__Joy___=__Sroo
-#CommentFlag__//__;__Joy___=__Long__Pass
-#CommentFlag__//__;__Joy___=__short__Pass
-#CommentFlag__//__;__Joy___=__shoot
+#CommentFlag //  ; Joy1 = Sroo
+#CommentFlag //  ; Joy2 = Long Pass
+#CommentFlag //  ; Joy3 = short Pass
+#CommentFlag //  ; Joy4 = shoot

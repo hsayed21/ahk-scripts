@@ -1,119 +1,119 @@
-;__SOURCE__=__http://www.autohotkey.com/board/topic/_____-windows-color-picker-plus/
+; SOURCE = http://www.autohotkey.com/board/topic/91229-windows-color-picker-plus/
 
 /*!
-____Function:__ChooseColor([pRGB,__hOwner,__DlgX,__DlgY,__Palette])
-________Displays__a__standard__Windows__dialog__for__choosing__colors.
+    Function: ChooseColor([pRGB, hOwner, DlgX, DlgY, Palette])
+        Displays a standard Windows dialog for choosing colors.
 
-____Parameters:
-________pRGB__-__The__initial__color__to__display__in__the__dialog__in__RGB__format.
-________________The__default__setting__is__Black.
-________hOwner__-__The__Window__ID__of__the__dialog's__owner,__if__it__has__one.__Defaults__to
-_________________,__i.e.__no__owner.__If__specified__DlgX__and__DlgY__are__ignored.
-________DlgX,__DlgY__-__The__X__and__Y__coordinates__of__the__upper__left__corner__of__the__
-______________________dialog.__Both__default__to___.
-________Palette__-__An__array__of__up__to______RGB__color__values.__These__become__the__
-__________________initial__custom__colors__in__the__dialog.
+    Parameters:
+        pRGB - The initial color to display in the dialog in RGB format.
+               The default setting is Black.
+        hOwner - The Window ID of the dialog's owner, if it has one. Defaults to
+                0, i.e. no owner. If specified DlgX and DlgY are ignored.
+        DlgX, DlgY - The X and Y coordinates of the upper left corner of the 
+                     dialog. Both default to 0.
+        Palette - An array of up to 16 RGB color values. These become the 
+                  initial custom colors in the dialog.
 
-____Remarks:
-________The__custom__colors__in__the__dialog__are__remembered__between__calls.
-________
-________If__the__user__selects__OK,__the__Palette__array__(if__it__exists)__will__be__loaded__
-________with__the__custom__colors__from__the__dialog.__
+    Remarks:
+        The custom colors in the dialog are remembered between calls.
+        
+        If the user selects OK, the Palette array (if it exists) will be loaded 
+        with the custom colors from the dialog. 
 
-____Returns:
-________If__the__user__selects__OK,__the__selected__color__is__returned__in__RGB__format__
-________and__ErrorLevel__is__set__to___.__Otherwise,__the__original__pRGB__value__is__
-________returned__and__ErrorLevel__is__set__to___.
+    Returns:
+        If the user selects OK, the selected color is returned in RGB format 
+        and ErrorLevel is set to 0. Otherwise, the original pRGB value is 
+        returned and ErrorLevel is set to 1.
 */
-ChooseColor(pRGB__:=___,__hOwner__:=___,__DlgX__:=___,__DlgY__:=___,__Palette*)
+ChooseColor(pRGB := 0, hOwner := 0, DlgX := 0, DlgY := 0, Palette*)
 {
-____static__CustColors____;__Custom__colors__are__remembered__between__calls
-____static__SizeOfCustColors__:=__VarSetCapacity(CustColors,____,___)
-____static__StructSize__:=__VarSetCapacity(ChooseColor,_____*__A_PtrSize,___)
-____
-____CustData__:=__(DlgX__<<____)__|__DlgY____;__Store__X__in__high__word,__Y__in__the__low__word
+    static CustColors    ; Custom colors are remembered between calls
+    static SizeOfCustColors := VarSetCapacity(CustColors, 64, 0)
+    static StructSize := VarSetCapacity(ChooseColor, 9 * A_PtrSize, 0)
+    
+    CustData := (DlgX << 16) | DlgY    ; Store X in high word, Y in the low word
 
-;___Load__user's__custom__colors
-____for__Index,__Value__in__Palette
-________NumPut(BGR_RGB(Value),__CustColors,__(Index__-___)__*___,__"UInt")
+;___Load user's custom colors
+    for Index, Value in Palette
+        NumPut(BGR2RGB(Value), CustColors, (Index - 1) * 4, "UInt")
 
-;___Set__up__a__ChooseColor__structure__as__described__in__the__MSDN
-____NumPut(StructSize,__ChooseColor,___,__"UInt")
-____NumPut(hOwner,__ChooseColor,__A_PtrSize,__"UPtr")
-____NumPut(BGR_RGB(pRGB),__ChooseColor,_____*__A_PtrSize,__"UInt")
-____NumPut(&CustColors,__ChooseColor,_____*__A_PtrSize,__"UPtr")
-____NumPut(_x___,__ChooseColor,_____*__A_PtrSize,__"UInt")
-____NumPut(CustData,__ChooseColor,_____*__A_PtrSize,__"UInt")
-____NumPut(RegisterCallback("ColorWindowProc"),__ChooseColor,_____*__A_PtrSize,__"UPtr")
+;___Set up a ChooseColor structure as described in the MSDN
+    NumPut(StructSize, ChooseColor, 0, "UInt")
+    NumPut(hOwner, ChooseColor, A_PtrSize, "UPtr")
+    NumPut(BGR2RGB(pRGB), ChooseColor, 3 * A_PtrSize, "UInt")
+    NumPut(&CustColors, ChooseColor, 4 * A_PtrSize, "UPtr")
+    NumPut(0x113, ChooseColor, 5 * A_PtrSize, "UInt")
+    NumPut(CustData, ChooseColor, 6 * A_PtrSize, "UInt")
+    NumPut(RegisterCallback("ColorWindowProc"), ChooseColor, 7 * A_PtrSize, "UPtr")
 
-;___Call__the__function
-____ErrorLevel__:=__!__DllCall("comdlg__\ChooseColor",__"UPtr",__&ChooseColor,__"UInt")
+;___Call the function
+    ErrorLevel := ! DllCall("comdlg32\ChooseColor", "UPtr", &ChooseColor, "UInt")
 
-;___Save__the__changes__made__to__the__custom__colors
-____if__not__ErrorLevel
-________Loop____
-____________Palette[A_Index]__:=__BGR_RGB(NumGet(CustColors,__(A_Index__-___)__*___,__"UInt"))
-________
-____return__BGR_RGB(NumGet(ChooseColor,_____*__A_PtrSize,__"UINT"))
+;___Save the changes made to the custom colors
+    if not ErrorLevel
+        Loop 16
+            Palette[A_Index] := BGR2RGB(NumGet(CustColors, (A_Index - 1) * 4, "UInt"))
+        
+    return BGR2RGB(NumGet(ChooseColor, 3 * A_PtrSize, "UINT"))
 }
 
 /*!
-____Function:__ColorWindowProc(hwnd,__msg,__wParam,__lParam)
-________Callback__function__used__to__modify__the__Color__dialog__before__it__is__displayed
+    Function: ColorWindowProc(hwnd, msg, wParam, lParam)
+        Callback function used to modify the Color dialog before it is displayed
 
-____Parameters:
-________hwnd__-__Handle__to__the__Color__dialog__window.
-________msg__-__The__message__sent__to__the__window.
-________wParam__-__The__handle__to__the__control__that__has__the__keyboard__focus.
-________lParam__-__A__pointer__to__the__ChooseColor__structure__associated__with__the__
-__________________Color__dialog.
+    Parameters:
+        hwnd - Handle to the Color dialog window.
+        msg - The message sent to the window.
+        wParam - The handle to the control that has the keyboard focus.
+        lParam - A pointer to the ChooseColor structure associated with the 
+                 Color dialog.
 
-____Remarks:
-________This__is__intended__to__be__a__private__function,__called__only__by__ChooseColor.__
-________In__response__to__a__WM_INITDIALOG__message,__this__function__can__be__used__to__
-________modify__the__Color__dialog__before__it__is__displayed.__Currently__it__just__moves__
-________the__window__to__a__new__X,__Y__location.
+    Remarks:
+        This is intended to be a private function, called only by ChooseColor. 
+        In response to a WM_INITDIALOG message, this function can be used to 
+        modify the Color dialog before it is displayed. Currently it just moves 
+        the window to a new X, Y location.
 
-____Returns:
-________If__the__hook__procedure__returns__zero,__the__default__dialog__box__procedure__
-________also__processes__the__message.__Otherwise,__the__default__dialog__box__procedure__
-________ignores__the__message.
+    Returns:
+        If the hook procedure returns zero, the default dialog box procedure 
+        also processes the message. Otherwise, the default dialog box procedure 
+        ignores the message.
 */
-ColorWindowProc(hwnd,__msg,__wParam,__lParam)
+ColorWindowProc(hwnd, msg, wParam, lParam)
 {
-____static__WM_INITDIALOG__:=___x____
-____
-____if__(msg__<>__WM_INITDIALOG)
-________return___
-____
-____hOwner__:=__NumGet(lParam+_,__A_PtrSize,__"UPtr")
-____if__(hOwner)
-________return___
+    static WM_INITDIALOG := 0x0110
+    
+    if (msg <> WM_INITDIALOG)
+        return 0
+    
+    hOwner := NumGet(lParam+0, A_PtrSize, "UPtr")
+    if (hOwner)
+        return 0
 
-____DetectSetting__:=__A_DetectHiddenWindows
-____DetectHiddenWindows__On
-____CustData__:=__NumGet(lParam+_,_____*__A_PtrSize,__"UInt")
-____DlgX__:=__CustData__>>____,__DlgY__:=__CustData__&___xFFFF
-____WinMove__ahk_id__%hwnd%,__,__%DlgX%,__%DlgY%
-____
-____DetectHiddenWindows__%DetectSetting%
-____return___
+    DetectSetting := A_DetectHiddenWindows
+    DetectHiddenWindows On
+    CustData := NumGet(lParam+0, 6 * A_PtrSize, "UInt")
+    DlgX := CustData >> 16, DlgY := CustData & 0xFFFF
+    WinMove ahk_id %hwnd%, , %DlgX%, %DlgY%
+    
+    DetectHiddenWindows %DetectSetting%
+    return 0
 }
 
 /*!
-____Function:__BGR_RGB(Color)
-________Converts__a__BGR__color__value__to__a__RGB__one__or__vice__versa.
+    Function: BGR2RGB(Color)
+        Converts a BGR color value to a RGB one or vice versa.
 
-____Parameters:
-________Color__-__The__BGR__or__RGB__value__to__convert
+    Parameters:
+        Color - The BGR or RGB value to convert
 
-____Returns:
-________The__converted__value.
+    Returns:
+        The converted value.
 */
-BGR_RGB(Color)
+BGR2RGB(Color)
 {
-____return__(Color__&___xFF______)__
-__________|__((Color__&___xFF____)__>>____)__
-__________|__(Color__&___x__FF__)__
-__________|__((Color__&___x____FF)__<<____)
+    return  (Color & 0xFF000000) 
+         | ((Color & 0xFF0000) >> 16) 
+         |  (Color & 0x00FF00) 
+         | ((Color & 0x0000FF) << 16)
 }

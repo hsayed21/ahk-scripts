@@ -1,155 +1,155 @@
-﻿;__Using__a__Joystick__as__a__Mouse
-;__http://www.autohotkey.com
-;__This__script__converts__a__joystick__into__a__three-button__mouse.__It__allows__each
-;__button__to__drag__just__like__a__mouse__button__and__it__uses__virtually__no__CPU__time.
-;__Also,__it__will__move__the__cursor__faster__depending__on__how__far__you__push__the__joystick
-;__from__center.__You__can__personalize__various__settings__at__the__top__of__the__script.
+﻿; Using a Joystick as a Mouse
+; http://www.autohotkey.com
+; This script converts a joystick into a three-button mouse.  It allows each
+; button to drag just like a mouse button and it uses virtually no CPU time.
+; Also, it will move the cursor faster depending on how far you push the joystick
+; from center. You can personalize various settings at the top of the script.
 
-;__Increase__the__following__value__to__make__the__mouse__cursor__move__faster:
-JoyMultiplier__=___.__
+; Increase the following value to make the mouse cursor move faster:
+JoyMultiplier = 0.30
 
-;__Decrease__the__following__value__to__require__less__joystick__displacement-from-center
-;__to__start__moving__the__mouse.__However,__you__may__need__to__calibrate__your__joystick
-;__--__ensuring__it's__properly__centered__--__to__avoid__cursor__drift.__A__perfectly__tight
-;__and__centered__joystick__could__use__a__value__of___:
-JoyThreshold__=___
+; Decrease the following value to require less joystick displacement-from-center
+; to start moving the mouse.  However, you may need to calibrate your joystick
+; -- ensuring it's properly centered -- to avoid cursor drift. A perfectly tight
+; and centered joystick could use a value of 1:
+JoyThreshold = 3
 
-;__Change__the__following__to__true__to__invert__the__Y-axis,__which__causes__the__mouse__to
-;__move__vertically__in__the__direction__opposite__the__stick:
-InvertYAxis__:=__false
+; Change the following to true to invert the Y-axis, which causes the mouse to
+; move vertically in the direction opposite the stick:
+InvertYAxis := false
 
-;__Change__these__values__to__use__joystick__button__numbers__other__than___,___,__and_____for
-;__the__left,__right,__and__middle__mouse__buttons.__Available__numbers__are_____through____.
-;__Use__the__Joystick__Test__Script__to__find__out__your__joystick's__numbers__more__easily.
-ButtonLeft__=___
-ButtonRight__=___
-ButtonMiddle__=___
+; Change these values to use joystick button numbers other than 1, 2, and 3 for
+; the left, right, and middle mouse buttons.  Available numbers are 1 through 32.
+; Use the Joystick Test Script to find out your joystick's numbers more easily.
+ButtonLeft = 1
+ButtonRight = 2
+ButtonMiddle = 3
 
-;__If__your__joystick__has__a__POV__control,__you__can__use__it__as__a__mouse__wheel.__The
-;__following__value__is__the__number__of__milliseconds__between__turns__of__the__wheel.
-;__Decrease__it__to__have__the__wheel__turn__faster:
-WheelDelay__=_____
+; If your joystick has a POV control, you can use it as a mouse wheel.  The
+; following value is the number of milliseconds between turns of the wheel.
+; Decrease it to have the wheel turn faster:
+WheelDelay = 250
 
-;__If__your__system__has__more__than__one__joystick,__increase__this__value__to__use__a__joystick
-;__other__than__the__first:
-JoystickNumber__=___
+; If your system has more than one joystick, increase this value to use a joystick
+; other than the first:
+JoystickNumber = 1
 
-;__END__OF__CONFIG__SECTION__--__Don't__change__anything__below__this__point__unless__you__want
-;__to__alter__the__basic__nature__of__the__script.
+; END OF CONFIG SECTION -- Don't change anything below this point unless you want
+; to alter the basic nature of the script.
 
 #SingleInstance
 
-JoystickPrefix__=__%JoystickNumber%Joy
-Hotkey,__%JoystickPrefix%%ButtonLeft%,__ButtonLeft
-Hotkey,__%JoystickPrefix%%ButtonRight%,__ButtonRight
-Hotkey,__%JoystickPrefix%%ButtonMiddle%,__ButtonMiddle
+JoystickPrefix = %JoystickNumber%Joy
+Hotkey, %JoystickPrefix%%ButtonLeft%, ButtonLeft
+Hotkey, %JoystickPrefix%%ButtonRight%, ButtonRight
+Hotkey, %JoystickPrefix%%ButtonMiddle%, ButtonMiddle
 
-;__Calculate__the__axis__displacements__that__are__needed__to__start__moving__the__cursor:
-JoyThresholdUpper__:=______+__JoyThreshold
-JoyThresholdLower__:=______-__JoyThreshold
-if__InvertYAxis
-	YAxisMultiplier__=__-_
+; Calculate the axis displacements that are needed to start moving the cursor:
+JoyThresholdUpper := 50 + JoyThreshold
+JoyThresholdLower := 50 - JoyThreshold
+if InvertYAxis
+	YAxisMultiplier = -1
 else
-	YAxisMultiplier__=___
+	YAxisMultiplier = 1
 
-SetTimer,__WatchJoystick,______;__Monitor__the__movement__of__the__joystick.
+SetTimer, WatchJoystick, 10  ; Monitor the movement of the joystick.
 
-GetKeyState,__JoyInfo,__%JoystickNumber%JoyInfo
-IfInString,__JoyInfo,__P__;__Joystick__has__POV__control,__so__use__it__as__a__mouse__wheel.
-	SetTimer,__MouseWheel,__%WheelDelay%
+GetKeyState, JoyInfo, %JoystickNumber%JoyInfo
+IfInString, JoyInfo, P  ; Joystick has POV control, so use it as a mouse wheel.
+	SetTimer, MouseWheel, %WheelDelay%
 
-return__;__End__of__auto-execute__section.
+return  ; End of auto-execute section.
 
 
-;__The__subroutines__below__do__not__use__KeyWait__because__that__would__sometimes__trap__the
-;__WatchJoystick__quasi-thread__beneath__the__wait-for-button-up__thread,__which__would
-;__effectively__prevent__mouse-dragging__with__the__joystick.
+; The subroutines below do not use KeyWait because that would sometimes trap the
+; WatchJoystick quasi-thread beneath the wait-for-button-up thread, which would
+; effectively prevent mouse-dragging with the joystick.
 
 ButtonLeft:
-SetMouseDelay,__-___;__Makes__movement__smoother.
-MouseClick,__left,,,___,___,__D__;__Hold__down__the__left__mouse__button.
-SetTimer,__WaitForLeftButtonUp,____
+SetMouseDelay, -1  ; Makes movement smoother.
+MouseClick, left,,, 1, 0, D  ; Hold down the left mouse button.
+SetTimer, WaitForLeftButtonUp, 10
 return
 
 ButtonRight:
-SetMouseDelay,__-___;__Makes__movement__smoother.
-MouseClick,__right,,,___,___,__D__;__Hold__down__the__right__mouse__button.
-SetTimer,__WaitForRightButtonUp,____
+SetMouseDelay, -1  ; Makes movement smoother.
+MouseClick, right,,, 1, 0, D  ; Hold down the right mouse button.
+SetTimer, WaitForRightButtonUp, 10
 return
 
 ButtonMiddle:
-SetMouseDelay,__-___;__Makes__movement__smoother.
-MouseClick,__middle,,,___,___,__D__;__Hold__down__the__right__mouse__button.
-SetTimer,__WaitForMiddleButtonUp,____
+SetMouseDelay, -1  ; Makes movement smoother.
+MouseClick, middle,,, 1, 0, D  ; Hold down the right mouse button.
+SetTimer, WaitForMiddleButtonUp, 10
 return
 
 WaitForLeftButtonUp:
-if__GetKeyState(JoystickPrefix__.__ButtonLeft)
-	return__;__The__button__is__still,__down,__so__keep__waiting.
-;__Otherwise,__the__button__has__been__released.
-SetTimer,__WaitForLeftButtonUp,__off
-SetMouseDelay,__-___;__Makes__movement__smoother.
-MouseClick,__left,,,___,___,__U__;__Release__the__mouse__button.
+if GetKeyState(JoystickPrefix . ButtonLeft)
+	return  ; The button is still, down, so keep waiting.
+; Otherwise, the button has been released.
+SetTimer, WaitForLeftButtonUp, off
+SetMouseDelay, -1  ; Makes movement smoother.
+MouseClick, left,,, 1, 0, U  ; Release the mouse button.
 return
 
 WaitForRightButtonUp:
-if__GetKeyState(JoystickPrefix__.__ButtonRight)
-	return__;__The__button__is__still,__down,__so__keep__waiting.
-;__Otherwise,__the__button__has__been__released.
-SetTimer,__WaitForRightButtonUp,__off
-MouseClick,__right,,,___,___,__U__;__Release__the__mouse__button.
+if GetKeyState(JoystickPrefix . ButtonRight)
+	return  ; The button is still, down, so keep waiting.
+; Otherwise, the button has been released.
+SetTimer, WaitForRightButtonUp, off
+MouseClick, right,,, 1, 0, U  ; Release the mouse button.
 return
 
 WaitForMiddleButtonUp:
-if__GetKeyState(JoystickPrefix__.__ButtonMiddle)
-	return__;__The__button__is__still,__down,__so__keep__waiting.
-;__Otherwise,__the__button__has__been__released.
-SetTimer,__WaitForMiddleButtonUp,__off
-MouseClick,__middle,,,___,___,__U__;__Release__the__mouse__button.
+if GetKeyState(JoystickPrefix . ButtonMiddle)
+	return  ; The button is still, down, so keep waiting.
+; Otherwise, the button has been released.
+SetTimer, WaitForMiddleButtonUp, off
+MouseClick, middle,,, 1, 0, U  ; Release the mouse button.
 return
 
 WatchJoystick:
-MouseNeedsToBeMoved__:=__false__;__Set__default.
-SetFormat,__float,____
-GetKeyState,__joyx,__%JoystickNumber%JoyX
-GetKeyState,__joyy,__%JoystickNumber%JoyY
-if__joyx__>__%JoyThresholdUpper%
+MouseNeedsToBeMoved := false  ; Set default.
+SetFormat, float, 03
+GetKeyState, joyx, %JoystickNumber%JoyX
+GetKeyState, joyy, %JoystickNumber%JoyY
+if joyx > %JoyThresholdUpper%
 {
-	MouseNeedsToBeMoved__:=__true
-	DeltaX__:=__joyx__-__JoyThresholdUpper
+	MouseNeedsToBeMoved := true
+	DeltaX := joyx - JoyThresholdUpper
 }
-else__if__joyx__<__%JoyThresholdLower%
+else if joyx < %JoyThresholdLower%
 {
-	MouseNeedsToBeMoved__:=__true
-	DeltaX__:=__joyx__-__JoyThresholdLower
-}
-else
-	DeltaX__=___
-if__joyy__>__%JoyThresholdUpper%
-{
-	MouseNeedsToBeMoved__:=__true
-	DeltaY__:=__joyy__-__JoyThresholdUpper
-}
-else__if__joyy__<__%JoyThresholdLower%
-{
-	MouseNeedsToBeMoved__:=__true
-	DeltaY__:=__joyy__-__JoyThresholdLower
+	MouseNeedsToBeMoved := true
+	DeltaX := joyx - JoyThresholdLower
 }
 else
-	DeltaY__=___
-if__MouseNeedsToBeMoved
+	DeltaX = 0
+if joyy > %JoyThresholdUpper%
 {
-	SetMouseDelay,__-___;__Makes__movement__smoother.
-	MouseMove,__DeltaX__*__JoyMultiplier,__DeltaY__*__JoyMultiplier__*__YAxisMultiplier,___,__R
+	MouseNeedsToBeMoved := true
+	DeltaY := joyy - JoyThresholdUpper
+}
+else if joyy < %JoyThresholdLower%
+{
+	MouseNeedsToBeMoved := true
+	DeltaY := joyy - JoyThresholdLower
+}
+else
+	DeltaY = 0
+if MouseNeedsToBeMoved
+{
+	SetMouseDelay, -1  ; Makes movement smoother.
+	MouseMove, DeltaX * JoyMultiplier, DeltaY * JoyMultiplier * YAxisMultiplier, 0, R
 }
 return
 
 MouseWheel:
-GetKeyState,__JoyPOV,__%JoystickNumber%JoyPOV
-if__JoyPOV__=__-___;__No__angle.
+GetKeyState, JoyPOV, %JoystickNumber%JoyPOV
+if JoyPOV = -1  ; No angle.
 	return
-if__(JoyPOV__>_________or__JoyPOV__<______)__;__Forward
-	Send__{WheelUp}
-else__if__JoyPOV__between_________and_________;__Back
-	Send__{WheelDown}
+if (JoyPOV > 31500 or JoyPOV < 4500)  ; Forward
+	Send {WheelUp}
+else if JoyPOV between 13500 and 22500  ; Back
+	Send {WheelDown}
 return

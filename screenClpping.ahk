@@ -1,492 +1,492 @@
-﻿;Watch__the__YouTube__video__in__the__following__link__for__gudiance:
-;ENG:__https://youtu.be/kCmaH_fX_ZA
-;KOR:__https://youtu.be/dTE_CrCFK_Q
+﻿;Watch the YouTube video in the following link for gudiance:
+;ENG: https://youtu.be/kCmaH9fX3ZA
+;KOR: https://youtu.be/dTE_CrCFK9Q
 
-;source:__https://autohotkey.com/board/topic/_____-screen-clipping/
-;for__tesseract__OCR__download__the__bin__folder__from:__https://github.com/iseahound/Vis_
+;source: https://autohotkey.com/board/topic/46069-screen-clipping/
+;for tesseract OCR download the bin folder from: https://github.com/iseahound/Vis2
 
-#SingleInstance,__Force
+#SingleInstance, Force
 #NoEnv
 ;CoordMode,Mouse,Screen
-SetBatchLines,-_
-SetWinDelay,-_
-;~__#Include__Gdip.ahk
-;~__#Include__Tesseract.ahk
+SetBatchLines,-1
+SetWinDelay,-1
+;~ #Include Gdip.ahk
+;~ #Include Tesseract.ahk
 
-if((A_PtrSize=_&&A_IsCompiled="")||!A_IsUnicode){__;____bit=___;____bit=_
-____SplitPath,A_AhkPath,,dir
-____if(!FileExist(correct:=dir__"\AutoHotkeyU__.exe")){
-	____MsgBox__error
-	____ExitApp
-____}
-____Run,"%correct%"__"%A_ScriptName%",%A_ScriptDir%
-____ExitApp
-____return
+if((A_PtrSize=8&&A_IsCompiled="")||!A_IsUnicode){ ;32 bit=4  ;64 bit=8
+    SplitPath,A_AhkPath,,dir
+    if(!FileExist(correct:=dir "\AutoHotkeyU32.exe")){
+	    MsgBox error
+	    ExitApp
+    }
+    Run,"%correct%" "%A_ScriptName%",%A_ScriptDir%
+    ExitApp
+    return
 }
 
-OnMessage(_x____,__"WM_RBUTTONDOWN")
+OnMessage(0x0204, "WM_RBUTTONDOWN")
 WM_RBUTTONDOWN()
 {
-__Menu,__MyMenu,__Add,__Copy__to__Clipboard,__MenuHandler
-__Menu,__MyMenu,__Add,__Open__in__Paint,__MenuHandler
-__Menu,__MyMenu,__Add,__Open__in__PDF,__MenuHandler
-__Menu,__MyMenu,__Add,__Send__by__Email,__MenuHandler
-__Menu,__MyMenu,__Add,__OCR,__MenuHandler
-__Menu,__MyMenu,__Add,__Save,__MenuHandler
-__Menu,__MyMenu,__Add,__Close,__MenuHandler
-__Menu,__MyMenu,__Show
+ Menu, MyMenu, Add, Copy to Clipboard, MenuHandler
+ Menu, MyMenu, Add, Open in Paint, MenuHandler
+ Menu, MyMenu, Add, Open in PDF, MenuHandler
+ Menu, MyMenu, Add, Send by Email, MenuHandler
+ Menu, MyMenu, Add, OCR, MenuHandler
+ Menu, MyMenu, Add, Save, MenuHandler
+ Menu, MyMenu, Add, Close, MenuHandler
+ Menu, MyMenu, Show
 }
 
-OnMessage(_x____,__"WM_LBUTTONDBLCLK")__;double__click__to__downsize.__Double__click__again__to__resize.
-WM_LBUTTONDBLCLK()__{__
-____
-____global
-____
-____WinGet,__TempID,__,__A
-____WinGetPos,__,__,__Temp_Width,__Temp_Height,__A__
-____
-____If__(Temp_Width__=______&&__Temp_Height__=____)__{
-______WinMove,__A,__,__,__,__%__%TempID%_Width,__%__%TempID%_Height
-____}__else__{
-____%TempID%_Width__:=__Temp_Width
-____%TempID%_Height__:=__Temp_Height
-____WinMove,__A,__,__,__,____,____
-____}______
+OnMessage(0x0203, "WM_LBUTTONDBLCLK") ;double click to downsize. Double click again to resize.
+WM_LBUTTONDBLCLK() { 
+    
+   global
+    
+   WinGet, TempID, , A
+   WinGetPos, , , Temp_Width, Temp_Height, A 
+   
+   If (Temp_Width = 30 && Temp_Height = 30) {
+      WinMove, A, , , , % %TempID%_Width, % %TempID%_Height
+   } else {
+   %TempID%_Width := Temp_Width
+   %TempID%_Height := Temp_Height
+   WinMove, A, , , , 30, 30
+   }      
 
 }
 
-;Hotkey__to__select__area
+;Hotkey to select area
 #Lbutton::
-SCW_ScreenClip_Win(clip:=_)__;__set__to_____to__auto-copy__to__clipboard
-WinActivate,__ScreenClippingWindow__ahk_class__AutoHotkeyGUI
+SCW_ScreenClip2Win(clip:=0) ; set to 1 to auto-copy to clipboard
+WinActivate, ScreenClippingWindow ahk_class AutoHotkeyGUI
 return
 
-;Hotkeys__to__run__on__clippings
-#IfWinActive,__ScreenClippingWindow__ahk_class__AutoHotkeyGUI
+;Hotkeys to run on clippings
+#IfWinActive, ScreenClippingWindow ahk_class AutoHotkeyGUI
 
 ^c::
-SCW_Win_Clipboard(_)______;__copy__selected__win__to__clipboard__Change__to__(_)__if__want__border__and__(_)__for__no__border
+SCW_Win2Clipboard(1)      ; copy selected win to clipboard  Change to (1) if want border and (0) for no border
 return
 
 ^s::
-SCW_Win_File(_)__;save__selected__clipping__on__desktop__as__.png__;__this__was__submited__by__tervon;__border__not__savd__even__if__(_)
+SCW_Win2File(0)  ;save selected clipping on desktop as .png  ; this was submited by tervon; border not savd even if (1)
 return
 
 Left::
-WinGetPos,__Pos_X,__Pos_Y,__,__,__A
-Pos_X__-=____
-WinMove,__A,__,__Pos_X,__Pos_Y
+WinGetPos, Pos_X, Pos_Y, , , A
+Pos_X -= 30
+WinMove, A, , Pos_X, Pos_Y
 return
 
 Right::
-WinGetPos,__Pos_X,__Pos_Y,__,__,__A
-Pos_X__+=____
-WinMove,__A,__,__Pos_X,__Pos_Y
+WinGetPos, Pos_X, Pos_Y, , , A
+Pos_X += 30
+WinMove, A, , Pos_X, Pos_Y
 return
 
 Up::
-WinGetPos,__Pos_X,__Pos_Y,__,__,__A
-Pos_Y__-=____
-WinMove,__A,__,__Pos_X,__Pos_Y
+WinGetPos, Pos_X, Pos_Y, , , A
+Pos_Y -= 30
+WinMove, A, , Pos_X, Pos_Y
 return
 
 Down::
-WinGetPos,__Pos_X,__Pos_Y,__,__,__A
-Pos_Y__+=____
-WinMove,__A,__,__Pos_X,__Pos_Y
+WinGetPos, Pos_X, Pos_Y, , , A
+Pos_Y += 30
+WinMove, A, , Pos_X, Pos_Y
 return
 
-Esc::__winclose,__A__;contribued__by__tervon
-Del::__winclose,__A__;contributed__by__tervon
+Esc:: winclose, A ;contribued by tervon
+Del:: winclose, A ;contributed by tervon
 
 #IfWinActive
 
 MenuHandler:
-if__(A_ThisMenuItemPos__=___)
-__SCW_Win_Clipboard_(_)__;_____for__border,__leave__empty__for__no__border
+if (A_ThisMenuItemPos = 1)
+ SCW_Win2Clipboard2(0) ; 0 for border, leave empty for no border
 
-if__(A_ThisMenuItemPos__=___)
-__{
-SCW_Win_Clipboard_(_)
-Winclose,__A
-Run,__mspaint
-WinWaitActive,__Untitled__-__Paint
-Send,__^v{ESC}
-__}
+if (A_ThisMenuItemPos = 2)
+ {
+SCW_Win2Clipboard2(0)
+Winclose, A
+Run, mspaint
+WinWaitActive, Untitled - Paint
+Send, ^v{ESC}
+ }
 
-if__(A_ThisMenuItemPos__=___)
-__{
-__SCW_Win_Clipboard_()__;_____for__border__in__this__function,__leave__empty__for__no__border
-__winclose,__A
-__Clipboard_Acrobat()
-__}
-__
-__if__(A_ThisMenuItemPos__=___)
+if (A_ThisMenuItemPos = 3)
+ {
+ SCW_Win2Clipboard2() ; 0 for border in this function, leave empty for no border
+ winclose, A
+ Clipboard2Acrobat()
+ }
+ 
+ if (A_ThisMenuItemPos = 4)
 {
-__FileToEmail__:=__SCW_Win_File(_,___,___)
-__winclose,__A
-__Email_AttachFile(FileToEmail)
+ FileToEmail := SCW_Win2File(0, 1, 1)
+ winclose, A
+ Email_AttachFile(FileToEmail)
 }
 
-if__(A_ThisMenuItemPos__=___)
+if (A_ThisMenuItemPos = 5)
 {
-__SCW_Win_Clipboard_()__;_____for__border__in__this__function,__leave__empty__for__no__border
-__pToken__:=__Gdip_Startup()
-__j++
-__Tesseract%j%:=new__Tesseract()
-__pBitmap__:=__Gdip_CreateBitmapFromClipboard()__;store__pointer__to__image__from__clipboard
-__text:=Tesseract%j%.OCR(pBitmap)__;process__image
-__Tesseract%j%:=""
-__Gdip_Shutdown(pToken)
-__MsgBox,______,__Text__Copied__to__Your__Clipboard,__%__Clipboard:=Text
-__;~__Reload__;not__required__if__j++__is__present
-__return
+ SCW_Win2Clipboard2() ; 0 for border in this function, leave empty for no border
+ pToken := Gdip_Startup()
+ j++
+ Tesseract%j%:=new Tesseract()
+ pBitmap := Gdip_CreateBitmapFromClipboard() ;store pointer to image from clipboard
+ text:=Tesseract%j%.OCR(pBitmap) ;process image
+ Tesseract%j%:=""
+ Gdip_Shutdown(pToken)
+ MsgBox, 4096, Text Copied to Your Clipboard, % Clipboard:=Text
+ ;~ Reload ;not required if j++ is present
+ return
 }
 
-if__(A_ThisMenuItemPos__=___)
+if (A_ThisMenuItemPos = 6)
 {
-__SCW_Win_File(_,___,___)
+  SCW_Win2File(0, 0, 1)
 }
 
-if__(A_ThisMenuItemPos__=___)
+if (A_ThisMenuItemPos = 7)
 {
-__WinClose,__A
+ WinClose, A
 }
 
 Return
 
 
-;__SCW__Functions__==========================================================================
+; SCW Functions ==========================================================================
 
-SCW_Version()__{
-____return___.__
+SCW_Version() {
+   return 1.02
 }
 
-SCW_DestroyAllClipWins()__{
-____MaxGuis__:=__SCW_Reg("MaxGuis"),__StartAfter__:=__SCW_Reg("StartAfter")
-____Loop,__%MaxGuis%
-____{
-______StartAfter++
-______Gui__%StartAfter%:__Destroy
-____}
+SCW_DestroyAllClipWins() {
+   MaxGuis := SCW_Reg("MaxGuis"), StartAfter := SCW_Reg("StartAfter")
+   Loop, %MaxGuis%
+   {
+      StartAfter++
+      Gui %StartAfter%: Destroy
+   }
 }
 
-SCW_SetUp(Options="")__{
-____if__!(Options__=__"")
-____{
-______Loop,__Parse,__Options,__%A_Space%
-______{
-__________Field__:=__A_LoopField
-__________DotPos__:=__InStr(Field,__".")
-__________if__(DotPos__=___)
-__________Continue
-__________var__:=__SubStr(Field,___,__DotPos-_)
-__________val__:=__SubStr(Field,__DotPos+_)
-__________if__var__in__StartAfter,MaxGuis,AutoMonitorWM_LBUTTONDOWN,DrawCloseButton,BorderAColor,BorderBColor,SelColor,SelTrans
-__________%var%__:=__val
-______}
-____}
+SCW_SetUp(Options="") {
+   if !(Options = "")
+   {
+      Loop, Parse, Options, %A_Space%
+      {
+         Field := A_LoopField
+         DotPos := InStr(Field, ".")
+         if (DotPos = 0)
+         Continue
+         var := SubStr(Field, 1, DotPos-1)
+         val := SubStr(Field, DotPos+1)
+         if var in StartAfter,MaxGuis,AutoMonitorWM_LBUTTONDOWN,DrawCloseButton,BorderAColor,BorderBColor,SelColor,SelTrans
+         %var% := val
+      }
+   }
 
-____SCW_Default(StartAfter,__),__SCW_Default(MaxGuis,__)
-____SCW_Default(AutoMonitorWM_LBUTTONDOWN,_),__SCW_Default(DrawCloseButton,_)
-____SCW_Default(BorderBColor,"FF______")__;__Set__Border__Color__Here__(hex___with__no__#).__The__First__Color__vlaue__sets__the__outline__and__the__Second__Color__value__sets__the__inner__border.__Black:__FF______,__White:__FFFFFFFF.__For__thin__border__style__remove__the__first__border__altogether__(i.e.__'SCW_Default(BorderAColor,"Colorcode")'__).__For__thicker__border__style__add__'SCW_Default(BorderAColor,"FF______"),'__before__BorderBColor
-____
-____SCW_Default(SelColor,"Yellow"),__SCW_Default(SelTrans,__)
+   SCW_Default(StartAfter,80), SCW_Default(MaxGuis,20)
+   SCW_Default(AutoMonitorWM_LBUTTONDOWN,1), SCW_Default(DrawCloseButton,0)
+   SCW_Default(BorderBColor,"FF181818") ; Set Border Color Here (hex8 with no #). The First Color vlaue sets the outline and the Second Color value sets the inner border. Black: FF181818, White: FFFFFFFF. For thin border style remove the first border altogether (i.e. 'SCW_Default(BorderAColor,"Colorcode")' ). For thicker border style add 'SCW_Default(BorderAColor,"FF181818"),' before BorderBColor
+   
+   SCW_Default(SelColor,"Yellow"), SCW_Default(SelTrans,80)
 
-____SCW_Reg("MaxGuis",__MaxGuis),__SCW_Reg("StartAfter",__StartAfter),__SCW_Reg("DrawCloseButton",__DrawCloseButton)
-____SCW_Reg("BorderAColor",__BorderAColor),__SCW_Reg("BorderBColor",__BorderBColor)
-____SCW_Reg("SelColor",__SelColor),__SCW_Reg("SelTrans",SelTrans)
-____SCW_Reg("WasSetUp",___)
-____if__AutoMonitorWM_LBUTTONDOWN
-____OnMessage(_x___,__"SCW_LBUTTONDOWN")
+   SCW_Reg("MaxGuis", MaxGuis), SCW_Reg("StartAfter", StartAfter), SCW_Reg("DrawCloseButton", DrawCloseButton)
+   SCW_Reg("BorderAColor", BorderAColor), SCW_Reg("BorderBColor", BorderBColor)
+   SCW_Reg("SelColor", SelColor), SCW_Reg("SelTrans",SelTrans)
+   SCW_Reg("WasSetUp", 1)
+   if AutoMonitorWM_LBUTTONDOWN
+   OnMessage(0x201, "SCW_LBUTTONDOWN")
 }
 
-SCW_ScreenClip_Win(clip=_)__{
-____static__c
-____if__!(SCW_Reg("WasSetUp"))
-____SCW_SetUp()
+SCW_ScreenClip2Win(clip=0) {
+   static c
+   if !(SCW_Reg("WasSetUp"))
+   SCW_SetUp()
 
-____StartAfter__:=__SCW_Reg("StartAfter"),__MaxGuis__:=__SCW_Reg("MaxGuis"),__SelColor__:=__SCW_Reg("SelColor"),__SelTrans__:=__SCW_Reg("SelTrans")
-____c++
-____if__(c__>__MaxGuis)
-____c__:=___
+   StartAfter := SCW_Reg("StartAfter"), MaxGuis := SCW_Reg("MaxGuis"), SelColor := SCW_Reg("SelColor"), SelTrans := SCW_Reg("SelTrans")
+   c++
+   if (c > MaxGuis)
+   c := 1
 
-____GuiNum__:=__StartAfter__+__c
-____Area__:=__SCW_SelectAreaMod("g"__GuiNum__"__c"__SelColor__"__t"__SelTrans)
-____StringSplit,__v,__Area,__|
-____if__(v___<______and__v___<____)____;__too__small__area
-____return
+   GuiNum := StartAfter + c
+   Area := SCW_SelectAreaMod("g" GuiNum " c" SelColor " t" SelTrans)
+   StringSplit, v, Area, |
+   if (v3 < 10 and v4 < 10)   ; too small area
+   return
 
-____pToken__:=__Gdip_Startup()
-____if__pToken__=
-____{
-______MsgBox,____,__GDI+__error,__GDI+__failed__to__start.__Please__ensure__you__have__GDI+__on__your__system.
-______return
-____}
+   pToken := Gdip_Startup()
+   if pToken =
+   {
+      MsgBox, 64, GDI+ error, GDI+ failed to start. Please ensure you have GDI+ on your system.
+      return
+   }
 
-____Sleep,_____
-____;~__MsgBox__%__Clipboard:=Area
-____pBitmap__:=__Gdip_BitmapFromScreen(Area)
+   Sleep, 100
+   ;~ MsgBox % Clipboard:=Area
+   pBitmap := Gdip_BitmapFromScreen(Area)
 
 
 
 ;*******************************************************
-____SCW_CreateLayeredWinMod(GuiNum,pBitmap,v_,v_,__SCW_Reg("DrawCloseButton"))
-____Gdip_Shutdown("pToken")
-if__clip=_
+   SCW_CreateLayeredWinMod(GuiNum,pBitmap,v1,v2, SCW_Reg("DrawCloseButton"))
+   Gdip_Shutdown("pToken")
+if clip=1
 {
-__;**********************__added__to__copy__to__clipboard__by__default*********************************
-____WinActivate,__ScreenClippingWindow__ahk_class__AutoHotkeyGUI__;activates__last__clipped__window
-____SCW_Win_Clipboard(_)__;copies__to__clipboard__by__default__w/o__border
-;~__MsgBox__on__clipboard
+ ;********************** added to copy to clipboard by default*********************************
+   WinActivate, ScreenClippingWindow ahk_class AutoHotkeyGUI ;activates last clipped window
+   SCW_Win2Clipboard(0)  ;copies to clipboard by default w/o border
+;~ MsgBox on clipboard
 ;*******************************************************
 }
 }
 
-SCW_SelectAreaMod(Options="")__{
-____CoordMode,__Mouse,__Screen
-____MouseGetPos,__MX,__MY
-______loop,__parse,__Options,__%A_Space%
-____{
-______Field__:=__A_LoopField
-______FirstChar__:=__SubStr(Field,_,_)
-______if__FirstChar__contains__c,t,g,m
-______{
-__________StringTrimLeft,__Field,__Field,___
-__________%FirstChar%__:=__Field
-______}
-____}
-____c__:=__(c__=__"")__?__"Blue"__:__c,__t__:=__(t__=__"")__?__"__"__:__t,__g__:=__(g__=__"")__?__"__"__:__g
-____Try__Gui__%g%:__Destroy
-____Try__Gui__%g%:__+AlwaysOnTop__-caption__+Border__+ToolWindow__+LastFound__-DPIScale__;provided__from__rommmcek____/__/__
-____
-____WinSet,__Transparent,__%t%
-____Gui__%g%:__Color,__%c%
-____Hotkey__:=__RegExReplace(A_ThisHotkey,"^(\w*__&__|\W*)")
-____While,__(GetKeyState(Hotkey,__"p"))
-____{
-______Sleep,____
-______MouseGetPos,__MXend,__MYend
-______w__:=__abs(MX__-__MXend),__h__:=__abs(MY__-__MYend)
-______X__:=__(MX__<__MXend)__?__MX__:__MXend
-______Y__:=__(MY__<__MYend)__?__MY__:__MYend
-______Gui__%g%:__Show,__x%X%__y%Y%__w%w%__h%h%__NA
-____}
-____Try__Gui__%g%:__Destroy
-____MouseGetPos,__MXend,__MYend
-____If__(__MX__>__MXend__)
-____temp__:=__MX,__MX__:=__MXend,__MXend__:=__temp
-____If__(__MY__>__MYend__)
-____temp__:=__MY,__MY__:=__MYend,__MYend__:=__temp
-____Return__MX__"|"__MY__"|"__w__"|"__h
+SCW_SelectAreaMod(Options="") {
+   CoordMode, Mouse, Screen
+   MouseGetPos, MX, MY
+      loop, parse, Options, %A_Space%
+   {
+      Field := A_LoopField
+      FirstChar := SubStr(Field,1,1)
+      if FirstChar contains c,t,g,m
+      {
+         StringTrimLeft, Field, Field, 1
+         %FirstChar% := Field
+      }
+   }
+   c := (c = "") ? "Blue" : c, t := (t = "") ? "50" : t, g := (g = "") ? "99" : g
+   Try Gui %g%: Destroy
+   Try Gui %g%: +AlwaysOnTop -caption +Border +ToolWindow +LastFound -DPIScale ;provided from rommmcek 10/23/16
+   
+   WinSet, Transparent, %t%
+   Gui %g%: Color, %c%
+   Hotkey := RegExReplace(A_ThisHotkey,"^(\w* & |\W*)")
+   While, (GetKeyState(Hotkey, "p"))
+   {
+      Sleep, 10
+      MouseGetPos, MXend, MYend
+      w := abs(MX - MXend), h := abs(MY - MYend)
+      X := (MX < MXend) ? MX : MXend
+      Y := (MY < MYend) ? MY : MYend
+      Gui %g%: Show, x%X% y%Y% w%w% h%h% NA
+   }
+   Try Gui %g%: Destroy
+   MouseGetPos, MXend, MYend
+   If ( MX > MXend )
+   temp := MX, MX := MXend, MXend := temp
+   If ( MY > MYend )
+   temp := MY, MY := MYend, MYend := temp
+   Return MX "|" MY "|" w "|" h
 }
 
 
 
-SCW_CreateLayeredWinMod(GuiNum,pBitmap,x,y,DrawCloseButton=_)__{
-____static__CloseButton__:=____
-____BorderAColor__:=__SCW_Reg("BorderAColor"),__BorderBColor__:=__SCW_Reg("BorderBColor")
-__
-____Gui__%GuiNum%:__-Caption__+E_x_______+LastFound__+ToolWindow__+AlwaysOnTop__+OwnDialogs__-DPIScale__;+Resize
-____Gui__%GuiNum%:__Show,__Na,__ScreenClippingWindow
-____hwnd__:=__WinExist()
+SCW_CreateLayeredWinMod(GuiNum,pBitmap,x,y,DrawCloseButton=0) {
+   static CloseButton := 16
+   BorderAColor := SCW_Reg("BorderAColor"), BorderBColor := SCW_Reg("BorderBColor")
+ 
+   Gui %GuiNum%: -Caption +E0x80000 +LastFound +ToolWindow +AlwaysOnTop +OwnDialogs -DPIScale ;+Resize
+   Gui %GuiNum%: Show, Na, ScreenClippingWindow
+   hwnd := WinExist()
 
-____Width__:=__Gdip_GetImageWidth(pBitmap),__Height__:=__Gdip_GetImageHeight(pBitmap)
-____hbm__:=__CreateDIBSection(Width+_,__Height+_),__hdc__:=__CreateCompatibleDC(),__obm__:=__SelectObject(hdc,__hbm)
-____G__:=__Gdip_GraphicsFromHDC(hdc),__Gdip_SetSmoothingMode(G,___),__Gdip_SetInterpolationMode(G,___)
+   Width := Gdip_GetImageWidth(pBitmap), Height := Gdip_GetImageHeight(pBitmap)
+   hbm := CreateDIBSection(Width+6, Height+6), hdc := CreateCompatibleDC(), obm := SelectObject(hdc, hbm)
+   G := Gdip_GraphicsFromHDC(hdc), Gdip_SetSmoothingMode(G, 4), Gdip_SetInterpolationMode(G, 7)
 
-____Gdip_DrawImage(G,__pBitmap,___,___,__Width,__Height)
-____Gdip_DisposeImage(pBitmap)
+   Gdip_DrawImage(G, pBitmap, 3, 3, Width, Height)
+   Gdip_DisposeImage(pBitmap)
 
-____pPen___:=__Gdip_CreatePen("_x"__BorderAColor,___),__pPen___:=__Gdip_CreatePen("_x"__BorderBColor,___)
-____if__DrawCloseButton
-____{
-______Gdip_DrawRectangle(G,__pPen_,___+Width-CloseButton+_,___,__CloseButton,__CloseButton)
-______Gdip_DrawRectangle(G,__pPen_,___+Width-CloseButton+_,___,__CloseButton,__CloseButton)
-____}
-____Gdip_DrawRectangle(G,__pPen_,___,___,__Width+_,__Height+_)
-____Gdip_DrawRectangle(G,__pPen_,___,___,__Width+_,__Height+_)
-____Gdip_DeletePen(pPen_),__Gdip_DeletePen(pPen_)
+   pPen1 := Gdip_CreatePen("0x" BorderAColor, 3), pPen2 := Gdip_CreatePen("0x" BorderBColor, 1)
+   if DrawCloseButton
+   {
+      Gdip_DrawRectangle(G, pPen1, 1+Width-CloseButton+3, 1, CloseButton, CloseButton)
+      Gdip_DrawRectangle(G, pPen2, 1+Width-CloseButton+3, 1, CloseButton, CloseButton)
+   }
+   Gdip_DrawRectangle(G, pPen1, 1, 1, Width+3, Height+3)
+   Gdip_DrawRectangle(G, pPen2, 1, 1, Width+3, Height+3)
+   Gdip_DeletePen(pPen1), Gdip_DeletePen(pPen2)
 
-____UpdateLayeredWindow(hwnd,__hdc,__x-_,__y-_,__Width+_,__Height+_)
-____SelectObject(hdc,__obm),__DeleteObject(hbm),__DeleteDC(hdc),__Gdip_DeleteGraphics(G)
-____SCW_Reg("G"__GuiNum__"#HWND",__hwnd)
-____SCW_Reg("G"__GuiNum__"#XClose",__Width+_-CloseButton)
-____SCW_Reg("G"__GuiNum__"#YClose",__CloseButton)
-____Return__hwnd
+   UpdateLayeredWindow(hwnd, hdc, x-3, y-3, Width+6, Height+6)
+   SelectObject(hdc, obm), DeleteObject(hbm), DeleteDC(hdc), Gdip_DeleteGraphics(G)
+   SCW_Reg("G" GuiNum "#HWND", hwnd)
+   SCW_Reg("G" GuiNum "#XClose", Width+6-CloseButton)
+   SCW_Reg("G" GuiNum "#YClose", CloseButton)
+   Return hwnd
 }
 
-SCW_LBUTTONDOWN()__{
-____MouseGetPos,,,__WinUMID
-____WinGetTitle,__Title,__ahk_id__%WinUMID%
-____if__Title__=__ScreenClippingWindow
-____{
-______PostMessage,___xA_,___,,,__ahk_id__%WinUMID%
-______KeyWait,__Lbutton
-______CoordMode,__mouse,__Relative
-______MouseGetPos,__x,y
-______XClose__:=__SCW_Reg("G"__A_Gui__"#XClose"),__YClose__:=__SCW_Reg("G"__A_Gui__"#YClose")
-______if__(x__>__XClose__and__y__<__YClose)
-______Gui__%A_Gui%:__Destroy
-______return_______;__confirm__that__click__was__on__module's__screen__clipping__windows
-____}
+SCW_LBUTTONDOWN() {
+   MouseGetPos,,, WinUMID
+    WinGetTitle, Title, ahk_id %WinUMID%
+   if Title = ScreenClippingWindow
+   {
+      PostMessage, 0xA1, 2,,, ahk_id %WinUMID%
+      KeyWait, Lbutton
+      CoordMode, mouse, Relative
+      MouseGetPos, x,y
+     XClose := SCW_Reg("G" A_Gui "#XClose"), YClose := SCW_Reg("G" A_Gui "#YClose")
+      if (x > XClose and y < YClose)
+      Gui %A_Gui%: Destroy
+      return 1   ; confirm that click was on module's screen clipping windows
+   }
 }
 
-SCW_Reg(variable,__value="")__{
-____static
-____if__(value__=__"")__{
-______yaqxswcdevfr__:=__kxucfp%variable%pqzmdk
-______Return__yaqxswcdevfr
-____}
-____Else
-____kxucfp%variable%pqzmdk__=__%value%
+SCW_Reg(variable, value="") {
+   static
+   if (value = "") {
+      yaqxswcdevfr := kxucfp%variable%pqzmdk
+      Return yaqxswcdevfr
+   }
+   Else
+   kxucfp%variable%pqzmdk = %value%
 }
 
-SCW_Default(ByRef__Variable,DefaultValue)__{
-____if__(Variable="")
-____Variable__:=__DefaultValue
+SCW_Default(ByRef Variable,DefaultValue) {
+   if (Variable="")
+   Variable := DefaultValue
 }
 
-SCW_Win_Clipboard(KeepBorders=_)__{
-____/*____;____does__not__work__for__layered__windows
-____ActiveWinID__:=__WinExist("A")
-____pBitmap__:=__Gdip_BitmapFromHWND(ActiveWinID)
-____Gdip_SetBitmapToClipboard(pBitmap)
-____*/
-____Send,__!{PrintScreen}__;__Active__Win's__client__area__to__Clipboard
-____if__!KeepBorders
-____{
-______pToken__:=__Gdip_Startup()
-______pBitmap__:=__Gdip_CreateBitmapFromClipboard()
-______Gdip_GetDimensions(pBitmap,__w,__h)
-______pBitmap___:=__SCW_CropImage(pBitmap,___,___,__w-_,__h-_)
-______Gdip_SetBitmapToClipboard(pBitmap_)
-______Gdip_DisposeImage(pBitmap),__Gdip_DisposeImage(pBitmap_)
-______Gdip_Shutdown("pToken")
-____}
+SCW_Win2Clipboard(KeepBorders=0) {
+   /*   ;   does not work for layered windows
+   ActiveWinID := WinExist("A")
+   pBitmap := Gdip_BitmapFromHWND(ActiveWinID)
+   Gdip_SetBitmapToClipboard(pBitmap)
+   */
+   Send, !{PrintScreen} ; Active Win's client area to Clipboard
+   if !KeepBorders
+   {
+      pToken := Gdip_Startup()
+      pBitmap := Gdip_CreateBitmapFromClipboard()
+      Gdip_GetDimensions(pBitmap, w, h)
+      pBitmap2 := SCW_CropImage(pBitmap, 3, 3, w-6, h-6)
+      Gdip_SetBitmapToClipboard(pBitmap2)
+      Gdip_DisposeImage(pBitmap), Gdip_DisposeImage(pBitmap2)
+      Gdip_Shutdown("pToken")
+   }
 }
 
-SCW_Win_Clipboard_(DeleteBorders:=_,__Hwnd__:=__"")
+SCW_Win2Clipboard2(DeleteBorders:=1, Hwnd := "")
 {
-__Sleep_______;__Right__click__menu__takes__time__to__fade__out__therefore__need__to__wait__until__it__completely__fades__out__before__taking__screenshot
-	/*____;____does__not__work__for__layered__windows
-	ActiveWinID__:=__WinExist("A")
-	pBitmap__:=__Gdip_BitmapFromHWND(ActiveWinID)
+ Sleep 300 ; Right click menu takes time to fade out therefore need to wait until it completely fades out before taking screenshot
+	/*   ;   does not work for layered windows
+	ActiveWinID := WinExist("A")
+	pBitmap := Gdip_BitmapFromHWND(ActiveWinID)
 	Gdip_SetBitmapToClipboard(pBitmap)
 	*/
-	if__!Hwnd
-		WinGet,__Hwnd,__ID,__A
-	WinGetPos,__X,__Y,__W,__H,__ahk_id__%Hwnd%
-	if__DeleteBorders
-		X+=_,__Y+=_,__W-=_,__H-=_
-	pToken__:=__Gdip_Startup()
-	pBitmap__:=__Gdip_BitmapFromScreen(X__"|"__Y__"|"__W__"|"__H)
+	if !Hwnd
+		WinGet, Hwnd, ID, A
+	WinGetPos, X, Y, W, H,  ahk_id %Hwnd%
+	if DeleteBorders
+		X+=3, Y+=3, W-=6, H-=6
+	pToken := Gdip_Startup()
+	pBitmap := Gdip_BitmapFromScreen(X "|" Y "|" W "|" H)
 	Gdip_SetBitmapToClipboard(pBitmap)
 	Gdip_Shutdown("pToken")
 }
 
-SCW_CropImage(pBitmap,__x,__y,__w,__h)__{
-____pBitmap___:=__Gdip_CreateBitmap(w,__h),__G___:=__Gdip_GraphicsFromImage(pBitmap_)
-____Gdip_DrawImage(G_,__pBitmap,___,___,__w,__h,__x,__y,__w,__h)
-____Gdip_DeleteGraphics(G_)
-____return__pBitmap_
+SCW_CropImage(pBitmap, x, y, w, h) {
+   pBitmap2 := Gdip_CreateBitmap(w, h), G2 := Gdip_GraphicsFromImage(pBitmap2)
+   Gdip_DrawImage(G2, pBitmap, 0, 0, w, h, x, y, w, h)
+   Gdip_DeleteGraphics(G2)
+   return pBitmap2
 }
 
 
-;***********Function__by__Tervon*******************
-SCW_Win_File(KeepBorders=_,__Email=_,__FromMenu=_)__{
-____If(FromMenu=_)
-____Sleep_______;sleep__to__wait__till__menu__fully__disappears
-____Send,__!{PrintScreen}__;__Active__Win's__client__area__to__Clipboard
-____sleep____
-____
-____if__!KeepBorders
-____{
-______pToken__:=__Gdip_Startup()
-______pBitmap__:=__Gdip_CreateBitmapFromClipboard()
-______Gdip_GetDimensions(pBitmap,__w,__h)
-______pBitmap___:=__SCW_CropImage(pBitmap,___,___,__w-_,__h-_)
-____}
-____
-____If(Email=_)__{
-____Gui__+LastFound__+OwnDialogs__+AlwaysOnTop
-____InputBox,__myFileName,__,__Save__File__Name__As:,__,_____,_____,__,__,__,__,__%A_Now%
-____if__ErrorLevel
-______return
-____}
-____Else
-____myFileName__:=__"Capture"______
-______
-____FilePath:=A_Desktop__.__"\"__.__myFileName__.__".PNG"__;path__to__file__to__save
-__
-____if__!KeepBorders
-____{
-____Gdip_SaveBitmapToFile(pBitmap_,__FilePath)__;Exports__automatcially__to__file
-____Gdip_DisposeImage(pBitmap),__Gdip_DisposeImage(pBitmap_)
-____Gdip_Shutdown("pToken")
-____}
-____
-____If(Email=_)
-____MsgBox,______,__,__Saved__to__your__Desktop!
-____
-____return__FilePath
+;***********Function by Tervon*******************
+SCW_Win2File(KeepBorders=0, Email=0, FromMenu=0) {
+   If(FromMenu=1)
+    Sleep 300 ;sleep to wait till menu fully disappears
+   Send, !{PrintScreen} ; Active Win's client area to Clipboard
+   sleep 50
+   
+   if !KeepBorders
+   {
+      pToken := Gdip_Startup()
+      pBitmap := Gdip_CreateBitmapFromClipboard()
+      Gdip_GetDimensions(pBitmap, w, h)
+      pBitmap2 := SCW_CropImage(pBitmap, 3, 3, w-6, h-6)
+   }
+   
+   If(Email=0) {
+    Gui +LastFound +OwnDialogs +AlwaysOnTop
+    InputBox, myFileName, , Save File Name As:, , 140, 130, , , , , %A_Now%
+    if ErrorLevel
+     return
+   }
+   Else
+    myFileName := "Capture"      
+      
+   FilePath:=A_Desktop . "\" . myFileName . ".PNG" ;path to file to save
+  
+   if !KeepBorders
+   {
+   Gdip_SaveBitmapToFile(pBitmap2, FilePath) ;Exports automatcially to file
+   Gdip_DisposeImage(pBitmap), Gdip_DisposeImage(pBitmap2)
+   Gdip_Shutdown("pToken")
+   }
+   
+   If(Email=0)
+    MsgBox, 4096, , Saved to your Desktop!
+   
+   return FilePath
 }
 
 Email_AttachFile(FileToEmail)
-__{
-__;**********************make__sure__outlook__is__running__so__email__will__be__sent*********************************
-__Process,__Exist,__Outlook.exe____;__check__to__see__if__Outlook__is__running.
-______Outlook_pid=%errorLevel%__________;__errorlevel__equals__the__PID__if__active
-__If__(Outlook_pid__=___)____{__;
-__run__outlook.exe
-__WinWait,__Microsoft__Outlook,__,_
-__}
+ {
+  ;**********************make sure outlook is running so email will be sent*********************************
+  Process, Exist, Outlook.exe    ; check to see if Outlook is running.
+     Outlook_pid=%errorLevel%         ; errorlevel equals the PID if active
+  If (Outlook_pid = 0)   { ;
+  run outlook.exe
+  WinWait, Microsoft Outlook, ,3
+ }
 
-;**********************Write__email*********************************
-__olMailItem__:=___
-__try
-______IsObject(MailItem__:=__ComObjActive("Outlook.Application").CreateItem(olMailItem))__;__Get__the__Outlook__application__object__if__Outlook__is__open
-__catch
-______MailItem__:=__ComObjCreate("Outlook.Application").CreateItem(olMailItem)__;__Create__if__Outlook__is__not__open
+;**********************Write email*********************************
+  olMailItem := 0
+  try
+      IsObject(MailItem := ComObjActive("Outlook.Application").CreateItem(olMailItem)) ; Get the Outlook application object if Outlook is open
+  catch
+      MailItem  := ComObjCreate("Outlook.Application").CreateItem(olMailItem) ; Create if Outlook is not open
 
-__olFormatHTML__:=___
-__MailItem.BodyFormat__:=__olFormatHTML
-__;~__MailItem.TO__:=__(MailTo)
-__;~__MailItem.CC__:="example@mail.com"
-__MailItem.Subject__:=__""
+  olFormatHTML := 2
+  MailItem.BodyFormat := olFormatHTML
+  ;~ MailItem.TO := (MailTo)
+  ;~ MailItem.CC :="example@mail.com"
+  MailItem.Subject := ""
 
-__MailItem.HTMLBody__:=__"
-__<HTML><p__style='font-family:Calibri';__font-size:__px;></p>
-__</HTML>"
-__;~__MailItem.Attachments.Add(File_)__>__BMP__file__format
-__MailItem.Attachments.Add(FileToEmail)
-__MailItem.Display__;
-__;~__Reload
+  MailItem.HTMLBody := "
+  <HTML><p style='font-family:Calibri'; font-size:11px;></p>
+  </HTML>"
+  ;~ MailItem.Attachments.Add(File1) > BMP file format
+  MailItem.Attachments.Add(FileToEmail)
+  MailItem.Display ;
+  ;~ Reload
 
-__FileDelete,__%FileToEmail%
+  FileDelete, %FileToEmail%
 }
 
 
-Clipboard_Acrobat(SavePathPDF:="")		;__Adobe__Acrobat__must__be__installed
+Clipboard2Acrobat(SavePathPDF:="")		; Adobe Acrobat must be installed
 {
-	App__:=__ComObjCreate("AcroExch.App")
+	App := ComObjCreate("AcroExch.App")
 	App.Show()
 	App.MenuItemExecute("ImageConversion:Clipboard")
-	if__SavePathPDF
+	if SavePathPDF
 	{
-		IfNotExist,__%SavePathPDF%
-			FileCreateDir,__%SavePathPDF%
-		FormatTime,__TimeStamp__,,__yyyy_MM_dd__@__HH_mm_ss__
-		FileName__:=__TimeStamp__".PDF"
-		AVDoc__:=__App.GetActiveDoc()
-		PVDoc__:=__AVDoc.GetPDDoc()
-		PDSaveIncremental		:=___x________;/*__write__changes__only__*/__
-		PDSaveFull						:=___x________;/*__write__entire__file__*/__
-		PDSaveCopy					:=___x________;/*__write__copy__w/o__affecting__current__state__*/
-		PDSaveLinearized			:=___x________;/*__write__the__file__linearized__for__*/
-		PDSaveBinaryOK			:=___x________;/*__OK__to__store__binary__in__file__*/
-		PDSaveCollectGarbage	:=___x________;/*__perform__garbage__collection__on__*/
-		PVDoc.save(PDSaveFull|PDSaveLinearized,__SavePathPDF__FileName)
+		IfNotExist, %SavePathPDF%
+			FileCreateDir, %SavePathPDF%
+		FormatTime, TimeStamp ,, yyyy_MM_dd @ HH_mm_ss 
+		FileName := TimeStamp ".PDF"
+		AVDoc := App.GetActiveDoc()
+		PVDoc := AVDoc.GetPDDoc()
+		PDSaveIncremental		:= 0x0000   ;/* write changes only */ 
+		PDSaveFull						:= 0x0001   ;/* write entire file */ 
+		PDSaveCopy					:= 0x0002   ;/* write copy w/o affecting current state */
+		PDSaveLinearized			:= 0x0004   ;/* write the file linearized for */
+		PDSaveBinaryOK			:= 0x0010   ;/* OK to store binary in file */
+		PDSaveCollectGarbage	:= 0x0020   ;/* perform garbage collection on */
+		PVDoc.save(PDSaveFull|PDSaveLinearized, SavePathPDF FileName)
 	}
 }
 
@@ -494,2577 +494,2577 @@ Clipboard_Acrobat(SavePathPDF:="")		;__Adobe__Acrobat__must__be__installed
 ;#####################################################################################
 
 
-class__Tesseract__
+class Tesseract 
 {
-;********************jg__added-__wait__for__file__to__exist***********************************
-	static__leptonica__:=__A_ScriptDir__"\bin\leptonica_util\leptonica_util.exe"
-	static__tesseract__:=__A_ScriptDir__"\bin\tesseract\tesseract.exe"
-	static__tessdata_best__:=__A_ScriptDir__"\bin\tesseract\tessdata_best"
-	static__tessdata_fast__:=__A_ScriptDir__"\bin\tesseract\tessdata_fast"
+;********************jg added- wait for file to exist***********************************
+	static leptonica := A_ScriptDir "\bin\leptonica_util\leptonica_util.exe"
+	static tesseract := A_ScriptDir "\bin\tesseract\tesseract.exe"
+	static tessdata_best := A_ScriptDir "\bin\tesseract\tessdata_best"
+	static tessdata_fast := A_ScriptDir "\bin\tesseract\tessdata_fast"
 	
-	static__file__:=__A_ScriptDir__"\mcoc_screenshot.bmp"
-	static__fileProcessedImage__:=__A_ScriptDir__"\mcoc_preprocess.tif"
-	static__fileConvertedText__:=__A_ScriptDir__"\mcoc_text.txt"
+	static file := A_ScriptDir "\mcoc_screenshot.bmp"
+	static fileProcessedImage := A_ScriptDir "\mcoc_preprocess.tif"
+	static fileConvertedText := A_ScriptDir "\mcoc_text.txt"
 	
-	;__OCR()__can__be__called__directly
-	OCR(pBitmap,__language:="",__options:="")
+	; OCR() can be called directly
+	OCR(pBitmap, language:="", options:="")
 	{
-		this.language__:=__language
-		imgFile:=__this.toFile(pBitmap,__this.file)
-		this.preprocess(imgFile,__this.fileProcessedImage)
-		this.convert_fast(this.fileProcessedImage,__this.fileConvertedText,___,__options)
-		return__this.read(),__this.cleanup()
+		this.language := language
+		imgFile:= this.toFile(pBitmap, this.file)
+		this.preprocess(imgFile, this.fileProcessedImage)
+		this.convert_fast(this.fileProcessedImage, this.fileConvertedText, 0, options)
+		return this.read(), this.cleanup()
 	}
 	
-	;__toFile()__-__Saves__the__image__as__a__temporary__file.
-	toFile(image,__outputFile:="")
+	; toFile() - Saves the image as a temporary file.
+	toFile(image, outputFile:="")
 	{
-		Gdip_SaveBitmapToFile(image,__outputFile)
-		While__!__FileExist(outputFile)__;Added__by__Joe__Glines__on___/__/____
-			Sleep,_______;Added__by__Joe__Glines__on___/__/____
-		return__outputFile
+		Gdip_SaveBitmapToFile(image, outputFile)
+		While ! FileExist(outputFile) ;Added by Joe Glines on 9/21/2019
+			Sleep, 100 ;Added by Joe Glines on 9/21/2019
+		return outputFile
 	}
 	
-	__New(language:="",__options:="")
+	__New(language:="", options:="")
 	{
-		this.language__:=__language
+		this.language := language
 	}
 	
 	cleanup()
 	{
-		FileDelete,__%__this.file
-		FileDelete,__%__this.fileProcessedImage
-		FileDelete,__%__this.fileConvertedText
+		FileDelete, % this.file
+		FileDelete, % this.fileProcessedImage
+		FileDelete, % this.fileConvertedText
 	}
 	
-	convert_best(in:="",__out:="",__fast:=_,__options:="")
+	convert_best(in:="", out:="", fast:=0, options:="")
 	{
 		
-		in__:=__(in)__?__in__:__this.fileProcessedImage
-		out__:=__(out)__?__out__:__this.fileConvertedText
-		fast__:=__(fast)__?__this.tessdata_fast__:__this.tessdata_best
+		in := (in) ? in : this.fileProcessedImage
+		out := (out) ? out : this.fileConvertedText
+		fast := (fast) ? this.tessdata_fast : this.tessdata_best
 		
-		if__!(FileExist(in))
-			throw__Exception("Input__image__for__conversion__not__found.",,__in)
+		if !(FileExist(in))
+			throw Exception("Input image for conversion not found.",, in)
 		
-		if__!(FileExist(this.tesseract))
-			throw__Exception("Tesseract__not__found",,__this.tesseract)
+		if !(FileExist(this.tesseract))
+			throw Exception("Tesseract not found",, this.tesseract)
 		
-		static__q__:=__Chr(_x__)
-		_cmd__.=__q__this.tesseract__q__"__--tessdata-dir__"__q__fast__q__"__"__q__in__q__"__"__q__SubStr(out,___,__-_)__q__
-		_cmd__.=__(options)__?__options__:__"__-psm___"
-		_cmd__.=__(this.language)__?__"__-l__"__q__this.language__q__:__""
-		_cmd__:=__ComSpec__"__/C__"__q___cmd__q
+		static q := Chr(0x22)
+		_cmd .= q this.tesseract q " --tessdata-dir " q fast q " " q in q " " q SubStr(out, 1, -4) q 
+		_cmd .= (options) ? options : " -psm 6"
+		_cmd .= (this.language) ? " -l " q this.language q : ""
+		_cmd := ComSpec " /C " q _cmd q
 		
-		;~__msgbox__%___cmd
+		;~ msgbox % _cmd
 		
-		RunWait__%___cmd,,__Hide
+		RunWait % _cmd,, Hide
 		
-		if__!(FileExist(out))
-			throw__Exception("Tesseract__failed.",,___cmd)
+		if !(FileExist(out))
+			throw Exception("Tesseract failed.",, _cmd)
 		
-		return__out
-		
-	}
-	
-	convert_fast(in:="",__out:="")
-	{
-		return__this.convert_best(in,__out,___)
-	}
-	
-	
-	preprocess(in:="",__out:="")
-	{
-		static__LEPT_TRUE__			:=__ocrPreProcessing__:=___
-		static__negateArg__			:=_____;___=NEGATE_NO,____/*__Do__not__negate__image__*/___=NEGATE_YES,__/*__Force__negate__*/___=NEGATE_AUTO,__/*__Automatically__negate__if__border__pixels__are__dark__*/
-		static__dark_bg_threshold__	:=___.___;__/*__From___.___to___._,__with_____being__all__white__and_____being__all__black__*/
-		static__performScaleArg__		:=__LEPT_TRUE__;__true/false
-		static__scaleFactor__			:=___.___;
-		static__perform_unsharp_mask__:=__LEPT_TRUE__;
-		static__usm_halfwidth__		:=_____;
-		static__usm_fract__			:=___.___;
-		static__perform_otsu_binarize	:=__LEPT_TRUE__;
-		static__otsu_sx					:=________;
-		static__otsu_sy					:=________;
-		static__otsu_smoothx				:=_____;
-		static__otsu_smoothy				:=_____;
-		static__otsu_scorefract____	:=___.___;
-		
-		static__q__:=__Chr(_x__)
-		
-		in__:=__(in__!=__"")__?__in__:__this.file
-		out__:=__(out__!=__"")__?__out__:__this.fileProcessedImage
-		
-		if__!(FileExist(in))
-			throw__Exception("Input__image__for__preprocessing__not__found.",,__in)
-		
-		if__!(FileExist(this.leptonica))
-			throw__Exception("Leptonica__not__found",,__this.leptonica)
-		
-		_cmd__.=__q__this.leptonica__q__"__"__q__in__q__"__"__q__out__q
-		
-		_cmd__.=__"__"__negateArg__"__"__dark_bg_threshold__
-			.	"__"__performScaleArg__"__"__scaleFactor__
-			.	"__"__perform_unsharp_mask__"__"__usm_halfwidth__"__"__usm_fract__
-			.	"__"__perform_otsu_binarize__"__"__otsu_sx__"__"__otsu_sy__"__"__otsu_smoothx__"__"__otsu_smoothy__"__"__otsu_scorefract
-		
-		_cmd__:=__ComSpec__"__/C__"__q___cmd__q
-		
-		;__leptonica_util.exe__in.png__out.png______._______.__________._________________________.______*/
-		RunWait,__%___cmd,,__Hide
-		
-		if__!(FileExist(out))
-			throw__Exception("Preprocessing__failed.",,___cmd)
-		
-		return__out
+		return out
 		
 	}
 	
-	read(in:="",__lines:="")
+	convert_fast(in:="", out:="")
 	{
-		in__:=__(in)__?__in__:__this.fileConvertedText
-		database__:=__FileOpen(in,__"r`n",__"UTF-_")
+		return this.convert_best(in, out, 1)
+	}
+	
+	
+	preprocess(in:="", out:="")
+	{
+		static LEPT_TRUE 				:= ocrPreProcessing := 1
+		static negateArg 				:= 2 ; 0=NEGATE_NO,   /* Do not negate image */  1=NEGATE_YES,  /* Force negate */  2=NEGATE_AUTO, /* Automatically negate if border pixels are dark */
+		static dark_bg_threshold 		:= 0.5 ; /* From 0.0 to 1.0, with 0 being all white and 1 being all black */
+		static performScaleArg 			:= LEPT_TRUE ; true/false
+		static scaleFactor 				:= 3.5 ;
+		static perform_unsharp_mask 	:= LEPT_TRUE ;
+		static usm_halfwidth 			:= 5 ;
+		static usm_fract 				:= 2.5 ;
+		static perform_otsu_binarize	:= LEPT_TRUE ;
+		static otsu_sx					:= 2000 ;
+		static otsu_sy					:= 2000 ;
+		static otsu_smoothx				:= 0 ;
+		static otsu_smoothy				:= 0 ;
+		static otsu_scorefract   		:= 0.0 ;
 		
-		if__(lines__==__"")__
+		static q := Chr(0x22)
+		
+		in := (in != "") ? in : this.file
+		out := (out != "") ? out : this.fileProcessedImage
+		
+		if !(FileExist(in))
+			throw Exception("Input image for preprocessing not found.",, in)
+		
+		if !(FileExist(this.leptonica))
+			throw Exception("Leptonica not found",, this.leptonica)
+		
+		_cmd .= q this.leptonica q " " q in q " " q out q
+		
+		_cmd .= " " negateArg " " dark_bg_threshold 
+			.	" " performScaleArg " " scaleFactor 
+			.	" " perform_unsharp_mask " " usm_halfwidth " " usm_fract 
+			.	" " perform_otsu_binarize  " " otsu_sx " " otsu_sy " " otsu_smoothx " " otsu_smoothy " " otsu_scorefract
+		
+		_cmd := ComSpec " /C " q _cmd q
+		
+		; leptonica_util.exe in.png out.png  2 0.5  1 3.5  1 5 2.5  1 2000 2000 0 0 0.0  1 */
+		RunWait, % _cmd,, Hide
+		
+		if !(FileExist(out))
+			throw Exception("Preprocessing failed.",, _cmd)
+		
+		return out
+		
+	}
+	
+	read(in:="", lines:="")
+	{
+		in := (in) ? in : this.fileConvertedText
+		database := FileOpen(in, "r`n", "UTF-8")
+		
+		if (lines == "") 
 		{
-			text__:=__RegExReplace(database.Read(),__"^\s*(.*?)\s*$",__"$_")
-			text__:=__RegExReplace(text,__"(?<!\r)\n",__"`r`n")
-		}__
+			text := RegExReplace(database.Read(), "^\s*(.*?)\s*$", "$1")
+			text := RegExReplace(text, "(?<!\r)\n", "`r`n")
+		} 
 		else
 		{
-			while__(lines__>___)__
+			while (lines > 0) 
 			{
-				data__:=__database.ReadLine()
-				data__:=__RegExReplace(data,__"^\s*(.*?)\s*$",__"$_")
-				if__(data__!=__"")__
+				data := database.ReadLine()
+				data := RegExReplace(data, "^\s*(.*?)\s*$", "$1")
+				if (data != "") 
 				{
-					text__.=__(text)__?__("`n"__.__data)__:__data
+					text .= (text) ? ("`n" . data) : data
 					lines--
 				}
-				if__(!database__||__database.AtEOF)
+				if (!database || database.AtEOF)
 					break
 			}
 		}
 		database.Close()
-		return__text
+		return text
 	}
 	
 	readlines(lines)
 	{
-		return__this.read(,__lines)
+		return this.read(, lines)
 	}
 }
 
 
 ;#####################################################################################
 
-;__Gdip__standard__library__v_.____by__tic__(Tariq__Porter)____/__/__
-;__source:__https://github.com/tariqporter/Gdip
+; Gdip standard library v1.45 by tic (Tariq Porter) 07/09/11
+; source: https://github.com/tariqporter/Gdip
 ;#####################################################################################
 ;#####################################################################################
-;__STATUS__ENUMERATION
-;__Return__values__for__functions__specified__to__have__status__enumerated__return__type
-;#####################################################################################
-;
-;__Ok__=						=___
-;__GenericError				=___
-;__InvalidParameter			=___
-;__OutOfMemory				=___
-;__ObjectBusy				=___
-;__InsufficientBuffer		=___
-;__NotImplemented			=___
-;__Win__Error				=___
-;__WrongState				=___
-;__Aborted					=___
-;__FileNotFound				=____
-;__ValueOverflow				=____
-;__AccessDenied				=____
-;__UnknownImageFormat		=____
-;__FontFamilyNotFound		=____
-;__FontStyleNotFound			=____
-;__NotTrueTypeFont			=____
-;__UnsupportedGdiplusVersion	=____
-;__GdiplusNotInitialized		=____
-;__PropertyNotFound			=____
-;__PropertyNotSupported		=____
-;__ProfileNotFound			=____
-;
-;#####################################################################################
-;#####################################################################################
-;__FUNCTIONS
+; STATUS ENUMERATION
+; Return values for functions specified to have status enumerated return type
 ;#####################################################################################
 ;
-;__UpdateLayeredWindow(hwnd,__hdc,__x="",__y="",__w="",__h="",__Alpha=___)
-;__BitBlt(ddc,__dx,__dy,__dw,__dh,__sdc,__sx,__sy,__Raster="")
-;__StretchBlt(dDC,__dx,__dy,__dw,__dh,__sDC,__sx,__sy,__sw,__sh,__Raster="")
-;__SetImage(hwnd,__hBitmap)
-;__Gdip_BitmapFromScreen(Screen=_,__Raster="")
-;__CreateRectF(ByRef__RectF,__x,__y,__w,__h)
-;__CreateSizeF(ByRef__SizeF,__w,__h)
-;__CreateDIBSection
+; Ok =						= 0
+; GenericError				= 1
+; InvalidParameter			= 2
+; OutOfMemory				= 3
+; ObjectBusy				= 4
+; InsufficientBuffer		= 5
+; NotImplemented			= 6
+; Win32Error				= 7
+; WrongState				= 8
+; Aborted					= 9
+; FileNotFound				= 10
+; ValueOverflow				= 11
+; AccessDenied				= 12
+; UnknownImageFormat		= 13
+; FontFamilyNotFound		= 14
+; FontStyleNotFound			= 15
+; NotTrueTypeFont			= 16
+; UnsupportedGdiplusVersion	= 17
+; GdiplusNotInitialized		= 18
+; PropertyNotFound			= 19
+; PropertyNotSupported		= 20
+; ProfileNotFound			= 21
+;
+;#####################################################################################
+;#####################################################################################
+; FUNCTIONS
+;#####################################################################################
+;
+; UpdateLayeredWindow(hwnd, hdc, x="", y="", w="", h="", Alpha=255)
+; BitBlt(ddc, dx, dy, dw, dh, sdc, sx, sy, Raster="")
+; StretchBlt(dDC, dx, dy, dw, dh, sDC, sx, sy, sw, sh, Raster="")
+; SetImage(hwnd, hBitmap)
+; Gdip_BitmapFromScreen(Screen=0, Raster="")
+; CreateRectF(ByRef RectF, x, y, w, h)
+; CreateSizeF(ByRef SizeF, w, h)
+; CreateDIBSection
 ;
 ;#####################################################################################
 
-;__Function:______		UpdateLayeredWindow
-;__Description:__			Updates__a__layered__window__with__the__handle__to__the__DC__of__a__gdi__bitmap
-;__
-;__hwnd________				Handle__of__the__layered__window__to__update
-;__hdc____________		Handle__to__the__DC__of__the__GDI__bitmap__to__update__the__window__with
-;__Layeredx______			x__position__to__place__the__window
-;__Layeredy______			y__position__to__place__the__window
-;__Layeredw______			Width__of__the__window
-;__Layeredh______			Height__of__the__window
-;__Alpha__________		Default__=_______:__The__transparency__(_-___)__to__set__the__window__transparency
+; Function:     			UpdateLayeredWindow
+; Description:  			Updates a layered window with the handle to the DC of a gdi bitmap
+; 
+; hwnd        				Handle of the layered window to update
+; hdc           			Handle to the DC of the GDI bitmap to update the window with
+; Layeredx      			x position to place the window
+; Layeredy      			y position to place the window
+; Layeredw      			Width of the window
+; Layeredh      			Height of the window
+; Alpha         			Default = 255 : The transparency (0-255) to set the window transparency
 ;
-;__return______				If__the__function__succeeds,__the__return__value__is__nonzero
+; return      				If the function succeeds, the return value is nonzero
 ;
-;__notes						If__x__or__y__omitted,__then__layered__window__will__use__its__current__coordinates
-;							If__w__or__h__omitted__then__current__width__and__height__will__be__used
+; notes						If x or y omitted, then layered window will use its current coordinates
+;							If w or h omitted then current width and height will be used
 
-UpdateLayeredWindow(hwnd,__hdc,__x="",__y="",__w="",__h="",__Alpha=___)
+UpdateLayeredWindow(hwnd, hdc, x="", y="", w="", h="", Alpha=255)
 {
-	if__((x__!=__"")__&&__(y__!=__""))
-		VarSetCapacity(pt,___),__NumPut(x,__pt,___),__NumPut(y,__pt,___)
+	if ((x != "") && (y != ""))
+		VarSetCapacity(pt, 8), NumPut(x, pt, 0), NumPut(y, pt, 4)
 
-	if__(w__=__"")__||(h__=__"")
-		WinGetPos,,,__w,__h,__ahk_id__%hwnd%
-____
-	return__DllCall("UpdateLayeredWindow",__"uint",__hwnd,__"uint",___,__"uint",__((x__=__"")__&&__(y__=__""))__?_____:__&pt
-	,__"int__*",__w|h<<__,__"uint",__hdc,__"int__*",___,__"uint",___,__"uint*",__Alpha<<__|_<<__,__"uint",___)
+	if (w = "") ||(h = "")
+		WinGetPos,,, w, h, ahk_id %hwnd%
+   
+	return DllCall("UpdateLayeredWindow", "uint", hwnd, "uint", 0, "uint", ((x = "") && (y = "")) ? 0 : &pt
+	, "int64*", w|h<<32, "uint", hdc, "int64*", 0, "uint", 0, "uint*", Alpha<<16|1<<24, "uint", 2)
 }
 
 ;#####################################################################################
 
-;__Function				BitBlt
-;__Description			The__BitBlt__function__performs__a__bit-block__transfer__of__the__color__data__corresponding__to__a__rectangle__
-;						of__pixels__from__the__specified__source__device__context__into__a__destination__device__context.
+; Function				BitBlt
+; Description			The BitBlt function performs a bit-block transfer of the color data corresponding to a rectangle 
+;						of pixels from the specified source device context into a destination device context.
 ;
-;__dDC					handle__to__destination__DC
-;__dx					x-coord__of__destination__upper-left__corner
-;__dy					y-coord__of__destination__upper-left__corner
-;__dw					width__of__the__area__to__copy
-;__dh					height__of__the__area__to__copy
-;__sDC					handle__to__source__DC
-;__sx					x-coordinate__of__source__upper-left__corner
-;__sy					y-coordinate__of__source__upper-left__corner
-;__Raster				raster__operation__code
+; dDC					handle to destination DC
+; dx					x-coord of destination upper-left corner
+; dy					y-coord of destination upper-left corner
+; dw					width of the area to copy
+; dh					height of the area to copy
+; sDC					handle to source DC
+; sx					x-coordinate of source upper-left corner
+; sy					y-coordinate of source upper-left corner
+; Raster				raster operation code
 ;
-;__return				If__the__function__succeeds,__the__return__value__is__nonzero
+; return				If the function succeeds, the return value is nonzero
 ;
-;__notes					If__no__raster__operation__is__specified,__then__SRCCOPY__is__used,__which__copies__the__source__directly__to__the__destination__rectangle
+; notes					If no raster operation is specified, then SRCCOPY is used, which copies the source directly to the destination rectangle
 ;
-;__BLACKNESS				=___x________
-;__NOTSRCERASE			=___x______A_
-;__NOTSRCCOPY			=___x________
-;__SRCERASE				=___x________
-;__DSTINVERT				=___x________
-;__PATINVERT				=___x___A____
-;__SRCINVERT				=___x________
-;__SRCAND				=___x______C_
-;__MERGEPAINT			=___x__BB____
-;__MERGECOPY				=___x__C___CA
-;__SRCCOPY				=___x__CC____
-;__SRCPAINT				=___x__EE____
-;__PATCOPY				=___x__F_____
-;__PATPAINT				=___x__FB_A__
-;__WHITENESS				=___x__FF____
-;__CAPTUREBLT			=___x________
-;__NOMIRRORBITMAP		=___x________
+; BLACKNESS				= 0x00000042
+; NOTSRCERASE			= 0x001100A6
+; NOTSRCCOPY			= 0x00330008
+; SRCERASE				= 0x00440328
+; DSTINVERT				= 0x00550009
+; PATINVERT				= 0x005A0049
+; SRCINVERT				= 0x00660046
+; SRCAND				= 0x008800C6
+; MERGEPAINT			= 0x00BB0226
+; MERGECOPY				= 0x00C000CA
+; SRCCOPY				= 0x00CC0020
+; SRCPAINT				= 0x00EE0086
+; PATCOPY				= 0x00F00021
+; PATPAINT				= 0x00FB0A09
+; WHITENESS				= 0x00FF0062
+; CAPTUREBLT			= 0x40000000
+; NOMIRRORBITMAP		= 0x80000000
 
-BitBlt(ddc,__dx,__dy,__dw,__dh,__sdc,__sx,__sy,__Raster="")
+BitBlt(ddc, dx, dy, dw, dh, sdc, sx, sy, Raster="")
 {
-	return__DllCall("gdi__\BitBlt",__"uint",__dDC,__"int",__dx,__"int",__dy,__"int",__dw,__"int",__dh
-	,__"uint",__sDC,__"int",__sx,__"int",__sy,__"uint",__Raster__?__Raster__:___x__CC____)
+	return DllCall("gdi32\BitBlt", "uint", dDC, "int", dx, "int", dy, "int", dw, "int", dh
+	, "uint", sDC, "int", sx, "int", sy, "uint", Raster ? Raster : 0x00CC0020)
 }
 
 ;#####################################################################################
 
-;__Function				StretchBlt
-;__Description			The__StretchBlt__function__copies__a__bitmap__from__a__source__rectangle__into__a__destination__rectangle,__
-;						stretching__or__compressing__the__bitmap__to__fit__the__dimensions__of__the__destination__rectangle,__if__necessary.
-;						The__system__stretches__or__compresses__the__bitmap__according__to__the__stretching__mode__currently__set__in__the__destination__device__context.
+; Function				StretchBlt
+; Description			The StretchBlt function copies a bitmap from a source rectangle into a destination rectangle, 
+;						stretching or compressing the bitmap to fit the dimensions of the destination rectangle, if necessary.
+;						The system stretches or compresses the bitmap according to the stretching mode currently set in the destination device context.
 ;
-;__ddc					handle__to__destination__DC
-;__dx					x-coord__of__destination__upper-left__corner
-;__dy					y-coord__of__destination__upper-left__corner
-;__dw					width__of__destination__rectangle
-;__dh					height__of__destination__rectangle
-;__sdc					handle__to__source__DC
-;__sx					x-coordinate__of__source__upper-left__corner
-;__sy					y-coordinate__of__source__upper-left__corner
-;__sw					width__of__source__rectangle
-;__sh					height__of__source__rectangle
-;__Raster				raster__operation__code
+; ddc					handle to destination DC
+; dx					x-coord of destination upper-left corner
+; dy					y-coord of destination upper-left corner
+; dw					width of destination rectangle
+; dh					height of destination rectangle
+; sdc					handle to source DC
+; sx					x-coordinate of source upper-left corner
+; sy					y-coordinate of source upper-left corner
+; sw					width of source rectangle
+; sh					height of source rectangle
+; Raster				raster operation code
 ;
-;__return				If__the__function__succeeds,__the__return__value__is__nonzero
+; return				If the function succeeds, the return value is nonzero
 ;
-;__notes					If__no__raster__operation__is__specified,__then__SRCCOPY__is__used.__It__uses__the__same__raster__operations__as__BitBlt		
+; notes					If no raster operation is specified, then SRCCOPY is used. It uses the same raster operations as BitBlt		
 
-StretchBlt(ddc,__dx,__dy,__dw,__dh,__sdc,__sx,__sy,__sw,__sh,__Raster="")
+StretchBlt(ddc, dx, dy, dw, dh, sdc, sx, sy, sw, sh, Raster="")
 {
-	return__DllCall("gdi__\StretchBlt",__"uint",__ddc,__"int",__dx,__"int",__dy,__"int",__dw,__"int",__dh
-	,__"uint",__sdc,__"int",__sx,__"int",__sy,__"int",__sw,__"int",__sh,__"uint",__Raster__?__Raster__:___x__CC____)
+	return DllCall("gdi32\StretchBlt", "uint", ddc, "int", dx, "int", dy, "int", dw, "int", dh
+	, "uint", sdc, "int", sx, "int", sy, "int", sw, "int", sh, "uint", Raster ? Raster : 0x00CC0020)
 }
 
 ;#####################################################################################
 
-;__Function				SetStretchBltMode
-;__Description			The__SetStretchBltMode__function__sets__the__bitmap__stretching__mode__in__the__specified__device__context
+; Function				SetStretchBltMode
+; Description			The SetStretchBltMode function sets the bitmap stretching mode in the specified device context
 ;
-;__hdc					handle__to__the__DC
-;__iStretchMode			The__stretching__mode,__describing__how__the__target__will__be__stretched
+; hdc					handle to the DC
+; iStretchMode			The stretching mode, describing how the target will be stretched
 ;
-;__return				If__the__function__succeeds,__the__return__value__is__the__previous__stretching__mode.__If__it__fails__it__will__return___
+; return				If the function succeeds, the return value is the previous stretching mode. If it fails it will return 0
 ;
-;__STRETCH_ANDSCANS__	=___x__
-;__STRETCH_ORSCANS__	=___x__
-;__STRETCH_DELETESCANS__=___x__
-;__STRETCH_HALFTONE__	=___x__
+; STRETCH_ANDSCANS 		= 0x01
+; STRETCH_ORSCANS 		= 0x02
+; STRETCH_DELETESCANS 	= 0x03
+; STRETCH_HALFTONE 		= 0x04
 
-SetStretchBltMode(hdc,__iStretchMode=_)
+SetStretchBltMode(hdc, iStretchMode=4)
 {
-	return__DllCall("gdi__\SetStretchBltMode",__"uint",__hdc,__"int",__iStretchMode)
+	return DllCall("gdi32\SetStretchBltMode", "uint", hdc, "int", iStretchMode)
 }
 
 ;#####################################################################################
 
-;__Function				SetImage
-;__Description			Associates__a__new__image__with__a__static__control
+; Function				SetImage
+; Description			Associates a new image with a static control
 ;
-;__hwnd					handle__of__the__control__to__update
-;__hBitmap				a__gdi__bitmap__to__associate__the__static__control__with
+; hwnd					handle of the control to update
+; hBitmap				a gdi bitmap to associate the static control with
 ;
-;__return				If__the__function__succeeds,__the__return__value__is__nonzero
+; return				If the function succeeds, the return value is nonzero
 
-SetImage(hwnd,__hBitmap)
+SetImage(hwnd, hBitmap)
 {
-	SendMessage,___x___,___x_,__hBitmap,,__ahk_id__%hwnd%
-	E__:=__ErrorLevel
+	SendMessage, 0x172, 0x0, hBitmap,, ahk_id %hwnd%
+	E := ErrorLevel
 	DeleteObject(E)
-	return__E
+	return E
 }
 
 ;#####################################################################################
 
-;__Function				SetSysColorToControl
-;__Description			Sets__a__solid__colour__to__a__control
+; Function				SetSysColorToControl
+; Description			Sets a solid colour to a control
 ;
-;__hwnd					handle__of__the__control__to__update
-;__SysColor				A__system__colour__to__set__to__the__control
+; hwnd					handle of the control to update
+; SysColor				A system colour to set to the control
 ;
-;__return				If__the__function__succeeds,__the__return__value__is__zero
+; return				If the function succeeds, the return value is zero
 ;
-;__notes					A__control__must__have__the___xE__style__set__to__it__so__it__is__recognised__as__a__bitmap
-;						By__default__SysColor=____is__used__which__is__COLOR__DFACE.__This__is__the__standard__background__for__a__control
+; notes					A control must have the 0xE style set to it so it is recognised as a bitmap
+;						By default SysColor=15 is used which is COLOR_3DFACE. This is the standard background for a control
 ;
-;__COLOR__DDKSHADOW				=____
-;__COLOR__DFACE					=____
-;__COLOR__DHIGHLIGHT				=____
-;__COLOR__DHILIGHT				=____
-;__COLOR__DLIGHT					=____
-;__COLOR__DSHADOW				=____
-;__COLOR_ACTIVEBORDER			=____
-;__COLOR_ACTIVECAPTION			=___
-;__COLOR_APPWORKSPACE			=____
-;__COLOR_BACKGROUND				=___
-;__COLOR_BTNFACE					=____
-;__COLOR_BTNHIGHLIGHT			=____
-;__COLOR_BTNHILIGHT				=____
-;__COLOR_BTNSHADOW				=____
-;__COLOR_BTNTEXT					=____
-;__COLOR_CAPTIONTEXT				=___
-;__COLOR_DESKTOP					=___
-;__COLOR_GRADIENTACTIVECAPTION	=____
-;__COLOR_GRADIENTINACTIVECAPTION	=____
-;__COLOR_GRAYTEXT				=____
-;__COLOR_HIGHLIGHT				=____
-;__COLOR_HIGHLIGHTTEXT			=____
-;__COLOR_HOTLIGHT				=____
-;__COLOR_INACTIVEBORDER			=____
-;__COLOR_INACTIVECAPTION			=___
-;__COLOR_INACTIVECAPTIONTEXT		=____
-;__COLOR_INFOBK					=____
-;__COLOR_INFOTEXT				=____
-;__COLOR_MENU					=___
-;__COLOR_MENUHILIGHT				=____
-;__COLOR_MENUBAR					=____
-;__COLOR_MENUTEXT				=___
-;__COLOR_SCROLLBAR				=___
-;__COLOR_WINDOW					=___
-;__COLOR_WINDOWFRAME				=___
-;__COLOR_WINDOWTEXT				=___
+; COLOR_3DDKSHADOW				= 21
+; COLOR_3DFACE					= 15
+; COLOR_3DHIGHLIGHT				= 20
+; COLOR_3DHILIGHT				= 20
+; COLOR_3DLIGHT					= 22
+; COLOR_3DSHADOW				= 16
+; COLOR_ACTIVEBORDER			= 10
+; COLOR_ACTIVECAPTION			= 2
+; COLOR_APPWORKSPACE			= 12
+; COLOR_BACKGROUND				= 1
+; COLOR_BTNFACE					= 15
+; COLOR_BTNHIGHLIGHT			= 20
+; COLOR_BTNHILIGHT				= 20
+; COLOR_BTNSHADOW				= 16
+; COLOR_BTNTEXT					= 18
+; COLOR_CAPTIONTEXT				= 9
+; COLOR_DESKTOP					= 1
+; COLOR_GRADIENTACTIVECAPTION	= 27
+; COLOR_GRADIENTINACTIVECAPTION	= 28
+; COLOR_GRAYTEXT				= 17
+; COLOR_HIGHLIGHT				= 13
+; COLOR_HIGHLIGHTTEXT			= 14
+; COLOR_HOTLIGHT				= 26
+; COLOR_INACTIVEBORDER			= 11
+; COLOR_INACTIVECAPTION			= 3
+; COLOR_INACTIVECAPTIONTEXT		= 19
+; COLOR_INFOBK					= 24
+; COLOR_INFOTEXT				= 23
+; COLOR_MENU					= 4
+; COLOR_MENUHILIGHT				= 29
+; COLOR_MENUBAR					= 30
+; COLOR_MENUTEXT				= 7
+; COLOR_SCROLLBAR				= 0
+; COLOR_WINDOW					= 5
+; COLOR_WINDOWFRAME				= 6
+; COLOR_WINDOWTEXT				= 8
 
-SetSysColorToControl(hwnd,__SysColor=__)
+SetSysColorToControl(hwnd, SysColor=15)
 {
-____WinGetPos,,,__w,__h,__ahk_id__%hwnd%
-____bc__:=__DllCall("GetSysColor",__"Int",__SysColor)
-____pBrushClear__:=__Gdip_BrushCreateSolid(_xff________|__(bc__>>______|__bc__&___xff____|__(bc__&___xff)__<<____))
-____pBitmap__:=__Gdip_CreateBitmap(w,__h),__G__:=__Gdip_GraphicsFromImage(pBitmap)
-____Gdip_FillRectangle(G,__pBrushClear,___,___,__w,__h)
-____hBitmap__:=__Gdip_CreateHBITMAPFromBitmap(pBitmap)
-____SetImage(hwnd,__hBitmap)
-____Gdip_DeleteBrush(pBrushClear)
-____Gdip_DeleteGraphics(G),__Gdip_DisposeImage(pBitmap),__DeleteObject(hBitmap)
-____return___
+   WinGetPos,,, w, h, ahk_id %hwnd%
+   bc := DllCall("GetSysColor", "Int", SysColor)
+   pBrushClear := Gdip_BrushCreateSolid(0xff000000 | (bc >> 16 | bc & 0xff00 | (bc & 0xff) << 16))
+   pBitmap := Gdip_CreateBitmap(w, h), G := Gdip_GraphicsFromImage(pBitmap)
+   Gdip_FillRectangle(G, pBrushClear, 0, 0, w, h)
+   hBitmap := Gdip_CreateHBITMAPFromBitmap(pBitmap)
+   SetImage(hwnd, hBitmap)
+   Gdip_DeleteBrush(pBrushClear)
+   Gdip_DeleteGraphics(G), Gdip_DisposeImage(pBitmap), DeleteObject(hBitmap)
+   return 0
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_BitmapFromScreen
-;__Description			Gets__a__gdi+__bitmap__from__the__screen
+; Function				Gdip_BitmapFromScreen
+; Description			Gets a gdi+ bitmap from the screen
 ;
-;__Screen				___=__All__screens
-;						Any__numerical__value__=__Just__that__screen
-;						x|y|w|h__=__Take__specific__coordinates__with__a__width__and__height
-;__Raster				raster__operation__code
+; Screen				0 = All screens
+;						Any numerical value = Just that screen
+;						x|y|w|h = Take specific coordinates with a width and height
+; Raster				raster operation code
 ;
-;__return______			If__the__function__succeeds,__the__return__value__is__a__pointer__to__a__gdi+__bitmap
-;						-_:		one__or__more__of__x,y,w,h__not__passed__properly
+; return      			If the function succeeds, the return value is a pointer to a gdi+ bitmap
+;						-1:		one or more of x,y,w,h not passed properly
 ;
-;__notes					If__no__raster__operation__is__specified,__then__SRCCOPY__is__used__to__the__returned__bitmap
+; notes					If no raster operation is specified, then SRCCOPY is used to the returned bitmap
 
-Gdip_BitmapFromScreen(Screen=_,__Raster="")
+Gdip_BitmapFromScreen(Screen=0, Raster="")
 {
-	if__(Screen__=___)
+	if (Screen = 0)
 	{
-		Sysget,__x,____
-		Sysget,__y,____	
-		Sysget,__w,____
-		Sysget,__h,____
+		Sysget, x, 76
+		Sysget, y, 77	
+		Sysget, w, 78
+		Sysget, h, 79
 	}
-	else__if__(SubStr(Screen,___,___)__=__"hwnd:")
+	else if (SubStr(Screen, 1, 5) = "hwnd:")
 	{
-		Screen__:=__SubStr(Screen,___)
-		if__!WinExist(__"ahk_id__"__Screen)
-			return__-_
-		WinGetPos,,,__w,__h,__ahk_id__%Screen%
-		x__:=__y__:=___
-		hhdc__:=__GetDCEx(Screen,___)
+		Screen := SubStr(Screen, 6)
+		if !WinExist( "ahk_id " Screen)
+			return -2
+		WinGetPos,,, w, h, ahk_id %Screen%
+		x := y := 0
+		hhdc := GetDCEx(Screen, 3)
 	}
-	else__if__(Screen&___!=__"")
+	else if (Screen&1 != "")
 	{
-		Sysget,__M,__Monitor,__%Screen%
-		x__:=__MLeft,__y__:=__MTop,__w__:=__MRight-MLeft,__h__:=__MBottom-MTop
+		Sysget, M, Monitor, %Screen%
+		x := MLeft, y := MTop, w := MRight-MLeft, h := MBottom-MTop
 	}
 	else
 	{
-		StringSplit,__S,__Screen,__|
-		x__:=__S_,__y__:=__S_,__w__:=__S_,__h__:=__S_
+		StringSplit, S, Screen, |
+		x := S1, y := S2, w := S3, h := S4
 	}
 
-	if__(x__=__"")__||__(y__=__"")__||__(w__=__"")__||__(h__=__"")
-		return__-_
+	if (x = "") || (y = "") || (w = "") || (h = "")
+		return -1
 
-	chdc__:=__CreateCompatibleDC(),__hbm__:=__CreateDIBSection(w,__h,__chdc),__obm__:=__SelectObject(chdc,__hbm),__hhdc__:=__hhdc__?__hhdc__:__GetDC()
-	BitBlt(chdc,___,___,__w,__h,__hhdc,__x,__y,__Raster)
+	chdc := CreateCompatibleDC(), hbm := CreateDIBSection(w, h, chdc), obm := SelectObject(chdc, hbm), hhdc := hhdc ? hhdc : GetDC()
+	BitBlt(chdc, 0, 0, w, h, hhdc, x, y, Raster)
 	ReleaseDC(hhdc)
 	
-	pBitmap__:=__Gdip_CreateBitmapFromHBITMAP(hbm)
-	SelectObject(chdc,__obm),__DeleteObject(hbm),__DeleteDC(hhdc),__DeleteDC(chdc)
-	return__pBitmap
+	pBitmap := Gdip_CreateBitmapFromHBITMAP(hbm)
+	SelectObject(chdc, obm), DeleteObject(hbm), DeleteDC(hhdc), DeleteDC(chdc)
+	return pBitmap
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_BitmapFromHWND
-;__Description			Uses__PrintWindow__to__get__a__handle__to__the__specified__window__and__return__a__bitmap__from__it
+; Function				Gdip_BitmapFromHWND
+; Description			Uses PrintWindow to get a handle to the specified window and return a bitmap from it
 ;
-;__hwnd					handle__to__the__window__to__get__a__bitmap__from
+; hwnd					handle to the window to get a bitmap from
 ;
-;__return				If__the__function__succeeds,__the__return__value__is__a__pointer__to__a__gdi+__bitmap
+; return				If the function succeeds, the return value is a pointer to a gdi+ bitmap
 ;
-;__notes					Window__must__not__be__not__minimised__in__order__to__get__a__handle__to__it's__client__area
+; notes					Window must not be not minimised in order to get a handle to it's client area
 
 Gdip_BitmapFromHWND(hwnd)
 {
-	WinGetPos,,,__Width,__Height,__ahk_id__%hwnd%
-	hbm__:=__CreateDIBSection(Width,__Height),__hdc__:=__CreateCompatibleDC(),__obm__:=__SelectObject(hdc,__hbm)
-	PrintWindow(hwnd,__hdc)
-	pBitmap__:=__Gdip_CreateBitmapFromHBITMAP(hbm)
-	SelectObject(hdc,__obm),__DeleteObject(hbm),__DeleteDC(hdc)
-	return__pBitmap
+	WinGetPos,,, Width, Height, ahk_id %hwnd%
+	hbm := CreateDIBSection(Width, Height), hdc := CreateCompatibleDC(), obm := SelectObject(hdc, hbm)
+	PrintWindow(hwnd, hdc)
+	pBitmap := Gdip_CreateBitmapFromHBITMAP(hbm)
+	SelectObject(hdc, obm), DeleteObject(hbm), DeleteDC(hdc)
+	return pBitmap
 }
 
 ;#####################################################################################
 
-;__Function____			CreateRectF
-;__Description			Creates__a__RectF__object,__containing__a__the__coordinates__and__dimensions__of__a__rectangle
+; Function    			CreateRectF
+; Description			Creates a RectF object, containing a the coordinates and dimensions of a rectangle
 ;
-;__RectF________		Name__to__call__the__RectF__object
-;__x____________			x-coordinate__of__the__upper__left__corner__of__the__rectangle
-;__y____________			y-coordinate__of__the__upper__left__corner__of__the__rectangle
-;__w____________			Width__of__the__rectangle
-;__h____________			Height__of__the__rectangle
+; RectF       			Name to call the RectF object
+; x            			x-coordinate of the upper left corner of the rectangle
+; y            			y-coordinate of the upper left corner of the rectangle
+; w            			Width of the rectangle
+; h            			Height of the rectangle
 ;
-;__return______			No__return__value
+; return      			No return value
 
-CreateRectF(ByRef__RectF,__x,__y,__w,__h)
+CreateRectF(ByRef RectF, x, y, w, h)
 {
-____VarSetCapacity(RectF,____)
-____NumPut(x,__RectF,___,__"float"),__NumPut(y,__RectF,___,__"float"),__NumPut(w,__RectF,___,__"float"),__NumPut(h,__RectF,____,__"float")
+   VarSetCapacity(RectF, 16)
+   NumPut(x, RectF, 0, "float"), NumPut(y, RectF, 4, "float"), NumPut(w, RectF, 8, "float"), NumPut(h, RectF, 12, "float")
 }
 
 ;#####################################################################################
 
-;__Function____			CreateRect
-;__Description			Creates__a__Rect__object,__containing__a__the__coordinates__and__dimensions__of__a__rectangle
+; Function    			CreateRect
+; Description			Creates a Rect object, containing a the coordinates and dimensions of a rectangle
 ;
-;__RectF________		Name__to__call__the__RectF__object
-;__x____________			x-coordinate__of__the__upper__left__corner__of__the__rectangle
-;__y____________			y-coordinate__of__the__upper__left__corner__of__the__rectangle
-;__w____________			Width__of__the__rectangle
-;__h____________			Height__of__the__rectangle
+; RectF       			Name to call the RectF object
+; x            			x-coordinate of the upper left corner of the rectangle
+; y            			y-coordinate of the upper left corner of the rectangle
+; w            			Width of the rectangle
+; h            			Height of the rectangle
 ;
-;__return______			No__return__value
+; return      			No return value
 
-CreateRect(ByRef__Rect,__x,__y,__w,__h)
+CreateRect(ByRef Rect, x, y, w, h)
 {
-	VarSetCapacity(Rect,____)
-	NumPut(x,__Rect,___,__"uint"),__NumPut(y,__Rect,___,__"uint"),__NumPut(w,__Rect,___,__"uint"),__NumPut(h,__Rect,____,__"uint")
+	VarSetCapacity(Rect, 16)
+	NumPut(x, Rect, 0, "uint"), NumPut(y, Rect, 4, "uint"), NumPut(w, Rect, 8, "uint"), NumPut(h, Rect, 12, "uint")
 }
 ;#####################################################################################
 
-;__Function		____	CreateSizeF
-;__Description			Creates__a__SizeF__object,__containing__an_____values
+; Function		    	CreateSizeF
+; Description			Creates a SizeF object, containing an 2 values
 ;
-;__SizeF__________	Name__to__call__the__SizeF__object
-;__w____________			w-value__for__the__SizeF__object
-;__h____________			h-value__for__the__SizeF__object
+; SizeF         		Name to call the SizeF object
+; w            			w-value for the SizeF object
+; h            			h-value for the SizeF object
 ;
-;__return______			No__Return__value
+; return      			No Return value
 
-CreateSizeF(ByRef__SizeF,__w,__h)
+CreateSizeF(ByRef SizeF, w, h)
 {
-____VarSetCapacity(SizeF,___)
-____NumPut(w,__SizeF,___,__"float"),__NumPut(h,__SizeF,___,__"float")______
+   VarSetCapacity(SizeF, 8)
+   NumPut(w, SizeF, 0, "float"), NumPut(h, SizeF, 4, "float")     
 }
 ;#####################################################################################
 
-;__Function		____	CreatePointF
-;__Description			Creates__a__SizeF__object,__containing__an_____values
+; Function		    	CreatePointF
+; Description			Creates a SizeF object, containing an 2 values
 ;
-;__SizeF__________	Name__to__call__the__SizeF__object
-;__w____________			w-value__for__the__SizeF__object
-;__h____________			h-value__for__the__SizeF__object
+; SizeF         		Name to call the SizeF object
+; w            			w-value for the SizeF object
+; h            			h-value for the SizeF object
 ;
-;__return______			No__Return__value
+; return      			No Return value
 
-CreatePointF(ByRef__PointF,__x,__y)
+CreatePointF(ByRef PointF, x, y)
 {
-____VarSetCapacity(PointF,___)
-____NumPut(x,__PointF,___,__"float"),__NumPut(y,__PointF,___,__"float")______
+   VarSetCapacity(PointF, 8)
+   NumPut(x, PointF, 0, "float"), NumPut(y, PointF, 4, "float")     
 }
 ;#####################################################################################
 
-;__Function				CreateDIBSection
-;__Description			The__CreateDIBSection__function__creates__a__DIB__(Device__Independent__Bitmap)__that__applications__can__write__to__directly
+; Function				CreateDIBSection
+; Description			The CreateDIBSection function creates a DIB (Device Independent Bitmap) that applications can write to directly
 ;
-;__w						width__of__the__bitmap__to__create
-;__h						height__of__the__bitmap__to__create
-;__hdc					a__handle__to__the__device__context__to__use__the__palette__from
-;__bpp					bits__per__pixel__(____=__ARGB)
-;__ppvBits				A__pointer__to__a__variable__that__receives__a__pointer__to__the__location__of__the__DIB__bit__values
+; w						width of the bitmap to create
+; h						height of the bitmap to create
+; hdc					a handle to the device context to use the palette from
+; bpp					bits per pixel (32 = ARGB)
+; ppvBits				A pointer to a variable that receives a pointer to the location of the DIB bit values
 ;
-;__return				returns__a__DIB.__A__gdi__bitmap
+; return				returns a DIB. A gdi bitmap
 ;
-;__notes					ppvBits__will__receive__the__location__of__the__pixels__in__the__DIB
+; notes					ppvBits will receive the location of the pixels in the DIB
 
-CreateDIBSection(w,__h,__hdc="",__bpp=__,__ByRef__ppvBits=_)
+CreateDIBSection(w, h, hdc="", bpp=32, ByRef ppvBits=0)
 {
-	hdc___:=__hdc__?__hdc__:__GetDC()
-	VarSetCapacity(bi,____,___)
-	NumPut(w,__bi,___),__NumPut(h,__bi,___),__NumPut(__,__bi,___),__NumPut(_,__bi,____,__"ushort"),__NumPut(_,__bi,____),__NumPut(bpp,__bi,____,__"ushort")
-	hbm__:=__DllCall("CreateDIBSection",__"uint"__,__hdc_,__"uint"__,__&bi,__"uint"__,___,__"uint*",__ppvBits,__"uint"__,___,__"uint"__,___)
+	hdc2 := hdc ? hdc : GetDC()
+	VarSetCapacity(bi, 40, 0)
+	NumPut(w, bi, 4), NumPut(h, bi, 8), NumPut(40, bi, 0), NumPut(1, bi, 12, "ushort"), NumPut(0, bi, 16), NumPut(bpp, bi, 14, "ushort")
+	hbm := DllCall("CreateDIBSection", "uint" , hdc2, "uint" , &bi, "uint" , 0, "uint*", ppvBits, "uint" , 0, "uint" , 0)
 
-	if__!hdc
-		ReleaseDC(hdc_)
-	return__hbm
+	if !hdc
+		ReleaseDC(hdc2)
+	return hbm
 }
 
 ;#####################################################################################
 
-;__Function				PrintWindow
-;__Description			The__PrintWindow__function__copies__a__visual__window__into__the__specified__device__context__(DC),__typically__a__printer__DC
+; Function				PrintWindow
+; Description			The PrintWindow function copies a visual window into the specified device context (DC), typically a printer DC
 ;
-;__hwnd					A__handle__to__the__window__that__will__be__copied
-;__hdc					A__handle__to__the__device__context
-;__Flags					Drawing__options
+; hwnd					A handle to the window that will be copied
+; hdc					A handle to the device context
+; Flags					Drawing options
 ;
-;__return				If__the__function__succeeds,__it__returns__a__nonzero__value
+; return				If the function succeeds, it returns a nonzero value
 ;
-;__PW_CLIENTONLY			=___
+; PW_CLIENTONLY			= 1
 
-PrintWindow(hwnd,__hdc,__Flags=_)
+PrintWindow(hwnd, hdc, Flags=0)
 {
-	return__DllCall("PrintWindow",__"uint",__hwnd,__"uint",__hdc,__"uint",__Flags)
+	return DllCall("PrintWindow", "uint", hwnd, "uint", hdc, "uint", Flags)
 }
 
 ;#####################################################################################
 
-;__Function				DestroyIcon
-;__Description			Destroys__an__icon__and__frees__any__memory__the__icon__occupied
+; Function				DestroyIcon
+; Description			Destroys an icon and frees any memory the icon occupied
 ;
-;__hIcon					Handle__to__the__icon__to__be__destroyed.__The__icon__must__not__be__in__use
+; hIcon					Handle to the icon to be destroyed. The icon must not be in use
 ;
-;__return				If__the__function__succeeds,__the__return__value__is__nonzero
+; return				If the function succeeds, the return value is nonzero
 
 DestroyIcon(hIcon)
 {
-____return__DllCall("DestroyIcon",__"uint",__hIcon)
+   return DllCall("DestroyIcon", "uint", hIcon)
 }
 
 ;#####################################################################################
 
 PaintDesktop(hdc)
 {
-	return__DllCall("PaintDesktop",__"uint",__hdc)
+	return DllCall("PaintDesktop", "uint", hdc)
 }
 
 ;#####################################################################################
 
-CreateCompatibleBitmap(hdc,__w,__h)
+CreateCompatibleBitmap(hdc, w, h)
 {
-	return__DllCall("gdi__\CreateCompatibleBitmap",__"uint",__hdc,__"int",__w,__"int",__h)
+	return DllCall("gdi32\CreateCompatibleBitmap", "uint", hdc, "int", w, "int", h)
 }
 
 ;#####################################################################################
 
-;__Function				CreateCompatibleDC
-;__Description			This__function__creates__a__memory__device__context__(DC)__compatible__with__the__specified__device
+; Function				CreateCompatibleDC
+; Description			This function creates a memory device context (DC) compatible with the specified device
 ;
-;__hdc					Handle__to__an__existing__device__context					
+; hdc					Handle to an existing device context					
 ;
-;__return				returns__the__handle__to__a__device__context__or_____on__failure
+; return				returns the handle to a device context or 0 on failure
 ;
-;__notes					If__this__handle__is_____(by__default),__the__function__creates__a__memory__device__context__compatible__with__the__application's__current__screen
+; notes					If this handle is 0 (by default), the function creates a memory device context compatible with the application's current screen
 
-CreateCompatibleDC(hdc=_)
+CreateCompatibleDC(hdc=0)
 {
-____return__DllCall("CreateCompatibleDC",__"uint",__hdc)
+   return DllCall("CreateCompatibleDC", "uint", hdc)
 }
 
 ;#####################################################################################
 
-;__Function				SelectObject
-;__Description			The__SelectObject__function__selects__an__object__into__the__specified__device__context__(DC).__The__new__object__replaces__the__previous__object__of__the__same__type
+; Function				SelectObject
+; Description			The SelectObject function selects an object into the specified device context (DC). The new object replaces the previous object of the same type
 ;
-;__hdc					Handle__to__a__DC
-;__hgdiobj				A__handle__to__the__object__to__be__selected__into__the__DC
+; hdc					Handle to a DC
+; hgdiobj				A handle to the object to be selected into the DC
 ;
-;__return				If__the__selected__object__is__not__a__region__and__the__function__succeeds,__the__return__value__is__a__handle__to__the__object__being__replaced
+; return				If the selected object is not a region and the function succeeds, the return value is a handle to the object being replaced
 ;
-;__notes					The__specified__object__must__have__been__created__by__using__one__of__the__following__functions
-;						Bitmap__-__CreateBitmap,__CreateBitmapIndirect,__CreateCompatibleBitmap,__CreateDIBitmap,__CreateDIBSection__(A__single__bitmap__cannot__be__selected__into__more__than__one__DC__at__the__same__time)
-;						Brush__-__CreateBrushIndirect,__CreateDIBPatternBrush,__CreateDIBPatternBrushPt,__CreateHatchBrush,__CreatePatternBrush,__CreateSolidBrush
-;						Font__-__CreateFont,__CreateFontIndirect
-;						Pen__-__CreatePen,__CreatePenIndirect
-;						Region__-__CombineRgn,__CreateEllipticRgn,__CreateEllipticRgnIndirect,__CreatePolygonRgn,__CreateRectRgn,__CreateRectRgnIndirect
+; notes					The specified object must have been created by using one of the following functions
+;						Bitmap - CreateBitmap, CreateBitmapIndirect, CreateCompatibleBitmap, CreateDIBitmap, CreateDIBSection (A single bitmap cannot be selected into more than one DC at the same time)
+;						Brush - CreateBrushIndirect, CreateDIBPatternBrush, CreateDIBPatternBrushPt, CreateHatchBrush, CreatePatternBrush, CreateSolidBrush
+;						Font - CreateFont, CreateFontIndirect
+;						Pen - CreatePen, CreatePenIndirect
+;						Region - CombineRgn, CreateEllipticRgn, CreateEllipticRgnIndirect, CreatePolygonRgn, CreateRectRgn, CreateRectRgnIndirect
 ;
-;__notes					If__the__selected__object__is__a__region__and__the__function__succeeds,__the__return__value__is__one__of__the__following__value
+; notes					If the selected object is a region and the function succeeds, the return value is one of the following value
 ;
-;__SIMPLEREGION			=_____Region__consists__of__a__single__rectangle
-;__COMPLEXREGION			=_____Region__consists__of__more__than__one__rectangle
-;__NULLREGION			=_____Region__is__empty
+; SIMPLEREGION			= 2 Region consists of a single rectangle
+; COMPLEXREGION			= 3 Region consists of more than one rectangle
+; NULLREGION			= 1 Region is empty
 
-SelectObject(hdc,__hgdiobj)
+SelectObject(hdc, hgdiobj)
 {
-____return__DllCall("SelectObject",__"uint",__hdc,__"uint",__hgdiobj)
+   return DllCall("SelectObject", "uint", hdc, "uint", hgdiobj)
 }
 
 ;#####################################################################################
 
-;__Function				DeleteObject
-;__Description			This__function__deletes__a__logical__pen,__brush,__font,__bitmap,__region,__or__palette,__freeing__all__system__resources__associated__with__the__object
-;						After__the__object__is__deleted,__the__specified__handle__is__no__longer__valid
+; Function				DeleteObject
+; Description			This function deletes a logical pen, brush, font, bitmap, region, or palette, freeing all system resources associated with the object
+;						After the object is deleted, the specified handle is no longer valid
 ;
-;__hObject				Handle__to__a__logical__pen,__brush,__font,__bitmap,__region,__or__palette__to__delete
+; hObject				Handle to a logical pen, brush, font, bitmap, region, or palette to delete
 ;
-;__return				Nonzero__indicates__success.__Zero__indicates__that__the__specified__handle__is__not__valid__or__that__the__handle__is__currently__selected__into__a__device__context
+; return				Nonzero indicates success. Zero indicates that the specified handle is not valid or that the handle is currently selected into a device context
 
 DeleteObject(hObject)
 {
-____return__DllCall("DeleteObject",__"uint",__hObject)
+   return DllCall("DeleteObject", "uint", hObject)
 }
 
 ;#####################################################################################
 
-;__Function				GetDC
-;__Description			This__function__retrieves__a__handle__to__a__display__device__context__(DC)__for__the__client__area__of__the__specified__window.
-;						The__display__device__context__can__be__used__in__subsequent__graphics__display__interface__(GDI)__functions__to__draw__in__the__client__area__of__the__window.__
+; Function				GetDC
+; Description			This function retrieves a handle to a display device context (DC) for the client area of the specified window.
+;						The display device context can be used in subsequent graphics display interface (GDI) functions to draw in the client area of the window. 
 ;
-;__hwnd					Handle__to__the__window__whose__device__context__is__to__be__retrieved.__If__this__value__is__NULL,__GetDC__retrieves__the__device__context__for__the__entire__screen					
+; hwnd					Handle to the window whose device context is to be retrieved. If this value is NULL, GetDC retrieves the device context for the entire screen					
 ;
-;__return				The__handle__the__device__context__for__the__specified__window's__client__area__indicates__success.__NULL__indicates__failure
+; return				The handle the device context for the specified window's client area indicates success. NULL indicates failure
 
-GetDC(hwnd=_)
+GetDC(hwnd=0)
 {
-	return__DllCall("GetDC",__"uint",__hwnd)
+	return DllCall("GetDC", "uint", hwnd)
 }
 
 ;#####################################################################################
 
-;__DCX_CACHE__=___x_
-;__DCX_CLIPCHILDREN__=___x_
-;__DCX_CLIPSIBLINGS__=___x__
-;__DCX_EXCLUDERGN__=___x__
-;__DCX_EXCLUDEUPDATE__=___x___
-;__DCX_INTERSECTRGN__=___x__
-;__DCX_INTERSECTUPDATE__=___x___
-;__DCX_LOCKWINDOWUPDATE__=___x___
-;__DCX_NORECOMPUTE__=___x______
-;__DCX_NORESETATTRS__=___x_
-;__DCX_PARENTCLIP__=___x__
-;__DCX_VALIDATE__=___x______
-;__DCX_WINDOW__=___x_
+; DCX_CACHE = 0x2
+; DCX_CLIPCHILDREN = 0x8
+; DCX_CLIPSIBLINGS = 0x10
+; DCX_EXCLUDERGN = 0x40
+; DCX_EXCLUDEUPDATE = 0x100
+; DCX_INTERSECTRGN = 0x80
+; DCX_INTERSECTUPDATE = 0x200
+; DCX_LOCKWINDOWUPDATE = 0x400
+; DCX_NORECOMPUTE = 0x100000
+; DCX_NORESETATTRS = 0x4
+; DCX_PARENTCLIP = 0x20
+; DCX_VALIDATE = 0x200000
+; DCX_WINDOW = 0x1
 
-GetDCEx(hwnd,__flags=_,__hrgnClip=_)
+GetDCEx(hwnd, flags=0, hrgnClip=0)
 {
-____return__DllCall("GetDCEx",__"uint",__hwnd,__"uint",__hrgnClip,__"int",__flags)
+    return DllCall("GetDCEx", "uint", hwnd, "uint", hrgnClip, "int", flags)
 }
 
 ;#####################################################################################
 
-;__Function				ReleaseDC
-;__Description			This__function__releases__a__device__context__(DC),__freeing__it__for__use__by__other__applications.__The__effect__of__ReleaseDC__depends__on__the__type__of__device__context
+; Function				ReleaseDC
+; Description			This function releases a device context (DC), freeing it for use by other applications. The effect of ReleaseDC depends on the type of device context
 ;
-;__hdc					Handle__to__the__device__context__to__be__released
-;__hwnd					Handle__to__the__window__whose__device__context__is__to__be__released
+; hdc					Handle to the device context to be released
+; hwnd					Handle to the window whose device context is to be released
 ;
-;__return				___=__released
-;						___=__not__released
+; return				1 = released
+;						0 = not released
 ;
-;__notes					The__application__must__call__the__ReleaseDC__function__for__each__call__to__the__GetWindowDC__function__and__for__each__call__to__the__GetDC__function__that__retrieves__a__common__device__context
-;						An__application__cannot__use__the__ReleaseDC__function__to__release__a__device__context__that__was__created__by__calling__the__CreateDC__function;__instead,__it__must__use__the__DeleteDC__function.__
+; notes					The application must call the ReleaseDC function for each call to the GetWindowDC function and for each call to the GetDC function that retrieves a common device context
+;						An application cannot use the ReleaseDC function to release a device context that was created by calling the CreateDC function; instead, it must use the DeleteDC function. 
 
-ReleaseDC(hdc,__hwnd=_)
+ReleaseDC(hdc, hwnd=0)
 {
-____return__DllCall("ReleaseDC",__"uint",__hwnd,__"uint",__hdc)
+   return DllCall("ReleaseDC", "uint", hwnd, "uint", hdc)
 }
 
 ;#####################################################################################
 
-;__Function				DeleteDC
-;__Description			The__DeleteDC__function__deletes__the__specified__device__context__(DC)
+; Function				DeleteDC
+; Description			The DeleteDC function deletes the specified device context (DC)
 ;
-;__hdc					A__handle__to__the__device__context
+; hdc					A handle to the device context
 ;
-;__return				If__the__function__succeeds,__the__return__value__is__nonzero
+; return				If the function succeeds, the return value is nonzero
 ;
-;__notes					An__application__must__not__delete__a__DC__whose__handle__was__obtained__by__calling__the__GetDC__function.__Instead,__it__must__call__the__ReleaseDC__function__to__free__the__DC
+; notes					An application must not delete a DC whose handle was obtained by calling the GetDC function. Instead, it must call the ReleaseDC function to free the DC
 
 DeleteDC(hdc)
 {
-____return__DllCall("DeleteDC",__"uint",__hdc)
+   return DllCall("DeleteDC", "uint", hdc)
 }
 ;#####################################################################################
 
-;__Function				Gdip_LibraryVersion
-;__Description			Get__the__current__library__version
+; Function				Gdip_LibraryVersion
+; Description			Get the current library version
 ;
-;__return				the__library__version
+; return				the library version
 ;
-;__notes					This__is__useful__for__non__compiled__programs__to__ensure__that__a__person__doesn't__run__an__old__version__when__testing__your__scripts
+; notes					This is useful for non compiled programs to ensure that a person doesn't run an old version when testing your scripts
 
 Gdip_LibraryVersion()
 {
-	return___.__
+	return 1.45
 }
 
 ;#####################################################################################
 
-;__Function:____			Gdip_BitmapFromBRA
-;__Description:__		Gets__a__pointer__to__a__gdi+__bitmap__from__a__BRA__file
+; Function:    			Gdip_BitmapFromBRA
+; Description: 			Gets a pointer to a gdi+ bitmap from a BRA file
 ;
-;__BRAFromMemIn			The__variable__for__a__BRA__file__read__to__memory
-;__File					The__name__of__the__file,__or__its__number__that__you__would__like__(This__depends__on__alternate__parameter)
-;__Alternate				Changes__whether__the__File__parameter__is__the__file__name__or__its__number
+; BRAFromMemIn			The variable for a BRA file read to memory
+; File					The name of the file, or its number that you would like (This depends on alternate parameter)
+; Alternate				Changes whether the File parameter is the file name or its number
 ;
-;__return______			If__the__function__succeeds,__the__return__value__is__a__pointer__to__a__gdi+__bitmap
-;						-___=__The__BRA__variable__is__empty
-;						-___=__The__BRA__has__an__incorrect__header
-;						-___=__The__BRA__has__information__missing
-;						-___=__Could__not__find__file__inside__the__BRA
+; return      			If the function succeeds, the return value is a pointer to a gdi+ bitmap
+;						-1 = The BRA variable is empty
+;						-2 = The BRA has an incorrect header
+;						-3 = The BRA has information missing
+;						-4 = Could not find file inside the BRA
 
-Gdip_BitmapFromBRA(ByRef__BRAFromMemIn,__File,__Alternate=_)
+Gdip_BitmapFromBRA(ByRef BRAFromMemIn, File, Alternate=0)
 {
-	if__!BRAFromMemIn
-		return__-_
-	Loop,__Parse,__BRAFromMemIn,__`n
+	if !BRAFromMemIn
+		return -1
+	Loop, Parse, BRAFromMemIn, `n
 	{
-		if__(A_Index__=___)
+		if (A_Index = 1)
 		{
-			StringSplit,__Header,__A_LoopField,__|
-			if__(Header___!=_____||__Header___!=__"BRA!")
-				return__-_
+			StringSplit, Header, A_LoopField, |
+			if (Header0 != 4 || Header2 != "BRA!")
+				return -2
 		}
-		else__if__(A_Index__=___)
+		else if (A_Index = 2)
 		{
-			StringSplit,__Info,__A_LoopField,__|
-			if__(Info___!=___)
-				return__-_
+			StringSplit, Info, A_LoopField, |
+			if (Info0 != 3)
+				return -3
 		}
 		else
 			break
 	}
-	if__!Alternate
-		StringReplace,__File,__File,__\,__\\,__All
-	RegExMatch(BRAFromMemIn,__"mi`n)^"__(Alternate__?__File__"\|.+?\|(\d+)\|(\d+)"__:__"\d+\|"__File__"\|(\d+)\|(\d+)")__"$",__FileInfo)
-	if__!FileInfo
-		return__-_
+	if !Alternate
+		StringReplace, File, File, \, \\, All
+	RegExMatch(BRAFromMemIn, "mi`n)^" (Alternate ? File "\|.+?\|(\d+)\|(\d+)" : "\d+\|" File "\|(\d+)\|(\d+)") "$", FileInfo)
+	if !FileInfo
+		return -4
 
-	hData__:=__DllCall("GlobalAlloc",__"uint",___,__"uint",__FileInfo_)
-	pData__:=__DllCall("GlobalLock",__"uint",__hData)
-	DllCall("RtlMoveMemory",__"uint",__pData,__"uint",__&BRAFromMemIn+Info_+FileInfo_,__"uint",__FileInfo_)
-	DllCall("GlobalUnlock",__"uint",__hData)
-	DllCall("ole__\CreateStreamOnHGlobal",__"uint",__hData,__"int",___,__"uint*",__pStream)
-	DllCall("gdiplus\GdipCreateBitmapFromStream",__"uint",__pStream,__"uint*",__pBitmap)
-	DllCall(NumGet(NumGet(_*pStream)+_),__"uint",__pStream)
-	return__pBitmap
+	hData := DllCall("GlobalAlloc", "uint", 2, "uint", FileInfo2)
+	pData := DllCall("GlobalLock", "uint", hData)
+	DllCall("RtlMoveMemory", "uint", pData, "uint", &BRAFromMemIn+Info2+FileInfo1, "uint", FileInfo2)
+	DllCall("GlobalUnlock", "uint", hData)
+	DllCall("ole32\CreateStreamOnHGlobal", "uint", hData, "int", 1, "uint*", pStream)
+	DllCall("gdiplus\GdipCreateBitmapFromStream", "uint", pStream, "uint*", pBitmap)
+	DllCall(NumGet(NumGet(1*pStream)+8), "uint", pStream)
+	return pBitmap
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_DrawRectangle
-;__Description			This__function__uses__a__pen__to__draw__the__outline__of__a__rectangle__into__the__Graphics__of__a__bitmap
+; Function				Gdip_DrawRectangle
+; Description			This function uses a pen to draw the outline of a rectangle into the Graphics of a bitmap
 ;
-;__pGraphics				Pointer__to__the__Graphics__of__a__bitmap
-;__pPen					Pointer__to__a__pen
-;__x						x-coordinate__of__the__top__left__of__the__rectangle
-;__y						y-coordinate__of__the__top__left__of__the__rectangle
-;__w						width__of__the__rectanlge
-;__h						height__of__the__rectangle
+; pGraphics				Pointer to the Graphics of a bitmap
+; pPen					Pointer to a pen
+; x						x-coordinate of the top left of the rectangle
+; y						y-coordinate of the top left of the rectangle
+; w						width of the rectanlge
+; h						height of the rectangle
 ;
-;__return				status__enumeration._____=__success
+; return				status enumeration. 0 = success
 ;
-;__notes					as__all__coordinates__are__taken__from__the__top__left__of__each__pixel,__then__the__entire__width/height__should__be__specified__as__subtracting__the__pen__width
+; notes					as all coordinates are taken from the top left of each pixel, then the entire width/height should be specified as subtracting the pen width
 
-Gdip_DrawRectangle(pGraphics,__pPen,__x,__y,__w,__h)
+Gdip_DrawRectangle(pGraphics, pPen, x, y, w, h)
 {
-____return__DllCall("gdiplus\GdipDrawRectangle",__"uint",__pGraphics,__"uint",__pPen,__"float",__x,__"float",__y,__"float",__w,__"float",__h)
+   return DllCall("gdiplus\GdipDrawRectangle", "uint", pGraphics, "uint", pPen, "float", x, "float", y, "float", w, "float", h)
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_DrawRoundedRectangle
-;__Description			This__function__uses__a__pen__to__draw__the__outline__of__a__rounded__rectangle__into__the__Graphics__of__a__bitmap
+; Function				Gdip_DrawRoundedRectangle
+; Description			This function uses a pen to draw the outline of a rounded rectangle into the Graphics of a bitmap
 ;
-;__pGraphics				Pointer__to__the__Graphics__of__a__bitmap
-;__pPen					Pointer__to__a__pen
-;__x						x-coordinate__of__the__top__left__of__the__rounded__rectangle
-;__y						y-coordinate__of__the__top__left__of__the__rounded__rectangle
-;__w						width__of__the__rectanlge
-;__h						height__of__the__rectangle
-;__r						radius__of__the__rounded__corners
+; pGraphics				Pointer to the Graphics of a bitmap
+; pPen					Pointer to a pen
+; x						x-coordinate of the top left of the rounded rectangle
+; y						y-coordinate of the top left of the rounded rectangle
+; w						width of the rectanlge
+; h						height of the rectangle
+; r						radius of the rounded corners
 ;
-;__return				status__enumeration._____=__success
+; return				status enumeration. 0 = success
 ;
-;__notes					as__all__coordinates__are__taken__from__the__top__left__of__each__pixel,__then__the__entire__width/height__should__be__specified__as__subtracting__the__pen__width
+; notes					as all coordinates are taken from the top left of each pixel, then the entire width/height should be specified as subtracting the pen width
 
-Gdip_DrawRoundedRectangle(pGraphics,__pPen,__x,__y,__w,__h,__r)
+Gdip_DrawRoundedRectangle(pGraphics, pPen, x, y, w, h, r)
 {
-	Gdip_SetClipRect(pGraphics,__x-r,__y-r,___*r,___*r,___)
-	Gdip_SetClipRect(pGraphics,__x+w-r,__y-r,___*r,___*r,___)
-	Gdip_SetClipRect(pGraphics,__x-r,__y+h-r,___*r,___*r,___)
-	Gdip_SetClipRect(pGraphics,__x+w-r,__y+h-r,___*r,___*r,___)
-	E__:=__Gdip_DrawRectangle(pGraphics,__pPen,__x,__y,__w,__h)
+	Gdip_SetClipRect(pGraphics, x-r, y-r, 2*r, 2*r, 4)
+	Gdip_SetClipRect(pGraphics, x+w-r, y-r, 2*r, 2*r, 4)
+	Gdip_SetClipRect(pGraphics, x-r, y+h-r, 2*r, 2*r, 4)
+	Gdip_SetClipRect(pGraphics, x+w-r, y+h-r, 2*r, 2*r, 4)
+	E := Gdip_DrawRectangle(pGraphics, pPen, x, y, w, h)
 	Gdip_ResetClip(pGraphics)
-	Gdip_SetClipRect(pGraphics,__x-(_*r),__y+r,__w+(_*r),__h-(_*r),___)
-	Gdip_SetClipRect(pGraphics,__x+r,__y-(_*r),__w-(_*r),__h+(_*r),___)
-	Gdip_DrawEllipse(pGraphics,__pPen,__x,__y,___*r,___*r)
-	Gdip_DrawEllipse(pGraphics,__pPen,__x+w-(_*r),__y,___*r,___*r)
-	Gdip_DrawEllipse(pGraphics,__pPen,__x,__y+h-(_*r),___*r,___*r)
-	Gdip_DrawEllipse(pGraphics,__pPen,__x+w-(_*r),__y+h-(_*r),___*r,___*r)
+	Gdip_SetClipRect(pGraphics, x-(2*r), y+r, w+(4*r), h-(2*r), 4)
+	Gdip_SetClipRect(pGraphics, x+r, y-(2*r), w-(2*r), h+(4*r), 4)
+	Gdip_DrawEllipse(pGraphics, pPen, x, y, 2*r, 2*r)
+	Gdip_DrawEllipse(pGraphics, pPen, x+w-(2*r), y, 2*r, 2*r)
+	Gdip_DrawEllipse(pGraphics, pPen, x, y+h-(2*r), 2*r, 2*r)
+	Gdip_DrawEllipse(pGraphics, pPen, x+w-(2*r), y+h-(2*r), 2*r, 2*r)
 	Gdip_ResetClip(pGraphics)
-	return__E
+	return E
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_DrawEllipse
-;__Description			This__function__uses__a__pen__to__draw__the__outline__of__an__ellipse__into__the__Graphics__of__a__bitmap
+; Function				Gdip_DrawEllipse
+; Description			This function uses a pen to draw the outline of an ellipse into the Graphics of a bitmap
 ;
-;__pGraphics				Pointer__to__the__Graphics__of__a__bitmap
-;__pPen					Pointer__to__a__pen
-;__x						x-coordinate__of__the__top__left__of__the__rectangle__the__ellipse__will__be__drawn__into
-;__y						y-coordinate__of__the__top__left__of__the__rectangle__the__ellipse__will__be__drawn__into
-;__w						width__of__the__ellipse
-;__h						height__of__the__ellipse
+; pGraphics				Pointer to the Graphics of a bitmap
+; pPen					Pointer to a pen
+; x						x-coordinate of the top left of the rectangle the ellipse will be drawn into
+; y						y-coordinate of the top left of the rectangle the ellipse will be drawn into
+; w						width of the ellipse
+; h						height of the ellipse
 ;
-;__return				status__enumeration._____=__success
+; return				status enumeration. 0 = success
 ;
-;__notes					as__all__coordinates__are__taken__from__the__top__left__of__each__pixel,__then__the__entire__width/height__should__be__specified__as__subtracting__the__pen__width
+; notes					as all coordinates are taken from the top left of each pixel, then the entire width/height should be specified as subtracting the pen width
 
-Gdip_DrawEllipse(pGraphics,__pPen,__x,__y,__w,__h)
+Gdip_DrawEllipse(pGraphics, pPen, x, y, w, h)
 {
-____return__DllCall("gdiplus\GdipDrawEllipse",__"uint",__pGraphics,__"uint",__pPen,__"float",__x,__"float",__y,__"float",__w,__"float",__h)
+   return DllCall("gdiplus\GdipDrawEllipse", "uint", pGraphics, "uint", pPen, "float", x, "float", y, "float", w, "float", h)
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_DrawBezier
-;__Description			This__function__uses__a__pen__to__draw__the__outline__of__a__bezier__(a__weighted__curve)__into__the__Graphics__of__a__bitmap
+; Function				Gdip_DrawBezier
+; Description			This function uses a pen to draw the outline of a bezier (a weighted curve) into the Graphics of a bitmap
 ;
-;__pGraphics				Pointer__to__the__Graphics__of__a__bitmap
-;__pPen					Pointer__to__a__pen
-;__x_					x-coordinate__of__the__start__of__the__bezier
-;__y_					y-coordinate__of__the__start__of__the__bezier
-;__x_					x-coordinate__of__the__first__arc__of__the__bezier
-;__y_					y-coordinate__of__the__first__arc__of__the__bezier
-;__x_					x-coordinate__of__the__second__arc__of__the__bezier
-;__y_					y-coordinate__of__the__second__arc__of__the__bezier
-;__x_					x-coordinate__of__the__end__of__the__bezier
-;__y_					y-coordinate__of__the__end__of__the__bezier
+; pGraphics				Pointer to the Graphics of a bitmap
+; pPen					Pointer to a pen
+; x1					x-coordinate of the start of the bezier
+; y1					y-coordinate of the start of the bezier
+; x2					x-coordinate of the first arc of the bezier
+; y2					y-coordinate of the first arc of the bezier
+; x3					x-coordinate of the second arc of the bezier
+; y3					y-coordinate of the second arc of the bezier
+; x4					x-coordinate of the end of the bezier
+; y4					y-coordinate of the end of the bezier
 ;
-;__return				status__enumeration._____=__success
+; return				status enumeration. 0 = success
 ;
-;__notes					as__all__coordinates__are__taken__from__the__top__left__of__each__pixel,__then__the__entire__width/height__should__be__specified__as__subtracting__the__pen__width
+; notes					as all coordinates are taken from the top left of each pixel, then the entire width/height should be specified as subtracting the pen width
 
-Gdip_DrawBezier(pGraphics,__pPen,__x_,__y_,__x_,__y_,__x_,__y_,__x_,__y_)
+Gdip_DrawBezier(pGraphics, pPen, x1, y1, x2, y2, x3, y3, x4, y4)
 {
-____return__DllCall("gdiplus\GdipDrawBezier",__"uint",__pgraphics,__"uint",__pPen
-____,__"float",__x_,__"float",__y_,__"float",__x_,__"float",__y_
-____,__"float",__x_,__"float",__y_,__"float",__x_,__"float",__y_)
+   return DllCall("gdiplus\GdipDrawBezier", "uint", pgraphics, "uint", pPen
+   , "float", x1, "float", y1, "float", x2, "float", y2
+   , "float", x3, "float", y3, "float", x4, "float", y4)
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_DrawArc
-;__Description			This__function__uses__a__pen__to__draw__the__outline__of__an__arc__into__the__Graphics__of__a__bitmap
+; Function				Gdip_DrawArc
+; Description			This function uses a pen to draw the outline of an arc into the Graphics of a bitmap
 ;
-;__pGraphics				Pointer__to__the__Graphics__of__a__bitmap
-;__pPen					Pointer__to__a__pen
-;__x						x-coordinate__of__the__start__of__the__arc
-;__y						y-coordinate__of__the__start__of__the__arc
-;__w						width__of__the__arc
-;__h						height__of__the__arc
-;__StartAngle			specifies__the__angle__between__the__x-axis__and__the__starting__point__of__the__arc
-;__SweepAngle			specifies__the__angle__between__the__starting__and__ending__points__of__the__arc
+; pGraphics				Pointer to the Graphics of a bitmap
+; pPen					Pointer to a pen
+; x						x-coordinate of the start of the arc
+; y						y-coordinate of the start of the arc
+; w						width of the arc
+; h						height of the arc
+; StartAngle			specifies the angle between the x-axis and the starting point of the arc
+; SweepAngle			specifies the angle between the starting and ending points of the arc
 ;
-;__return				status__enumeration._____=__success
+; return				status enumeration. 0 = success
 ;
-;__notes					as__all__coordinates__are__taken__from__the__top__left__of__each__pixel,__then__the__entire__width/height__should__be__specified__as__subtracting__the__pen__width
+; notes					as all coordinates are taken from the top left of each pixel, then the entire width/height should be specified as subtracting the pen width
 
-Gdip_DrawArc(pGraphics,__pPen,__x,__y,__w,__h,__StartAngle,__SweepAngle)
+Gdip_DrawArc(pGraphics, pPen, x, y, w, h, StartAngle, SweepAngle)
 {
-____return__DllCall("gdiplus\GdipDrawArc",__"uint",__pGraphics,__"uint",__pPen,__"float",__x
-____,__"float",__y,__"float",__w,__"float",__h,__"float",__StartAngle,__"float",__SweepAngle)
+   return DllCall("gdiplus\GdipDrawArc", "uint", pGraphics, "uint", pPen, "float", x
+   , "float", y, "float", w, "float", h, "float", StartAngle, "float", SweepAngle)
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_DrawPie
-;__Description			This__function__uses__a__pen__to__draw__the__outline__of__a__pie__into__the__Graphics__of__a__bitmap
+; Function				Gdip_DrawPie
+; Description			This function uses a pen to draw the outline of a pie into the Graphics of a bitmap
 ;
-;__pGraphics				Pointer__to__the__Graphics__of__a__bitmap
-;__pPen					Pointer__to__a__pen
-;__x						x-coordinate__of__the__start__of__the__pie
-;__y						y-coordinate__of__the__start__of__the__pie
-;__w						width__of__the__pie
-;__h						height__of__the__pie
-;__StartAngle			specifies__the__angle__between__the__x-axis__and__the__starting__point__of__the__pie
-;__SweepAngle			specifies__the__angle__between__the__starting__and__ending__points__of__the__pie
+; pGraphics				Pointer to the Graphics of a bitmap
+; pPen					Pointer to a pen
+; x						x-coordinate of the start of the pie
+; y						y-coordinate of the start of the pie
+; w						width of the pie
+; h						height of the pie
+; StartAngle			specifies the angle between the x-axis and the starting point of the pie
+; SweepAngle			specifies the angle between the starting and ending points of the pie
 ;
-;__return				status__enumeration._____=__success
+; return				status enumeration. 0 = success
 ;
-;__notes					as__all__coordinates__are__taken__from__the__top__left__of__each__pixel,__then__the__entire__width/height__should__be__specified__as__subtracting__the__pen__width
+; notes					as all coordinates are taken from the top left of each pixel, then the entire width/height should be specified as subtracting the pen width
 
-Gdip_DrawPie(pGraphics,__pPen,__x,__y,__w,__h,__StartAngle,__SweepAngle)
+Gdip_DrawPie(pGraphics, pPen, x, y, w, h, StartAngle, SweepAngle)
 {
-____return__DllCall("gdiplus\GdipDrawPie",__"uint",__pGraphics,__"uint",__pPen,__"float",__x,__"float",__y,__"float",__w,__"float",__h,__"float",__StartAngle,__"float",__SweepAngle)
+   return DllCall("gdiplus\GdipDrawPie", "uint", pGraphics, "uint", pPen, "float", x, "float", y, "float", w, "float", h, "float", StartAngle, "float", SweepAngle)
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_DrawLine
-;__Description			This__function__uses__a__pen__to__draw__a__line__into__the__Graphics__of__a__bitmap
+; Function				Gdip_DrawLine
+; Description			This function uses a pen to draw a line into the Graphics of a bitmap
 ;
-;__pGraphics				Pointer__to__the__Graphics__of__a__bitmap
-;__pPen					Pointer__to__a__pen
-;__x_					x-coordinate__of__the__start__of__the__line
-;__y_					y-coordinate__of__the__start__of__the__line
-;__x_					x-coordinate__of__the__end__of__the__line
-;__y_					y-coordinate__of__the__end__of__the__line
+; pGraphics				Pointer to the Graphics of a bitmap
+; pPen					Pointer to a pen
+; x1					x-coordinate of the start of the line
+; y1					y-coordinate of the start of the line
+; x2					x-coordinate of the end of the line
+; y2					y-coordinate of the end of the line
 ;
-;__return				status__enumeration._____=__success		
+; return				status enumeration. 0 = success		
 
-Gdip_DrawLine(pGraphics,__pPen,__x_,__y_,__x_,__y_)
+Gdip_DrawLine(pGraphics, pPen, x1, y1, x2, y2)
 {
-____return__DllCall("gdiplus\GdipDrawLine",__"uint",__pGraphics,__"uint",__pPen
-____,__"float",__x_,__"float",__y_,__"float",__x_,__"float",__y_)
+   return DllCall("gdiplus\GdipDrawLine", "uint", pGraphics, "uint", pPen
+   , "float", x1, "float", y1, "float", x2, "float", y2)
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_DrawLines
-;__Description			This__function__uses__a__pen__to__draw__a__series__of__joined__lines__into__the__Graphics__of__a__bitmap
+; Function				Gdip_DrawLines
+; Description			This function uses a pen to draw a series of joined lines into the Graphics of a bitmap
 ;
-;__pGraphics				Pointer__to__the__Graphics__of__a__bitmap
-;__pPen					Pointer__to__a__pen
-;__Points				the__coordinates__of__all__the__points__passed__as__x_,y_|x_,y_|x_,y_.....
+; pGraphics				Pointer to the Graphics of a bitmap
+; pPen					Pointer to a pen
+; Points				the coordinates of all the points passed as x1,y1|x2,y2|x3,y3.....
 ;
-;__return				status__enumeration._____=__success				
+; return				status enumeration. 0 = success				
 
-Gdip_DrawLines(pGraphics,__pPen,__Points)
+Gdip_DrawLines(pGraphics, pPen, Points)
 {
-____StringSplit,__Points,__Points,__|
-____VarSetCapacity(PointF,___*Points_)____
-____Loop,__%Points_%
-____{
-______StringSplit,__Coord,__Points%A_Index%,__`,
-______NumPut(Coord_,__PointF,___*(A_Index-_),__"float"),__NumPut(Coord_,__PointF,__(_*(A_Index-_))+_,__"float")
-____}
-____return__DllCall("gdiplus\GdipDrawLines",__"uint",__pGraphics,__"uint",__pPen,__"uint",__&PointF,__"int",__Points_)
+   StringSplit, Points, Points, |
+   VarSetCapacity(PointF, 8*Points0)   
+   Loop, %Points0%
+   {
+      StringSplit, Coord, Points%A_Index%, `,
+      NumPut(Coord1, PointF, 8*(A_Index-1), "float"), NumPut(Coord2, PointF, (8*(A_Index-1))+4, "float")
+   }
+   return DllCall("gdiplus\GdipDrawLines", "uint", pGraphics, "uint", pPen, "uint", &PointF, "int", Points0)
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_FillRectangle
-;__Description			This__function__uses__a__brush__to__fill__a__rectangle__in__the__Graphics__of__a__bitmap
+; Function				Gdip_FillRectangle
+; Description			This function uses a brush to fill a rectangle in the Graphics of a bitmap
 ;
-;__pGraphics				Pointer__to__the__Graphics__of__a__bitmap
-;__pBrush				Pointer__to__a__brush
-;__x						x-coordinate__of__the__top__left__of__the__rectangle
-;__y						y-coordinate__of__the__top__left__of__the__rectangle
-;__w						width__of__the__rectanlge
-;__h						height__of__the__rectangle
+; pGraphics				Pointer to the Graphics of a bitmap
+; pBrush				Pointer to a brush
+; x						x-coordinate of the top left of the rectangle
+; y						y-coordinate of the top left of the rectangle
+; w						width of the rectanlge
+; h						height of the rectangle
 ;
-;__return				status__enumeration._____=__success
+; return				status enumeration. 0 = success
 
-Gdip_FillRectangle(pGraphics,__pBrush,__x,__y,__w,__h)
+Gdip_FillRectangle(pGraphics, pBrush, x, y, w, h)
 {
-____return__DllCall("gdiplus\GdipFillRectangle",__"uint",__pGraphics,__"int",__pBrush
-____,__"float",__x,__"float",__y,__"float",__w,__"float",__h)
+   return DllCall("gdiplus\GdipFillRectangle", "uint", pGraphics, "int", pBrush
+   , "float", x, "float", y, "float", w, "float", h)
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_FillRoundedRectangle
-;__Description			This__function__uses__a__brush__to__fill__a__rounded__rectangle__in__the__Graphics__of__a__bitmap
+; Function				Gdip_FillRoundedRectangle
+; Description			This function uses a brush to fill a rounded rectangle in the Graphics of a bitmap
 ;
-;__pGraphics				Pointer__to__the__Graphics__of__a__bitmap
-;__pBrush				Pointer__to__a__brush
-;__x						x-coordinate__of__the__top__left__of__the__rounded__rectangle
-;__y						y-coordinate__of__the__top__left__of__the__rounded__rectangle
-;__w						width__of__the__rectanlge
-;__h						height__of__the__rectangle
-;__r						radius__of__the__rounded__corners
+; pGraphics				Pointer to the Graphics of a bitmap
+; pBrush				Pointer to a brush
+; x						x-coordinate of the top left of the rounded rectangle
+; y						y-coordinate of the top left of the rounded rectangle
+; w						width of the rectanlge
+; h						height of the rectangle
+; r						radius of the rounded corners
 ;
-;__return				status__enumeration._____=__success
+; return				status enumeration. 0 = success
 
-Gdip_FillRoundedRectangle(pGraphics,__pBrush,__x,__y,__w,__h,__r)
+Gdip_FillRoundedRectangle(pGraphics, pBrush, x, y, w, h, r)
 {
-	Region__:=__Gdip_GetClipRegion(pGraphics)
-	Gdip_SetClipRect(pGraphics,__x-r,__y-r,___*r,___*r,___)
-	Gdip_SetClipRect(pGraphics,__x+w-r,__y-r,___*r,___*r,___)
-	Gdip_SetClipRect(pGraphics,__x-r,__y+h-r,___*r,___*r,___)
-	Gdip_SetClipRect(pGraphics,__x+w-r,__y+h-r,___*r,___*r,___)
-	E__:=__Gdip_FillRectangle(pGraphics,__pBrush,__x,__y,__w,__h)
-	Gdip_SetClipRegion(pGraphics,__Region,___)
-	Gdip_SetClipRect(pGraphics,__x-(_*r),__y+r,__w+(_*r),__h-(_*r),___)
-	Gdip_SetClipRect(pGraphics,__x+r,__y-(_*r),__w-(_*r),__h+(_*r),___)
-	Gdip_FillEllipse(pGraphics,__pBrush,__x,__y,___*r,___*r)
-	Gdip_FillEllipse(pGraphics,__pBrush,__x+w-(_*r),__y,___*r,___*r)
-	Gdip_FillEllipse(pGraphics,__pBrush,__x,__y+h-(_*r),___*r,___*r)
-	Gdip_FillEllipse(pGraphics,__pBrush,__x+w-(_*r),__y+h-(_*r),___*r,___*r)
-	Gdip_SetClipRegion(pGraphics,__Region,___)
+	Region := Gdip_GetClipRegion(pGraphics)
+	Gdip_SetClipRect(pGraphics, x-r, y-r, 2*r, 2*r, 4)
+	Gdip_SetClipRect(pGraphics, x+w-r, y-r, 2*r, 2*r, 4)
+	Gdip_SetClipRect(pGraphics, x-r, y+h-r, 2*r, 2*r, 4)
+	Gdip_SetClipRect(pGraphics, x+w-r, y+h-r, 2*r, 2*r, 4)
+	E := Gdip_FillRectangle(pGraphics, pBrush, x, y, w, h)
+	Gdip_SetClipRegion(pGraphics, Region, 0)
+	Gdip_SetClipRect(pGraphics, x-(2*r), y+r, w+(4*r), h-(2*r), 4)
+	Gdip_SetClipRect(pGraphics, x+r, y-(2*r), w-(2*r), h+(4*r), 4)
+	Gdip_FillEllipse(pGraphics, pBrush, x, y, 2*r, 2*r)
+	Gdip_FillEllipse(pGraphics, pBrush, x+w-(2*r), y, 2*r, 2*r)
+	Gdip_FillEllipse(pGraphics, pBrush, x, y+h-(2*r), 2*r, 2*r)
+	Gdip_FillEllipse(pGraphics, pBrush, x+w-(2*r), y+h-(2*r), 2*r, 2*r)
+	Gdip_SetClipRegion(pGraphics, Region, 0)
 	Gdip_DeleteRegion(Region)
-	return__E
+	return E
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_FillPolygon
-;__Description			This__function__uses__a__brush__to__fill__a__polygon__in__the__Graphics__of__a__bitmap
+; Function				Gdip_FillPolygon
+; Description			This function uses a brush to fill a polygon in the Graphics of a bitmap
 ;
-;__pGraphics				Pointer__to__the__Graphics__of__a__bitmap
-;__pBrush				Pointer__to__a__brush
-;__Points				the__coordinates__of__all__the__points__passed__as__x_,y_|x_,y_|x_,y_.....
+; pGraphics				Pointer to the Graphics of a bitmap
+; pBrush				Pointer to a brush
+; Points				the coordinates of all the points passed as x1,y1|x2,y2|x3,y3.....
 ;
-;__return				status__enumeration._____=__success
+; return				status enumeration. 0 = success
 ;
-;__notes					Alternate__will__fill__the__polygon__as__a__whole,__wheras__winding__will__fill__each__new__"segment"
-;__Alternate__		=___
-;__Winding__			=___
+; notes					Alternate will fill the polygon as a whole, wheras winding will fill each new "segment"
+; Alternate 			= 0
+; Winding 				= 1
 
-Gdip_FillPolygon(pGraphics,__pBrush,__Points,__FillMode=_)
+Gdip_FillPolygon(pGraphics, pBrush, Points, FillMode=0)
 {
-____StringSplit,__Points,__Points,__|
-____VarSetCapacity(PointF,___*Points_)____
-____Loop,__%Points_%
-____{
-______StringSplit,__Coord,__Points%A_Index%,__`,
-______NumPut(Coord_,__PointF,___*(A_Index-_),__"float"),__NumPut(Coord_,__PointF,__(_*(A_Index-_))+_,__"float")
-____}____
-____return__DllCall("gdiplus\GdipFillPolygon",__"uint",__pGraphics,__"uint",__pBrush,__"uint",__&PointF,__"int",__Points_,__"int",__FillMode)
+   StringSplit, Points, Points, |
+   VarSetCapacity(PointF, 8*Points0)   
+   Loop, %Points0%
+   {
+      StringSplit, Coord, Points%A_Index%, `,
+      NumPut(Coord1, PointF, 8*(A_Index-1), "float"), NumPut(Coord2, PointF, (8*(A_Index-1))+4, "float")
+   }   
+   return DllCall("gdiplus\GdipFillPolygon", "uint", pGraphics, "uint", pBrush, "uint", &PointF, "int", Points0, "int", FillMode)
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_FillPie
-;__Description			This__function__uses__a__brush__to__fill__a__pie__in__the__Graphics__of__a__bitmap
+; Function				Gdip_FillPie
+; Description			This function uses a brush to fill a pie in the Graphics of a bitmap
 ;
-;__pGraphics				Pointer__to__the__Graphics__of__a__bitmap
-;__pBrush				Pointer__to__a__brush
-;__x						x-coordinate__of__the__top__left__of__the__pie
-;__y						y-coordinate__of__the__top__left__of__the__pie
-;__w						width__of__the__pie
-;__h						height__of__the__pie
-;__StartAngle			specifies__the__angle__between__the__x-axis__and__the__starting__point__of__the__pie
-;__SweepAngle			specifies__the__angle__between__the__starting__and__ending__points__of__the__pie
+; pGraphics				Pointer to the Graphics of a bitmap
+; pBrush				Pointer to a brush
+; x						x-coordinate of the top left of the pie
+; y						y-coordinate of the top left of the pie
+; w						width of the pie
+; h						height of the pie
+; StartAngle			specifies the angle between the x-axis and the starting point of the pie
+; SweepAngle			specifies the angle between the starting and ending points of the pie
 ;
-;__return				status__enumeration._____=__success
+; return				status enumeration. 0 = success
 
-Gdip_FillPie(pGraphics,__pBrush,__x,__y,__w,__h,__StartAngle,__SweepAngle)
+Gdip_FillPie(pGraphics, pBrush, x, y, w, h, StartAngle, SweepAngle)
 {
-____return__DllCall("gdiplus\GdipFillPie",__"uint",__pGraphics,__"uint",__pBrush
-____,__"float",__x,__"float",__y,__"float",__w,__"float",__h,__"float",__StartAngle,__"float",__SweepAngle)
+   return DllCall("gdiplus\GdipFillPie", "uint", pGraphics, "uint", pBrush
+   , "float", x, "float", y, "float", w, "float", h, "float", StartAngle, "float", SweepAngle)
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_FillEllipse
-;__Description			This__function__uses__a__brush__to__fill__an__ellipse__in__the__Graphics__of__a__bitmap
+; Function				Gdip_FillEllipse
+; Description			This function uses a brush to fill an ellipse in the Graphics of a bitmap
 ;
-;__pGraphics				Pointer__to__the__Graphics__of__a__bitmap
-;__pBrush				Pointer__to__a__brush
-;__x						x-coordinate__of__the__top__left__of__the__ellipse
-;__y						y-coordinate__of__the__top__left__of__the__ellipse
-;__w						width__of__the__ellipse
-;__h						height__of__the__ellipse
+; pGraphics				Pointer to the Graphics of a bitmap
+; pBrush				Pointer to a brush
+; x						x-coordinate of the top left of the ellipse
+; y						y-coordinate of the top left of the ellipse
+; w						width of the ellipse
+; h						height of the ellipse
 ;
-;__return				status__enumeration._____=__success
+; return				status enumeration. 0 = success
 
-Gdip_FillEllipse(pGraphics,__pBrush,__x,__y,__w,__h)
+Gdip_FillEllipse(pGraphics, pBrush, x, y, w, h)
 {
-	return__DllCall("gdiplus\GdipFillEllipse",__"uint",__pGraphics,__"uint",__pBrush,__"float",__x,__"float",__y,__"float",__w,__"float",__h)
+	return DllCall("gdiplus\GdipFillEllipse", "uint", pGraphics, "uint", pBrush, "float", x, "float", y, "float", w, "float", h)
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_FillRegion
-;__Description			This__function__uses__a__brush__to__fill__a__region__in__the__Graphics__of__a__bitmap
+; Function				Gdip_FillRegion
+; Description			This function uses a brush to fill a region in the Graphics of a bitmap
 ;
-;__pGraphics				Pointer__to__the__Graphics__of__a__bitmap
-;__pBrush				Pointer__to__a__brush
-;__Region				Pointer__to__a__Region
+; pGraphics				Pointer to the Graphics of a bitmap
+; pBrush				Pointer to a brush
+; Region				Pointer to a Region
 ;
-;__return				status__enumeration._____=__success
+; return				status enumeration. 0 = success
 ;
-;__notes					You__can__create__a__region__Gdip_CreateRegion()__and__then__add__to__this
+; notes					You can create a region Gdip_CreateRegion() and then add to this
 
-Gdip_FillRegion(pGraphics,__pBrush,__Region)
+Gdip_FillRegion(pGraphics, pBrush, Region)
 {
-	return__DllCall("gdiplus\GdipFillRegion",__"uint",__pGraphics,__"uint",__pBrush,__"uint",__Region)
+	return DllCall("gdiplus\GdipFillRegion", "uint", pGraphics, "uint", pBrush, "uint", Region)
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_FillPath
-;__Description			This__function__uses__a__brush__to__fill__a__path__in__the__Graphics__of__a__bitmap
+; Function				Gdip_FillPath
+; Description			This function uses a brush to fill a path in the Graphics of a bitmap
 ;
-;__pGraphics				Pointer__to__the__Graphics__of__a__bitmap
-;__pBrush				Pointer__to__a__brush
-;__Region				Pointer__to__a__Path
+; pGraphics				Pointer to the Graphics of a bitmap
+; pBrush				Pointer to a brush
+; Region				Pointer to a Path
 ;
-;__return				status__enumeration._____=__success
+; return				status enumeration. 0 = success
 
-Gdip_FillPath(pGraphics,__pBrush,__Path)
+Gdip_FillPath(pGraphics, pBrush, Path)
 {
-	return__DllCall("gdiplus\GdipFillPath",__"uint",__pGraphics,__"uint",__pBrush,__"uint",__Path)
+	return DllCall("gdiplus\GdipFillPath", "uint", pGraphics, "uint", pBrush, "uint", Path)
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_DrawImagePointsRect
-;__Description			This__function__draws__a__bitmap__into__the__Graphics__of__another__bitmap__and__skews__it
+; Function				Gdip_DrawImagePointsRect
+; Description			This function draws a bitmap into the Graphics of another bitmap and skews it
 ;
-;__pGraphics				Pointer__to__the__Graphics__of__a__bitmap
-;__pBitmap				Pointer__to__a__bitmap__to__be__drawn
-;__Points				Points__passed__as__x_,y_|x_,y_|x_,y___(___points:__top__left,__top__right,__bottom__left)__describing__the__drawing__of__the__bitmap
-;__sx					x-coordinate__of__source__upper-left__corner
-;__sy					y-coordinate__of__source__upper-left__corner
-;__sw					width__of__source__rectangle
-;__sh					height__of__source__rectangle
-;__Matrix				a__matrix__used__to__alter__image__attributes__when__drawing
+; pGraphics				Pointer to the Graphics of a bitmap
+; pBitmap				Pointer to a bitmap to be drawn
+; Points				Points passed as x1,y1|x2,y2|x3,y3 (3 points: top left, top right, bottom left) describing the drawing of the bitmap
+; sx					x-coordinate of source upper-left corner
+; sy					y-coordinate of source upper-left corner
+; sw					width of source rectangle
+; sh					height of source rectangle
+; Matrix				a matrix used to alter image attributes when drawing
 ;
-;__return				status__enumeration._____=__success
+; return				status enumeration. 0 = success
 ;
-;__notes					if__sx,sy,sw,sh__are__missed__then__the__entire__source__bitmap__will__be__used
-;						Matrix__can__be__omitted__to__just__draw__with__no__alteration__to__ARGB
-;						Matrix__may__be__passed__as__a__digit__from_____-_____to__change__just__transparency
-;						Matrix__can__be__passed__as__a__matrix__with__any__delimiter
+; notes					if sx,sy,sw,sh are missed then the entire source bitmap will be used
+;						Matrix can be omitted to just draw with no alteration to ARGB
+;						Matrix may be passed as a digit from 0 - 1 to change just transparency
+;						Matrix can be passed as a matrix with any delimiter
 
-Gdip_DrawImagePointsRect(pGraphics,__pBitmap,__Points,__sx="",__sy="",__sw="",__sh="",__Matrix=_)
+Gdip_DrawImagePointsRect(pGraphics, pBitmap, Points, sx="", sy="", sw="", sh="", Matrix=1)
 {
-	StringSplit,__Points,__Points,__|
-	VarSetCapacity(PointF,___*Points_)____
-	Loop,__%Points_%
+	StringSplit, Points, Points, |
+	VarSetCapacity(PointF, 8*Points0)   
+	Loop, %Points0%
 	{
-		StringSplit,__Coord,__Points%A_Index%,__`,
-		NumPut(Coord_,__PointF,___*(A_Index-_),__"float"),__NumPut(Coord_,__PointF,__(_*(A_Index-_))+_,__"float")
+		StringSplit, Coord, Points%A_Index%, `,
+		NumPut(Coord1, PointF, 8*(A_Index-1), "float"), NumPut(Coord2, PointF, (8*(A_Index-1))+4, "float")
 	}
 
-	if__(Matrix&___=__"")
-		ImageAttr__:=__Gdip_SetImageAttributesColorMatrix(Matrix)
-	else__if__(Matrix__!=___)
-		ImageAttr__:=__Gdip_SetImageAttributesColorMatrix("_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|"__Matrix__"|_|_|_|_|_|_")
+	if (Matrix&1 = "")
+		ImageAttr := Gdip_SetImageAttributesColorMatrix(Matrix)
+	else if (Matrix != 1)
+		ImageAttr := Gdip_SetImageAttributesColorMatrix("1|0|0|0|0|0|1|0|0|0|0|0|1|0|0|0|0|0|" Matrix "|0|0|0|0|0|1")
 		
-	if__(sx__=__""__&&__sy__=__""__&&__sw__=__""__&&__sh__=__"")
+	if (sx = "" && sy = "" && sw = "" && sh = "")
 	{
-		sx__:=___,__sy__:=___
-		sw__:=__Gdip_GetImageWidth(pBitmap)
-		sh__:=__Gdip_GetImageHeight(pBitmap)
+		sx := 0, sy := 0
+		sw := Gdip_GetImageWidth(pBitmap)
+		sh := Gdip_GetImageHeight(pBitmap)
 	}
 
-	E__:=__DllCall("gdiplus\GdipDrawImagePointsRect",__"uint",__pGraphics,__"uint",__pBitmap
-	,__"uint",__&PointF,__"int",__Points_,__"float",__sx,__"float",__sy,__"float",__sw,__"float",__sh
-	,__"int",___,__"uint",__ImageAttr,__"uint",___,__"uint",___)
-	if__ImageAttr
+	E := DllCall("gdiplus\GdipDrawImagePointsRect", "uint", pGraphics, "uint", pBitmap
+	, "uint", &PointF, "int", Points0, "float", sx, "float", sy, "float", sw, "float", sh
+	, "int", 2, "uint", ImageAttr, "uint", 0, "uint", 0)
+	if ImageAttr
 		Gdip_DisposeImageAttributes(ImageAttr)
-	return__E
+	return E
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_DrawImage
-;__Description			This__function__draws__a__bitmap__into__the__Graphics__of__another__bitmap
+; Function				Gdip_DrawImage
+; Description			This function draws a bitmap into the Graphics of another bitmap
 ;
-;__pGraphics				Pointer__to__the__Graphics__of__a__bitmap
-;__pBitmap				Pointer__to__a__bitmap__to__be__drawn
-;__dx					x-coord__of__destination__upper-left__corner
-;__dy					y-coord__of__destination__upper-left__corner
-;__dw					width__of__destination__image
-;__dh					height__of__destination__image
-;__sx					x-coordinate__of__source__upper-left__corner
-;__sy					y-coordinate__of__source__upper-left__corner
-;__sw					width__of__source__image
-;__sh					height__of__source__image
-;__Matrix				a__matrix__used__to__alter__image__attributes__when__drawing
+; pGraphics				Pointer to the Graphics of a bitmap
+; pBitmap				Pointer to a bitmap to be drawn
+; dx					x-coord of destination upper-left corner
+; dy					y-coord of destination upper-left corner
+; dw					width of destination image
+; dh					height of destination image
+; sx					x-coordinate of source upper-left corner
+; sy					y-coordinate of source upper-left corner
+; sw					width of source image
+; sh					height of source image
+; Matrix				a matrix used to alter image attributes when drawing
 ;
-;__return				status__enumeration._____=__success
+; return				status enumeration. 0 = success
 ;
-;__notes					if__sx,sy,sw,sh__are__missed__then__the__entire__source__bitmap__will__be__used
-;						Gdip_DrawImage__performs__faster
-;						Matrix__can__be__omitted__to__just__draw__with__no__alteration__to__ARGB
-;						Matrix__may__be__passed__as__a__digit__from_____-_____to__change__just__transparency
-;						Matrix__can__be__passed__as__a__matrix__with__any__delimiter.__For__example:
+; notes					if sx,sy,sw,sh are missed then the entire source bitmap will be used
+;						Gdip_DrawImage performs faster
+;						Matrix can be omitted to just draw with no alteration to ARGB
+;						Matrix may be passed as a digit from 0 - 1 to change just transparency
+;						Matrix can be passed as a matrix with any delimiter. For example:
 ;						MatrixBright=
 ;						(
-;						_._		|_		|_		|_		|_
-;						_		|_._	|_		|_		|_
-;						_		|_		|_._	|_		|_
-;						_		|_		|_		|_		|_
-;						_.__	|_.__	|_.__	|_		|_
+;						1.5		|0		|0		|0		|0
+;						0		|1.5	|0		|0		|0
+;						0		|0		|1.5	|0		|0
+;						0		|0		|0		|1		|0
+;						0.05	|0.05	|0.05	|0		|1
 ;						)
 ;
-;__notes					MatrixBright__=___._|_|_|_|_|_|_._|_|_|_|_|_|_._|_|_|_|_|_|_|_|_.__|_.__|_.__|_|_
-;						MatrixGreyScale__=___.___|_.___|_.___|_|_|_.___|_.___|_.___|_|_|_.___|_.___|_.___|_|_|_|_|_|_|_|_|_|_|_|_
-;						MatrixNegative__=__-_|_|_|_|_|_|-_|_|_|_|_|_|-_|_|_|_|_|_|_|_|_|_|_|_|_
+; notes					MatrixBright = 1.5|0|0|0|0|0|1.5|0|0|0|0|0|1.5|0|0|0|0|0|1|0|0.05|0.05|0.05|0|1
+;						MatrixGreyScale = 0.299|0.299|0.299|0|0|0.587|0.587|0.587|0|0|0.114|0.114|0.114|0|0|0|0|0|1|0|0|0|0|0|1
+;						MatrixNegative = -1|0|0|0|0|0|-1|0|0|0|0|0|-1|0|0|0|0|0|1|0|0|0|0|0|1
 
-Gdip_DrawImage(pGraphics,__pBitmap,__dx="",__dy="",__dw="",__dh="",__sx="",__sy="",__sw="",__sh="",__Matrix=_)
+Gdip_DrawImage(pGraphics, pBitmap, dx="", dy="", dw="", dh="", sx="", sy="", sw="", sh="", Matrix=1)
 {
-	if__(Matrix&___=__"")
-		ImageAttr__:=__Gdip_SetImageAttributesColorMatrix(Matrix)
-	else__if__(Matrix__!=___)
-		ImageAttr__:=__Gdip_SetImageAttributesColorMatrix("_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|"__Matrix__"|_|_|_|_|_|_")
+	if (Matrix&1 = "")
+		ImageAttr := Gdip_SetImageAttributesColorMatrix(Matrix)
+	else if (Matrix != 1)
+		ImageAttr := Gdip_SetImageAttributesColorMatrix("1|0|0|0|0|0|1|0|0|0|0|0|1|0|0|0|0|0|" Matrix "|0|0|0|0|0|1")
 
-	if__(sx__=__""__&&__sy__=__""__&&__sw__=__""__&&__sh__=__"")
+	if (sx = "" && sy = "" && sw = "" && sh = "")
 	{
-		if__(dx__=__""__&&__dy__=__""__&&__dw__=__""__&&__dh__=__"")
+		if (dx = "" && dy = "" && dw = "" && dh = "")
 		{
-			sx__:=__dx__:=___,__sy__:=__dy__:=___
-			sw__:=__dw__:=__Gdip_GetImageWidth(pBitmap)
-			sh__:=__dh__:=__Gdip_GetImageHeight(pBitmap)
+			sx := dx := 0, sy := dy := 0
+			sw := dw := Gdip_GetImageWidth(pBitmap)
+			sh := dh := Gdip_GetImageHeight(pBitmap)
 		}
 		else
 		{
-			sx__:=__sy__:=___
-			sw__:=__Gdip_GetImageWidth(pBitmap)
-			sh__:=__Gdip_GetImageHeight(pBitmap)
+			sx := sy := 0
+			sw := Gdip_GetImageWidth(pBitmap)
+			sh := Gdip_GetImageHeight(pBitmap)
 		}
 	}
 
-	E__:=__DllCall("gdiplus\GdipDrawImageRectRect",__"uint",__pGraphics,__"uint",__pBitmap
-	,__"float",__dx,__"float",__dy,__"float",__dw,__"float",__dh
-	,__"float",__sx,__"float",__sy,__"float",__sw,__"float",__sh
-	,__"int",___,__"uint",__ImageAttr,__"uint",___,__"uint",___)
-	if__ImageAttr
+	E := DllCall("gdiplus\GdipDrawImageRectRect", "uint", pGraphics, "uint", pBitmap
+	, "float", dx, "float", dy, "float", dw, "float", dh
+	, "float", sx, "float", sy, "float", sw, "float", sh
+	, "int", 2, "uint", ImageAttr, "uint", 0, "uint", 0)
+	if ImageAttr
 		Gdip_DisposeImageAttributes(ImageAttr)
-	return__E
+	return E
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_SetImageAttributesColorMatrix
-;__Description			This__function__creates__an__image__matrix__ready__for__drawing
+; Function				Gdip_SetImageAttributesColorMatrix
+; Description			This function creates an image matrix ready for drawing
 ;
-;__Matrix				a__matrix__used__to__alter__image__attributes__when__drawing
-;						passed__with__any__delimeter
+; Matrix				a matrix used to alter image attributes when drawing
+;						passed with any delimeter
 ;
-;__return				returns__an__image__matrix__on__sucess__or_____if__it__fails
+; return				returns an image matrix on sucess or 0 if it fails
 ;
-;__notes					MatrixBright__=___._|_|_|_|_|_|_._|_|_|_|_|_|_._|_|_|_|_|_|_|_|_.__|_.__|_.__|_|_
-;						MatrixGreyScale__=___.___|_.___|_.___|_|_|_.___|_.___|_.___|_|_|_.___|_.___|_.___|_|_|_|_|_|_|_|_|_|_|_|_
-;						MatrixNegative__=__-_|_|_|_|_|_|-_|_|_|_|_|_|-_|_|_|_|_|_|_|_|_|_|_|_|_
+; notes					MatrixBright = 1.5|0|0|0|0|0|1.5|0|0|0|0|0|1.5|0|0|0|0|0|1|0|0.05|0.05|0.05|0|1
+;						MatrixGreyScale = 0.299|0.299|0.299|0|0|0.587|0.587|0.587|0|0|0.114|0.114|0.114|0|0|0|0|0|1|0|0|0|0|0|1
+;						MatrixNegative = -1|0|0|0|0|0|-1|0|0|0|0|0|-1|0|0|0|0|0|1|0|0|0|0|0|1
 
 Gdip_SetImageAttributesColorMatrix(Matrix)
 {
-	VarSetCapacity(ColourMatrix,_____,___)
-	Matrix__:=__RegExReplace(RegExReplace(Matrix,__"^[^\d-\.]+([\d\.])",__"$_",__"",___),__"[^\d-\.]+",__"|")
-	StringSplit,__Matrix,__Matrix,__|
-	Loop,____
+	VarSetCapacity(ColourMatrix, 100, 0)
+	Matrix := RegExReplace(RegExReplace(Matrix, "^[^\d-\.]+([\d\.])", "$1", "", 1), "[^\d-\.]+", "|")
+	StringSplit, Matrix, Matrix, |
+	Loop, 25
 	{
-		Matrix__:=__(Matrix%A_Index%__!=__"")__?__Matrix%A_Index%__:__Mod(A_Index-_,___)__?_____:___
-		NumPut(Matrix,__ColourMatrix,__(A_Index-_)*_,__"float")
+		Matrix := (Matrix%A_Index% != "") ? Matrix%A_Index% : Mod(A_Index-1, 6) ? 0 : 1
+		NumPut(Matrix, ColourMatrix, (A_Index-1)*4, "float")
 	}
-	DllCall("gdiplus\GdipCreateImageAttributes",__"uint*",__ImageAttr)
-	DllCall("gdiplus\GdipSetImageAttributesColorMatrix",__"uint",__ImageAttr,__"int",___,__"int",___,__"uint",__&ColourMatrix,__"int",___,__"int",___)
-	return__ImageAttr
+	DllCall("gdiplus\GdipCreateImageAttributes", "uint*", ImageAttr)
+	DllCall("gdiplus\GdipSetImageAttributesColorMatrix", "uint", ImageAttr, "int", 1, "int", 1, "uint", &ColourMatrix, "int", 0, "int", 0)
+	return ImageAttr
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_GraphicsFromImage
-;__Description			This__function__gets__the__graphics__for__a__bitmap__used__for__drawing__functions
+; Function				Gdip_GraphicsFromImage
+; Description			This function gets the graphics for a bitmap used for drawing functions
 ;
-;__pBitmap				Pointer__to__a__bitmap__to__get__the__pointer__to__its__graphics
+; pBitmap				Pointer to a bitmap to get the pointer to its graphics
 ;
-;__return				returns__a__pointer__to__the__graphics__of__a__bitmap
+; return				returns a pointer to the graphics of a bitmap
 ;
-;__notes					a__bitmap__can__be__drawn__into__the__graphics__of__another__bitmap
+; notes					a bitmap can be drawn into the graphics of another bitmap
 
 Gdip_GraphicsFromImage(pBitmap)
 {
-____DllCall("gdiplus\GdipGetImageGraphicsContext",__"uint",__pBitmap,__"uint*",__pGraphics)
-____return__pGraphics
+    DllCall("gdiplus\GdipGetImageGraphicsContext", "uint", pBitmap, "uint*", pGraphics)
+    return pGraphics
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_GraphicsFromHDC
-;__Description			This__function__gets__the__graphics__from__the__handle__to__a__device__context
+; Function				Gdip_GraphicsFromHDC
+; Description			This function gets the graphics from the handle to a device context
 ;
-;__hdc					This__is__the__handle__to__the__device__context
+; hdc					This is the handle to the device context
 ;
-;__return				returns__a__pointer__to__the__graphics__of__a__bitmap
+; return				returns a pointer to the graphics of a bitmap
 ;
-;__notes					You__can__draw__a__bitmap__into__the__graphics__of__another__bitmap
+; notes					You can draw a bitmap into the graphics of another bitmap
 
 Gdip_GraphicsFromHDC(hdc)
 {
-____DllCall("gdiplus\GdipCreateFromHDC",__"uint",__hdc,__"uint*",__pGraphics)
-____return__pGraphics
+    DllCall("gdiplus\GdipCreateFromHDC", "uint", hdc, "uint*", pGraphics)
+    return pGraphics
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_GetDC
-;__Description			This__function__gets__the__device__context__of__the__passed__Graphics
+; Function				Gdip_GetDC
+; Description			This function gets the device context of the passed Graphics
 ;
-;__hdc					This__is__the__handle__to__the__device__context
+; hdc					This is the handle to the device context
 ;
-;__return				returns__the__device__context__for__the__graphics__of__a__bitmap
+; return				returns the device context for the graphics of a bitmap
 
 Gdip_GetDC(pGraphics)
 {
-	DllCall("gdiplus\GdipGetDC",__"uint",__pGraphics,__"uint*",__hdc)
-	return__hdc
+	DllCall("gdiplus\GdipGetDC", "uint", pGraphics, "uint*", hdc)
+	return hdc
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_ReleaseDC
-;__Description			This__function__releases__a__device__context__from__use__for__further__use
+; Function				Gdip_ReleaseDC
+; Description			This function releases a device context from use for further use
 ;
-;__pGraphics				Pointer__to__the__graphics__of__a__bitmap
-;__hdc					This__is__the__handle__to__the__device__context
+; pGraphics				Pointer to the graphics of a bitmap
+; hdc					This is the handle to the device context
 ;
-;__return				status__enumeration._____=__success
+; return				status enumeration. 0 = success
 
-Gdip_ReleaseDC(pGraphics,__hdc)
+Gdip_ReleaseDC(pGraphics, hdc)
 {
-	return__DllCall("gdiplus\GdipReleaseDC",__"uint",__pGraphics,__"uint",__hdc)
+	return DllCall("gdiplus\GdipReleaseDC", "uint", pGraphics, "uint", hdc)
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_GraphicsClear
-;__Description			Clears__the__graphics__of__a__bitmap__ready__for__further__drawing
+; Function				Gdip_GraphicsClear
+; Description			Clears the graphics of a bitmap ready for further drawing
 ;
-;__pGraphics				Pointer__to__the__graphics__of__a__bitmap
-;__ARGB					The__colour__to__clear__the__graphics__to
+; pGraphics				Pointer to the graphics of a bitmap
+; ARGB					The colour to clear the graphics to
 ;
-;__return				status__enumeration._____=__success
+; return				status enumeration. 0 = success
 ;
-;__notes					By__default__this__will__make__the__background__invisible
-;						Using__clipping__regions__you__can__clear__a__particular__area__on__the__graphics__rather__than__clearing__the__entire__graphics
+; notes					By default this will make the background invisible
+;						Using clipping regions you can clear a particular area on the graphics rather than clearing the entire graphics
 
-Gdip_GraphicsClear(pGraphics,__ARGB=_x__ffffff)
+Gdip_GraphicsClear(pGraphics, ARGB=0x00ffffff)
 {
-____return__DllCall("gdiplus\GdipGraphicsClear",__"uint",__pGraphics,__"int",__ARGB)
+    return DllCall("gdiplus\GdipGraphicsClear", "uint", pGraphics, "int", ARGB)
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_BlurBitmap
-;__Description			Gives__a__pointer__to__a__blurred__bitmap__from__a__pointer__to__a__bitmap
+; Function				Gdip_BlurBitmap
+; Description			Gives a pointer to a blurred bitmap from a pointer to a bitmap
 ;
-;__pBitmap				Pointer__to__a__bitmap__to__be__blurred
-;__Blur					The__Amount__to__blur__a__bitmap__by__from_____(least__blur)__to_______(most__blur)
+; pBitmap				Pointer to a bitmap to be blurred
+; Blur					The Amount to blur a bitmap by from 1 (least blur) to 100 (most blur)
 ;
-;__return				If__the__function__succeeds,__the__return__value__is__a__pointer__to__the__new__blurred__bitmap
-;						-___=__The__blur__parameter__is__outside__the__range___-___
+; return				If the function succeeds, the return value is a pointer to the new blurred bitmap
+;						-1 = The blur parameter is outside the range 1-100
 ;
-;__notes					This__function__will__not__dispose__of__the__original__bitmap
+; notes					This function will not dispose of the original bitmap
 
-Gdip_BlurBitmap(pBitmap,__Blur)
+Gdip_BlurBitmap(pBitmap, Blur)
 {
-	if__(Blur__>_____)__||__(Blur__<___)
-		return__-_	
+	if (Blur > 100) || (Blur < 1)
+		return -1	
 	
-	sWidth__:=__Gdip_GetImageWidth(pBitmap),__sHeight__:=__Gdip_GetImageHeight(pBitmap)
-	dWidth__:=__sWidth//Blur,__dHeight__:=__sHeight//Blur
+	sWidth := Gdip_GetImageWidth(pBitmap), sHeight := Gdip_GetImageHeight(pBitmap)
+	dWidth := sWidth//Blur, dHeight := sHeight//Blur
 
-	pBitmap___:=__Gdip_CreateBitmap(dWidth,__dHeight)
-	G___:=__Gdip_GraphicsFromImage(pBitmap_)
-	Gdip_SetInterpolationMode(G_,___)
-	Gdip_DrawImage(G_,__pBitmap,___,___,__dWidth,__dHeight,___,___,__sWidth,__sHeight)
+	pBitmap1 := Gdip_CreateBitmap(dWidth, dHeight)
+	G1 := Gdip_GraphicsFromImage(pBitmap1)
+	Gdip_SetInterpolationMode(G1, 7)
+	Gdip_DrawImage(G1, pBitmap, 0, 0, dWidth, dHeight, 0, 0, sWidth, sHeight)
 
-	Gdip_DeleteGraphics(G_)
+	Gdip_DeleteGraphics(G1)
 
-	pBitmap___:=__Gdip_CreateBitmap(sWidth,__sHeight)
-	G___:=__Gdip_GraphicsFromImage(pBitmap_)
-	Gdip_SetInterpolationMode(G_,___)
-	Gdip_DrawImage(G_,__pBitmap_,___,___,__sWidth,__sHeight,___,___,__dWidth,__dHeight)
+	pBitmap2 := Gdip_CreateBitmap(sWidth, sHeight)
+	G2 := Gdip_GraphicsFromImage(pBitmap2)
+	Gdip_SetInterpolationMode(G2, 7)
+	Gdip_DrawImage(G2, pBitmap1, 0, 0, sWidth, sHeight, 0, 0, dWidth, dHeight)
 
-	Gdip_DeleteGraphics(G_)
-	Gdip_DisposeImage(pBitmap_)
-	return__pBitmap_
+	Gdip_DeleteGraphics(G2)
+	Gdip_DisposeImage(pBitmap1)
+	return pBitmap2
 }
 
 ;#####################################################################################
 
-;__Function:______	Gdip_SaveBitmapToFile
-;__Description:__		Saves__a__bitmap__to__a__file__in__any__supported__format__onto__disk
-;____
-;__pBitmap				Pointer__to__a__bitmap
-;__sOutput______			The__name__of__the__file__that__the__bitmap__will__be__saved__to.__Supported__extensions__are:__.BMP,.DIB,.RLE,.JPG,.JPEG,.JPE,.JFIF,.GIF,.TIF,.TIFF,.PNG
-;__Quality______			If__saving__as__jpg__(.JPG,.JPEG,.JPE,.JFIF)__then__quality__can__be___-_____with__default__at__maximum__quality
+; Function:     		Gdip_SaveBitmapToFile
+; Description:  		Saves a bitmap to a file in any supported format onto disk
+;   
+; pBitmap				Pointer to a bitmap
+; sOutput      			The name of the file that the bitmap will be saved to. Supported extensions are: .BMP,.DIB,.RLE,.JPG,.JPEG,.JPE,.JFIF,.GIF,.TIF,.TIFF,.PNG
+; Quality      			If saving as jpg (.JPG,.JPEG,.JPE,.JFIF) then quality can be 1-100 with default at maximum quality
 ;
-;__return______			If__the__function__succeeds,__the__return__value__is__zero,__otherwise:
-;						-___=__Extension__supplied__is__not__a__supported__file__format
-;						-___=__Could__not__get__a__list__of__encoders__on__system
-;						-___=__Could__not__find__matching__encoder__for__specified__file__format
-;						-___=__Could__not__get__WideChar__name__of__output__file
-;						-___=__Could__not__save__file__to__disk
+; return      			If the function succeeds, the return value is zero, otherwise:
+;						-1 = Extension supplied is not a supported file format
+;						-2 = Could not get a list of encoders on system
+;						-3 = Could not find matching encoder for specified file format
+;						-4 = Could not get WideChar name of output file
+;						-5 = Could not save file to disk
 ;
-;__notes					This__function__will__use__the__extension__supplied__from__the__sOutput__parameter__to__determine__the__output__format
+; notes					This function will use the extension supplied from the sOutput parameter to determine the output format
 
-Gdip_SaveBitmapToFile(pBitmap,__sOutput,__Quality=__)
+Gdip_SaveBitmapToFile(pBitmap, sOutput, Quality=75)
 {
-	SplitPath,__sOutput,,,__Extension
-	if__Extension__not__in__BMP,DIB,RLE,JPG,JPEG,JPE,JFIF,GIF,TIF,TIFF,PNG
-		return__-_
-	Extension__:=__"."__Extension
+	SplitPath, sOutput,,, Extension
+	if Extension not in BMP,DIB,RLE,JPG,JPEG,JPE,JFIF,GIF,TIF,TIFF,PNG
+		return -1
+	Extension := "." Extension
 
-	DllCall("gdiplus\GdipGetImageEncodersSize",__"uint*",__nCount,__"uint*",__nSize)
-	VarSetCapacity(ci,__nSize)
-	DllCall("gdiplus\GdipGetImageEncoders",__"uint",__nCount,__"uint",__nSize,__"uint",__&ci)
-	if__!(nCount__&&__nSize)
-		return__-_
-____
-	Loop,__%nCount%
+	DllCall("gdiplus\GdipGetImageEncodersSize", "uint*", nCount, "uint*", nSize)
+	VarSetCapacity(ci, nSize)
+	DllCall("gdiplus\GdipGetImageEncoders", "uint", nCount, "uint", nSize, "uint", &ci)
+	if !(nCount && nSize)
+		return -2
+   
+	Loop, %nCount%
 	{
-		Location__:=__NumGet(ci,____*(A_Index-_)+__)
-		if__!A_IsUnicode
+		Location := NumGet(ci, 76*(A_Index-1)+44)
+		if !A_IsUnicode
 		{
-			nSize__:=__DllCall("WideCharToMultiByte",__"uint",___,__"uint",___,__"uint",__Location,__"int",__-_,__"uint",___,__"int",___,__"uint",___,__"uint",___)
-			VarSetCapacity(sString,__nSize)
-			DllCall("WideCharToMultiByte",__"uint",___,__"uint",___,__"uint",__Location,__"int",__-_,__"str",__sString,__"int",__nSize,__"uint",___,__"uint",___)
-			if__!InStr(sString,__"*"__Extension)
+			nSize := DllCall("WideCharToMultiByte", "uint", 0, "uint", 0, "uint", Location, "int", -1, "uint", 0, "int",  0, "uint", 0, "uint", 0)
+			VarSetCapacity(sString, nSize)
+			DllCall("WideCharToMultiByte", "uint", 0, "uint", 0, "uint", Location, "int", -1, "str", sString, "int", nSize, "uint", 0, "uint", 0)
+			if !InStr(sString, "*" Extension)
 				continue
 		}
 		else
 		{
-			nSize__:=__DllCall("WideCharToMultiByte",__"uint",___,__"uint",___,__"uint",__Location,__"int",__-_,__"uint",___,__"int",___,__"uint",___,__"uint",___)
-			sString__:=__""
-			Loop,__%nSize%
-				sString__.=__Chr(NumGet(Location+_,___*(A_Index-_),__"char"))
-			if__!InStr(sString,__"*"__Extension)
+			nSize := DllCall("WideCharToMultiByte", "uint", 0, "uint", 0, "uint", Location, "int", -1, "uint", 0, "int",  0, "uint", 0, "uint", 0)
+			sString := ""
+			Loop, %nSize%
+				sString .= Chr(NumGet(Location+0, 2*(A_Index-1), "char"))
+			if !InStr(sString, "*" Extension)
 				continue
 		}
-		pCodec__:=__&ci+__*(A_Index-_)
+		pCodec := &ci+76*(A_Index-1)
 		break
 	}
-	if__!pCodec
-		return__-_
+	if !pCodec
+		return -3
 
-	if__(Quality__!=____)
+	if (Quality != 75)
 	{
-		Quality__:=__(Quality__<___)__?_____:__(Quality__>_____)__?_______:__Quality
-		if__Extension__in__.JPG,.JPEG,.JPE,.JFIF
+		Quality := (Quality < 0) ? 0 : (Quality > 100) ? 100 : Quality
+		if Extension in .JPG,.JPEG,.JPE,.JFIF
 		{
-			DllCall("gdiplus\GdipGetEncoderParameterListSize",__"uint",__pBitmap,__"uint",__pCodec,__"uint*",__nSize)
-			VarSetCapacity(EncoderParameters,__nSize,___)
-			DllCall("gdiplus\GdipGetEncoderParameterList",__"uint",__pBitmap,__"uint",__pCodec,__"uint",__nSize,__"uint",__&EncoderParameters)
-			Loop,__%__NumGet(EncoderParameters)______;%
+			DllCall("gdiplus\GdipGetEncoderParameterListSize", "uint", pBitmap, "uint", pCodec, "uint*", nSize)
+			VarSetCapacity(EncoderParameters, nSize, 0)
+			DllCall("gdiplus\GdipGetEncoderParameterList", "uint", pBitmap, "uint", pCodec, "uint", nSize, "uint", &EncoderParameters)
+			Loop, % NumGet(EncoderParameters)      ;%
 			{
-				if__(NumGet(EncoderParameters,__(__*(A_Index-_))+__)__=___)__&&__(NumGet(EncoderParameters,__(__*(A_Index-_))+__)__=___)
+				if (NumGet(EncoderParameters, (28*(A_Index-1))+20) = 1) && (NumGet(EncoderParameters, (28*(A_Index-1))+24) = 6)
 				{
-				____p__:=__(__*(A_Index-_))+&EncoderParameters
-				____NumPut(Quality,__NumGet(NumPut(_,__NumPut(_,__p+_)+__)))
-				____break
+				   p := (28*(A_Index-1))+&EncoderParameters
+				   NumPut(Quality, NumGet(NumPut(4, NumPut(1, p+0)+20)))
+				   break
 				}
-			}______
-	__}
+			}      
+	  }
 	}
 
-	if__!A_IsUnicode
+	if !A_IsUnicode
 	{
-		nSize__:=__DllCall("MultiByteToWideChar",__"uint",___,__"uint",___,__"uint",__&sOutput,__"int",__-_,__"uint",___,__"int",___)
-		VarSetCapacity(wOutput,__nSize*_)
-		DllCall("MultiByteToWideChar",__"uint",___,__"uint",___,__"uint",__&sOutput,__"int",__-_,__"uint",__&wOutput,__"int",__nSize)
-		VarSetCapacity(wOutput,__-_)
-		if__!VarSetCapacity(wOutput)
-			return__-_
-		E__:=__DllCall("gdiplus\GdipSaveImageToFile",__"uint",__pBitmap,__"uint",__&wOutput,__"uint",__pCodec,__"uint",__p__?__p__:___)
+		nSize := DllCall("MultiByteToWideChar", "uint", 0, "uint", 0, "uint", &sOutput, "int", -1, "uint", 0, "int", 0)
+		VarSetCapacity(wOutput, nSize*2)
+		DllCall("MultiByteToWideChar", "uint", 0, "uint", 0, "uint", &sOutput, "int", -1, "uint", &wOutput, "int", nSize)
+		VarSetCapacity(wOutput, -1)
+		if !VarSetCapacity(wOutput)
+			return -4
+		E := DllCall("gdiplus\GdipSaveImageToFile", "uint", pBitmap, "uint", &wOutput, "uint", pCodec, "uint", p ? p : 0)
 	}
 	else
-		E__:=__DllCall("gdiplus\GdipSaveImageToFile",__"uint",__pBitmap,__"uint",__&sOutput,__"uint",__pCodec,__"uint",__p__?__p__:___)
-	return__E__?__-___:___
+		E := DllCall("gdiplus\GdipSaveImageToFile", "uint", pBitmap, "uint", &sOutput, "uint", pCodec, "uint", p ? p : 0)
+	return E ? -5 : 0
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_GetPixel
-;__Description			Gets__the__ARGB__of__a__pixel__in__a__bitmap
+; Function				Gdip_GetPixel
+; Description			Gets the ARGB of a pixel in a bitmap
 ;
-;__pBitmap				Pointer__to__a__bitmap
-;__x						x-coordinate__of__the__pixel
-;__y						y-coordinate__of__the__pixel
+; pBitmap				Pointer to a bitmap
+; x						x-coordinate of the pixel
+; y						y-coordinate of the pixel
 ;
-;__return				Returns__the__ARGB__value__of__the__pixel
+; return				Returns the ARGB value of the pixel
 
-Gdip_GetPixel(pBitmap,__x,__y)
+Gdip_GetPixel(pBitmap, x, y)
 {
-	DllCall("gdiplus\GdipBitmapGetPixel",__"uint",__pBitmap,__"int",__x,__"int",__y,__"uint*",__ARGB)
-	return__ARGB
+	DllCall("gdiplus\GdipBitmapGetPixel", "uint", pBitmap, "int", x, "int", y, "uint*", ARGB)
+	return ARGB
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_SetPixel
-;__Description			Sets__the__ARGB__of__a__pixel__in__a__bitmap
+; Function				Gdip_SetPixel
+; Description			Sets the ARGB of a pixel in a bitmap
 ;
-;__pBitmap				Pointer__to__a__bitmap
-;__x						x-coordinate__of__the__pixel
-;__y						y-coordinate__of__the__pixel
+; pBitmap				Pointer to a bitmap
+; x						x-coordinate of the pixel
+; y						y-coordinate of the pixel
 ;
-;__return				status__enumeration._____=__success
+; return				status enumeration. 0 = success
 
-Gdip_SetPixel(pBitmap,__x,__y,__ARGB)
+Gdip_SetPixel(pBitmap, x, y, ARGB)
 {
-____return__DllCall("gdiplus\GdipBitmapSetPixel",__"uint",__pBitmap,__"int",__x,__"int",__y,__"int",__ARGB)
+   return DllCall("gdiplus\GdipBitmapSetPixel", "uint", pBitmap, "int", x, "int", y, "int", ARGB)
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_GetImageWidth
-;__Description			Gives__the__width__of__a__bitmap
+; Function				Gdip_GetImageWidth
+; Description			Gives the width of a bitmap
 ;
-;__pBitmap				Pointer__to__a__bitmap
+; pBitmap				Pointer to a bitmap
 ;
-;__return				Returns__the__width__in__pixels__of__the__supplied__bitmap
+; return				Returns the width in pixels of the supplied bitmap
 
 Gdip_GetImageWidth(pBitmap)
 {
-____DllCall("gdiplus\GdipGetImageWidth",__"uint",__pBitmap,__"uint*",__Width)
-____return__Width
+   DllCall("gdiplus\GdipGetImageWidth", "uint", pBitmap, "uint*", Width)
+   return Width
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_GetImageHeight
-;__Description			Gives__the__height__of__a__bitmap
+; Function				Gdip_GetImageHeight
+; Description			Gives the height of a bitmap
 ;
-;__pBitmap				Pointer__to__a__bitmap
+; pBitmap				Pointer to a bitmap
 ;
-;__return				Returns__the__height__in__pixels__of__the__supplied__bitmap
+; return				Returns the height in pixels of the supplied bitmap
 
 Gdip_GetImageHeight(pBitmap)
 {
-____DllCall("gdiplus\GdipGetImageHeight",__"uint",__pBitmap,__"uint*",__Height)
-____return__Height
+   DllCall("gdiplus\GdipGetImageHeight", "uint", pBitmap, "uint*", Height)
+   return Height
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_GetDimensions
-;__Description			Gives__the__width__and__height__of__a__bitmap
+; Function				Gdip_GetDimensions
+; Description			Gives the width and height of a bitmap
 ;
-;__pBitmap				Pointer__to__a__bitmap
-;__Width					ByRef__variable.__This__variable__will__be__set__to__the__width__of__the__bitmap
-;__Height				ByRef__variable.__This__variable__will__be__set__to__the__height__of__the__bitmap
+; pBitmap				Pointer to a bitmap
+; Width					ByRef variable. This variable will be set to the width of the bitmap
+; Height				ByRef variable. This variable will be set to the height of the bitmap
 ;
-;__return				No__return__value
-;						Gdip_GetDimensions(pBitmap,__ThisWidth,__ThisHeight)__will__set__ThisWidth__to__the__width__and__ThisHeight__to__the__height
+; return				No return value
+;						Gdip_GetDimensions(pBitmap, ThisWidth, ThisHeight) will set ThisWidth to the width and ThisHeight to the height
 
-Gdip_GetImageDimensions(pBitmap,__ByRef__Width,__ByRef__Height)
+Gdip_GetImageDimensions(pBitmap, ByRef Width, ByRef Height)
 {
-	DllCall("gdiplus\GdipGetImageWidth",__"uint",__pBitmap,__"uint*",__Width)
-	DllCall("gdiplus\GdipGetImageHeight",__"uint",__pBitmap,__"uint*",__Height)
+	DllCall("gdiplus\GdipGetImageWidth", "uint", pBitmap, "uint*", Width)
+	DllCall("gdiplus\GdipGetImageHeight", "uint", pBitmap, "uint*", Height)
 }
 
 ;#####################################################################################
 
-Gdip_GetDimensions(pBitmap,__ByRef__Width,__ByRef__Height)
+Gdip_GetDimensions(pBitmap, ByRef Width, ByRef Height)
 {
-	Gdip_GetImageDimensions(pBitmap,__Width,__Height)
+	Gdip_GetImageDimensions(pBitmap, Width, Height)
 }
 
 ;#####################################################################################
 
 Gdip_GetImagePixelFormat(pBitmap)
 {
-	DllCall("gdiplus\GdipGetImagePixelFormat",__"uint",__pBitmap,__"uint*",__Format)
-	return__Format
+	DllCall("gdiplus\GdipGetImagePixelFormat", "uint", pBitmap, "uint*", Format)
+	return Format
 }
 
 ;#####################################################################################
 
-;__Function				Gdip_GetDpiX
-;__Description			Gives__the__horizontal__dots__per__inch__of__the__graphics__of__a__bitmap
+; Function				Gdip_GetDpiX
+; Description			Gives the horizontal dots per inch of the graphics of a bitmap
 ;
-;__pBitmap				Pointer__to__a__bitmap
-;__Width					ByRef__variable.__This__variable__will__be__set__to__the__width__of__the__bitmap
-;__Height				ByRef__variable.__This__variable__will__be__set__to__the__height__of__the__bitmap
+; pBitmap				Pointer to a bitmap
+; Width					ByRef variable. This variable will be set to the width of the bitmap
+; Height				ByRef variable. This variable will be set to the height of the bitmap
 ;
-;__return				No__return__value
-;						Gdip_GetDimensions(pBitmap,__ThisWidth,__ThisHeight)__will__set__ThisWidth__to__the__width__and__ThisHeight__to__the__height
+; return				No return value
+;						Gdip_GetDimensions(pBitmap, ThisWidth, ThisHeight) will set ThisWidth to the width and ThisHeight to the height
 
 Gdip_GetDpiX(pGraphics)
 {
-	DllCall("gdiplus\GdipGetDpiX",__"uint",__pGraphics,__"float*",__dpix)
-	return__Round(dpix)
+	DllCall("gdiplus\GdipGetDpiX", "uint", pGraphics, "float*", dpix)
+	return Round(dpix)
 }
 
 ;#####################################################################################
 
 Gdip_GetDpiY(pGraphics)
 {
-	DllCall("gdiplus\GdipGetDpiY",__"uint",__pGraphics,__"float*",__dpiy)
-	return__Round(dpiy)
+	DllCall("gdiplus\GdipGetDpiY", "uint", pGraphics, "float*", dpiy)
+	return Round(dpiy)
 }
 
 ;#####################################################################################
 
 Gdip_GetImageHorizontalResolution(pBitmap)
 {
-	DllCall("gdiplus\GdipGetImageHorizontalResolution",__"uint",__pBitmap,__"float*",__dpix)
-	return__Round(dpix)
+	DllCall("gdiplus\GdipGetImageHorizontalResolution", "uint", pBitmap, "float*", dpix)
+	return Round(dpix)
 }
 
 ;#####################################################################################
 
 Gdip_GetImageVerticalResolution(pBitmap)
 {
-	DllCall("gdiplus\GdipGetImageVerticalResolution",__"uint",__pBitmap,__"float*",__dpiy)
-	return__Round(dpiy)
+	DllCall("gdiplus\GdipGetImageVerticalResolution", "uint", pBitmap, "float*", dpiy)
+	return Round(dpiy)
 }
 
 ;#####################################################################################
 
-Gdip_BitmapSetResolution(pBitmap,__dpix,__dpiy)
+Gdip_BitmapSetResolution(pBitmap, dpix, dpiy)
 {
-	return__DllCall("gdiplus\GdipBitmapSetResolution",__"uint",__pBitmap,__"float",__dpix,__"float",__dpiy)
+	return DllCall("gdiplus\GdipBitmapSetResolution", "uint", pBitmap, "float", dpix, "float", dpiy)
 }
 
 ;#####################################################################################
 
-Gdip_CreateBitmapFromFile(sFile,__IconNumber=_,__IconSize="")
+Gdip_CreateBitmapFromFile(sFile, IconNumber=1, IconSize="")
 {
-	SplitPath,__sFile,,,__ext
-	if__ext__in__exe,dll
+	SplitPath, sFile,,, ext
+	if ext in exe,dll
 	{
-		Sizes__:=__IconSize__?__IconSize__:_______"|"_______"|"______"|"______"|"______"|"____
-		VarSetCapacity(buf,____)
-		Loop,__Parse,__Sizes,__|
+		Sizes := IconSize ? IconSize : 256 "|" 128 "|" 64 "|" 48 "|" 32 "|" 16
+		VarSetCapacity(buf, 40)
+		Loop, Parse, Sizes, |
 		{
-			DllCall("PrivateExtractIcons",__"str",__sFile,__"int",__IconNumber-_,__"int",__A_LoopField,__"int",__A_LoopField,__"uint*",__hIcon,__"uint*",___,__"uint",___,__"uint",___)
-			if__!hIcon
+			DllCall("PrivateExtractIcons", "str", sFile, "int", IconNumber-1, "int", A_LoopField, "int", A_LoopField, "uint*", hIcon, "uint*", 0, "uint", 1, "uint", 0)
+			if !hIcon
 				continue
 
-			if__!DllCall("GetIconInfo",__"uint",__hIcon,__"uint",__&buf)
+			if !DllCall("GetIconInfo", "uint", hIcon, "uint", &buf)
 			{
 				DestroyIcon(hIcon)
 				continue
 			}
-			hbmColor__:=__NumGet(buf,____)
-			hbmMask__:=__NumGet(buf,____)
+			hbmColor := NumGet(buf, 16)
+			hbmMask  := NumGet(buf, 12)
 
-			if__!(hbmColor__&&__DllCall("GetObject",__"uint",__hbmColor,__"int",____,__"uint",__&buf))
+			if !(hbmColor && DllCall("GetObject", "uint", hbmColor, "int", 24, "uint", &buf))
 			{
 				DestroyIcon(hIcon)
 				continue
 			}
 			break
 		}
-		if__!hIcon
-			return__-_
+		if !hIcon
+			return -1
 
-		Width__:=__NumGet(buf,___,__"int"),__Height__:=__NumGet(buf,___,__"int")
-		hbm__:=__CreateDIBSection(Width,__-Height),__hdc__:=__CreateCompatibleDC(),__obm__:=__SelectObject(hdc,__hbm)
+		Width := NumGet(buf, 4, "int"),  Height := NumGet(buf, 8, "int")
+		hbm := CreateDIBSection(Width, -Height), hdc := CreateCompatibleDC(), obm := SelectObject(hdc, hbm)
 
-		if__!DllCall("DrawIconEx",__"uint",__hdc,__"int",___,__"int",___,__"uint",__hIcon,__"uint",__Width,__"uint",__Height,__"uint",___,__"uint",___,__"uint",___)
+		if !DllCall("DrawIconEx", "uint", hdc, "int", 0, "int", 0, "uint", hIcon, "uint", Width, "uint", Height, "uint", 0, "uint", 0, "uint", 3)
 		{
 			DestroyIcon(hIcon)
-			return__-_
+			return -2
 		}
 
-		VarSetCapacity(dib,____)
-		DllCall("GetObject",__"uint",__hbm,__"int",____,__"uint",__&dib)
-		Stride__:=__NumGet(dib,____),__Bits__:=__NumGet(dib,____)
+		VarSetCapacity(dib, 84)
+		DllCall("GetObject", "uint", hbm, "int", 84, "uint", &dib)
+		Stride := NumGet(dib, 12), Bits := NumGet(dib, 20)
 
-		DllCall("gdiplus\GdipCreateBitmapFromScan_",__"int",__Width,__"int",__Height,__"int",__Stride,__"int",___x_____A,__"uint",__Bits,__"uint*",__pBitmapOld)
-		pBitmap__:=__Gdip_CreateBitmap(Width,__Height),__G__:=__Gdip_GraphicsFromImage(pBitmap)
-		Gdip_DrawImage(G,__pBitmapOld,___,___,__Width,__Height,___,___,__Width,__Height)
-		SelectObject(hdc,__obm),__DeleteObject(hbm),__DeleteDC(hdc)
-		Gdip_DeleteGraphics(G),__Gdip_DisposeImage(pBitmapOld)
+		DllCall("gdiplus\GdipCreateBitmapFromScan0", "int", Width, "int", Height, "int", Stride, "int", 0x26200A, "uint", Bits, "uint*", pBitmapOld)
+		pBitmap := Gdip_CreateBitmap(Width, Height), G := Gdip_GraphicsFromImage(pBitmap)
+		Gdip_DrawImage(G, pBitmapOld, 0, 0, Width, Height, 0, 0, Width, Height)
+		SelectObject(hdc, obm), DeleteObject(hbm), DeleteDC(hdc)
+		Gdip_DeleteGraphics(G), Gdip_DisposeImage(pBitmapOld)
 		DestroyIcon(hIcon)
 	}
 	else
 	{
-		if__!A_IsUnicode
+		if !A_IsUnicode
 		{
-			VarSetCapacity(wFile,______)
-			DllCall("kernel__\MultiByteToWideChar",__"uint",___,__"uint",___,__"uint",__&sFile,__"int",__-_,__"uint",__&wFile,__"int",_____)
-			DllCall("gdiplus\GdipCreateBitmapFromFile",__"uint",__&wFile,__"uint*",__pBitmap)
+			VarSetCapacity(wFile, 1023)
+			DllCall("kernel32\MultiByteToWideChar", "uint", 0, "uint", 0, "uint", &sFile, "int", -1, "uint", &wFile, "int", 512)
+			DllCall("gdiplus\GdipCreateBitmapFromFile", "uint", &wFile, "uint*", pBitmap)
 		}
 		else
-			DllCall("gdiplus\GdipCreateBitmapFromFile",__"uint",__&sFile,__"uint*",__pBitmap)
+			DllCall("gdiplus\GdipCreateBitmapFromFile", "uint", &sFile, "uint*", pBitmap)
 	}
-	return__pBitmap
+	return pBitmap
 }
 
 ;#####################################################################################
 
-Gdip_CreateBitmapFromHBITMAP(hBitmap,__Palette=_)
+Gdip_CreateBitmapFromHBITMAP(hBitmap, Palette=0)
 {
-	DllCall("gdiplus\GdipCreateBitmapFromHBITMAP",__"uint",__hBitmap,__"uint",__Palette,__"uint*",__pBitmap)
-	return__pBitmap
+	DllCall("gdiplus\GdipCreateBitmapFromHBITMAP", "uint", hBitmap, "uint", Palette, "uint*", pBitmap)
+	return pBitmap
 }
 
 ;#####################################################################################
 
-Gdip_CreateHBITMAPFromBitmap(pBitmap,__Background=_xffffffff)
+Gdip_CreateHBITMAPFromBitmap(pBitmap, Background=0xffffffff)
 {
-	DllCall("gdiplus\GdipCreateHBITMAPFromBitmap",__"uint",__pBitmap,__"uint*",__hbm,__"int",__Background)
-	return__hbm
+	DllCall("gdiplus\GdipCreateHBITMAPFromBitmap", "uint", pBitmap, "uint*", hbm, "int", Background)
+	return hbm
 }
 
 ;#####################################################################################
 
 Gdip_CreateBitmapFromHICON(hIcon)
 {
-	DllCall("gdiplus\GdipCreateBitmapFromHICON",__"uint",__hIcon,__"uint*",__pBitmap)
-	return__pBitmap
+	DllCall("gdiplus\GdipCreateBitmapFromHICON", "uint", hIcon, "uint*", pBitmap)
+	return pBitmap
 }
 
 ;#####################################################################################
 
 Gdip_CreateHICONFromBitmap(pBitmap)
 {
-	DllCall("gdiplus\GdipCreateHICONFromBitmap",__"uint",__pBitmap,__"uint*",__hIcon)
-	return__hIcon
+	DllCall("gdiplus\GdipCreateHICONFromBitmap", "uint", pBitmap, "uint*", hIcon)
+	return hIcon
 }
 
 ;#####################################################################################
 
-Gdip_CreateBitmap(Width,__Height,__Format=_x_____A)
+Gdip_CreateBitmap(Width, Height, Format=0x26200A)
 {
-____DllCall("gdiplus\GdipCreateBitmapFromScan_",__"int",__Width,__"int",__Height,__"int",___,__"int",__Format,__"uint",___,__"uint*",__pBitmap)
-____Return__pBitmap
+    DllCall("gdiplus\GdipCreateBitmapFromScan0", "int", Width, "int", Height, "int", 0, "int", Format, "uint", 0, "uint*", pBitmap)
+    Return pBitmap
 }
 
 ;#####################################################################################
 
 Gdip_CreateBitmapFromClipboard()
 {
-	if__!DllCall("OpenClipboard",__"uint",___)
-		return__-_
-	if__!DllCall("IsClipboardFormatAvailable",__"uint",___)
-		return__-_
-	if__!hBitmap__:=__DllCall("GetClipboardData",__"uint",___)
-		return__-_
-	if__!pBitmap__:=__Gdip_CreateBitmapFromHBITMAP(hBitmap)
-		return__-_
-	if__!DllCall("CloseClipboard")
-		return__-_
+	if !DllCall("OpenClipboard", "uint", 0)
+		return -1
+	if !DllCall("IsClipboardFormatAvailable", "uint", 8)
+		return -2
+	if !hBitmap := DllCall("GetClipboardData", "uint", 2)
+		return -3
+	if !pBitmap := Gdip_CreateBitmapFromHBITMAP(hBitmap)
+		return -4
+	if !DllCall("CloseClipboard")
+		return -5
 	DeleteObject(hBitmap)
-	return__pBitmap
+	return pBitmap
 }
 
 ;#####################################################################################
 
 Gdip_SetBitmapToClipboard(pBitmap)
 {
-	hBitmap__:=__Gdip_CreateHBITMAPFromBitmap(pBitmap)
-	DllCall("GetObject",__"uint",__hBitmap,__"int",__VarSetCapacity(oi,____,___),__"uint",__&oi)
-	hdib__:=__DllCall("GlobalAlloc",__"uint",___,__"uint",____+NumGet(oi,____))
-	pdib__:=__DllCall("GlobalLock",__"uint",__hdib)
-	DllCall("RtlMoveMemory",__"uint",__pdib,__"uint",__&oi+__,__"uint",____)
-	DllCall("RtlMoveMemory",__"Uint",__pdib+__,__"Uint",__NumGet(oi,____),__"uint",__NumGet(oi,____))
-	DllCall("GlobalUnlock",__"uint",__hdib)
-	DllCall("DeleteObject",__"uint",__hBitmap)
-	DllCall("OpenClipboard",__"uint",___)
+	hBitmap := Gdip_CreateHBITMAPFromBitmap(pBitmap)
+	DllCall("GetObject", "uint", hBitmap, "int", VarSetCapacity(oi, 84, 0), "uint", &oi)
+	hdib := DllCall("GlobalAlloc", "uint", 2, "uint", 40+NumGet(oi, 44))
+	pdib := DllCall("GlobalLock", "uint", hdib)
+	DllCall("RtlMoveMemory", "uint", pdib, "uint", &oi+24, "uint", 40)
+	DllCall("RtlMoveMemory", "Uint", pdib+40, "Uint", NumGet(oi, 20), "uint", NumGet(oi, 44))
+	DllCall("GlobalUnlock", "uint", hdib)
+	DllCall("DeleteObject", "uint", hBitmap)
+	DllCall("OpenClipboard", "uint", 0)
 	DllCall("EmptyClipboard")
-	DllCall("SetClipboardData",__"uint",___,__"uint",__hdib)
+	DllCall("SetClipboardData", "uint", 8, "uint", hdib)
 	DllCall("CloseClipboard")
 }
 
 ;#####################################################################################
 
-Gdip_CloneBitmapArea(pBitmap,__x,__y,__w,__h,__Format=_x_____A)
+Gdip_CloneBitmapArea(pBitmap, x, y, w, h, Format=0x26200A)
 {
-	DllCall("gdiplus\GdipCloneBitmapArea",__"float",__x,__"float",__y,__"float",__w,__"float",__h
-	,__"int",__Format,__"uint",__pBitmap,__"uint*",__pBitmapDest)
-	return__pBitmapDest
+	DllCall("gdiplus\GdipCloneBitmapArea", "float", x, "float", y, "float", w, "float", h
+	, "int", Format, "uint", pBitmap, "uint*", pBitmapDest)
+	return pBitmapDest
 }
 
 ;#####################################################################################
-;__Create__resources
+; Create resources
 ;#####################################################################################
 
-Gdip_CreatePen(ARGB,__w)
+Gdip_CreatePen(ARGB, w)
 {
-____DllCall("gdiplus\GdipCreatePen_",__"int",__ARGB,__"float",__w,__"int",___,__"uint*",__pPen)
-____return__pPen
-}
-
-;#####################################################################################
-
-Gdip_CreatePenFromBrush(pBrush,__w)
-{
-	DllCall("gdiplus\GdipCreatePen_",__"uint",__pBrush,__"float",__w,__"int",___,__"uint*",__pPen)
-	return__pPen
+   DllCall("gdiplus\GdipCreatePen1", "int", ARGB, "float", w, "int", 2, "uint*", pPen)
+   return pPen
 }
 
 ;#####################################################################################
 
-Gdip_BrushCreateSolid(ARGB=_xff______)
+Gdip_CreatePenFromBrush(pBrush, w)
 {
-	DllCall("gdiplus\GdipCreateSolidFill",__"int",__ARGB,__"uint*",__pBrush)
-	return__pBrush
+	DllCall("gdiplus\GdipCreatePen2", "uint", pBrush, "float", w, "int", 2, "uint*", pPen)
+	return pPen
 }
 
 ;#####################################################################################
 
-;__HatchStyleHorizontal__=___
-;__HatchStyleVertical__=___
-;__HatchStyleForwardDiagonal__=___
-;__HatchStyleBackwardDiagonal__=___
-;__HatchStyleCross__=___
-;__HatchStyleDiagonalCross__=___
-;__HatchStyle__Percent__=___
-;__HatchStyle__Percent__=___
-;__HatchStyle__Percent__=___
-;__HatchStyle__Percent__=___
-;__HatchStyle__Percent__=____
-;__HatchStyle__Percent__=____
-;__HatchStyle__Percent__=____
-;__HatchStyle__Percent__=____
-;__HatchStyle__Percent__=____
-;__HatchStyle__Percent__=____
-;__HatchStyle__Percent__=____
-;__HatchStyle__Percent__=____
-;__HatchStyleLightDownwardDiagonal__=____
-;__HatchStyleLightUpwardDiagonal__=____
-;__HatchStyleDarkDownwardDiagonal__=____
-;__HatchStyleDarkUpwardDiagonal__=____
-;__HatchStyleWideDownwardDiagonal__=____
-;__HatchStyleWideUpwardDiagonal__=____
-;__HatchStyleLightVertical__=____
-;__HatchStyleLightHorizontal__=____
-;__HatchStyleNarrowVertical__=____
-;__HatchStyleNarrowHorizontal__=____
-;__HatchStyleDarkVertical__=____
-;__HatchStyleDarkHorizontal__=____
-;__HatchStyleDashedDownwardDiagonal__=____
-;__HatchStyleDashedUpwardDiagonal__=____
-;__HatchStyleDashedHorizontal__=____
-;__HatchStyleDashedVertical__=____
-;__HatchStyleSmallConfetti__=____
-;__HatchStyleLargeConfetti__=____
-;__HatchStyleZigZag__=____
-;__HatchStyleWave__=____
-;__HatchStyleDiagonalBrick__=____
-;__HatchStyleHorizontalBrick__=____
-;__HatchStyleWeave__=____
-;__HatchStylePlaid__=____
-;__HatchStyleDivot__=____
-;__HatchStyleDottedGrid__=____
-;__HatchStyleDottedDiamond__=____
-;__HatchStyleShingle__=____
-;__HatchStyleTrellis__=____
-;__HatchStyleSphere__=____
-;__HatchStyleSmallGrid__=____
-;__HatchStyleSmallCheckerBoard__=____
-;__HatchStyleLargeCheckerBoard__=____
-;__HatchStyleOutlinedDiamond__=____
-;__HatchStyleSolidDiamond__=____
-;__HatchStyleTotal__=____
-Gdip_BrushCreateHatch(ARGBfront,__ARGBback,__HatchStyle=_)
+Gdip_BrushCreateSolid(ARGB=0xff000000)
 {
-	DllCall("gdiplus\GdipCreateHatchBrush",__"int",__HatchStyle,__"int",__ARGBfront,__"int",__ARGBback,__"uint*",__pBrush)
-	return__pBrush
+	DllCall("gdiplus\GdipCreateSolidFill", "int", ARGB, "uint*", pBrush)
+	return pBrush
 }
 
 ;#####################################################################################
 
-Gdip_CreateTextureBrush(pBitmap,__WrapMode=_,__x=_,__y=_,__w="",__h="")
+; HatchStyleHorizontal = 0
+; HatchStyleVertical = 1
+; HatchStyleForwardDiagonal = 2
+; HatchStyleBackwardDiagonal = 3
+; HatchStyleCross = 4
+; HatchStyleDiagonalCross = 5
+; HatchStyle05Percent = 6
+; HatchStyle10Percent = 7
+; HatchStyle20Percent = 8
+; HatchStyle25Percent = 9
+; HatchStyle30Percent = 10
+; HatchStyle40Percent = 11
+; HatchStyle50Percent = 12
+; HatchStyle60Percent = 13
+; HatchStyle70Percent = 14
+; HatchStyle75Percent = 15
+; HatchStyle80Percent = 16
+; HatchStyle90Percent = 17
+; HatchStyleLightDownwardDiagonal = 18
+; HatchStyleLightUpwardDiagonal = 19
+; HatchStyleDarkDownwardDiagonal = 20
+; HatchStyleDarkUpwardDiagonal = 21
+; HatchStyleWideDownwardDiagonal = 22
+; HatchStyleWideUpwardDiagonal = 23
+; HatchStyleLightVertical = 24
+; HatchStyleLightHorizontal = 25
+; HatchStyleNarrowVertical = 26
+; HatchStyleNarrowHorizontal = 27
+; HatchStyleDarkVertical = 28
+; HatchStyleDarkHorizontal = 29
+; HatchStyleDashedDownwardDiagonal = 30
+; HatchStyleDashedUpwardDiagonal = 31
+; HatchStyleDashedHorizontal = 32
+; HatchStyleDashedVertical = 33
+; HatchStyleSmallConfetti = 34
+; HatchStyleLargeConfetti = 35
+; HatchStyleZigZag = 36
+; HatchStyleWave = 37
+; HatchStyleDiagonalBrick = 38
+; HatchStyleHorizontalBrick = 39
+; HatchStyleWeave = 40
+; HatchStylePlaid = 41
+; HatchStyleDivot = 42
+; HatchStyleDottedGrid = 43
+; HatchStyleDottedDiamond = 44
+; HatchStyleShingle = 45
+; HatchStyleTrellis = 46
+; HatchStyleSphere = 47
+; HatchStyleSmallGrid = 48
+; HatchStyleSmallCheckerBoard = 49
+; HatchStyleLargeCheckerBoard = 50
+; HatchStyleOutlinedDiamond = 51
+; HatchStyleSolidDiamond = 52
+; HatchStyleTotal = 53
+Gdip_BrushCreateHatch(ARGBfront, ARGBback, HatchStyle=0)
 {
-	if__!(w__&&__h)
-		DllCall("gdiplus\GdipCreateTexture",__"uint",__pBitmap,__"int",__WrapMode,__"uint*",__pBrush)
+	DllCall("gdiplus\GdipCreateHatchBrush", "int", HatchStyle, "int", ARGBfront, "int", ARGBback, "uint*", pBrush)
+	return pBrush
+}
+
+;#####################################################################################
+
+Gdip_CreateTextureBrush(pBitmap, WrapMode=1, x=0, y=0, w="", h="")
+{
+	if !(w && h)
+		DllCall("gdiplus\GdipCreateTexture", "uint", pBitmap, "int", WrapMode, "uint*", pBrush)
 	else
-		DllCall("gdiplus\GdipCreateTexture_",__"uint",__pBitmap,__"int",__WrapMode,__"float",__x,__"float",__y,__"float",__w,__"float",__h,__"uint*",__pBrush)
-	return__pBrush
+		DllCall("gdiplus\GdipCreateTexture2", "uint", pBitmap, "int", WrapMode, "float", x, "float", y, "float", w, "float", h, "uint*", pBrush)
+	return pBrush
 }
 
 ;#####################################################################################
 
-;__WrapModeTile__=___
-;__WrapModeTileFlipX__=___
-;__WrapModeTileFlipY__=___
-;__WrapModeTileFlipXY__=___
-;__WrapModeClamp__=___
-Gdip_CreateLineBrush(x_,__y_,__x_,__y_,__ARGB_,__ARGB_,__WrapMode=_)
+; WrapModeTile = 0
+; WrapModeTileFlipX = 1
+; WrapModeTileFlipY = 2
+; WrapModeTileFlipXY = 3
+; WrapModeClamp = 4
+Gdip_CreateLineBrush(x1, y1, x2, y2, ARGB1, ARGB2, WrapMode=1)
 {
-	CreatePointF(PointF_,__x_,__y_),__CreatePointF(PointF_,__x_,__y_)
-	DllCall("gdiplus\GdipCreateLineBrush",__"uint",__&PointF_,__"uint",__&PointF_,__"int",__ARGB_,__"int",__ARGB_,__"int",__WrapMode,__"uint*",__LGpBrush)
-	return__LGpBrush
+	CreatePointF(PointF1, x1, y1), CreatePointF(PointF2, x2, y2)
+	DllCall("gdiplus\GdipCreateLineBrush", "uint", &PointF1, "uint", &PointF2, "int", ARGB1, "int", ARGB2, "int", WrapMode, "uint*", LGpBrush)
+	return LGpBrush
 }
 
 ;#####################################################################################
 
-;__LinearGradientModeHorizontal__=___
-;__LinearGradientModeVertical__=___
-;__LinearGradientModeForwardDiagonal__=___
-;__LinearGradientModeBackwardDiagonal__=___
-Gdip_CreateLineBrushFromRect(x,__y,__w,__h,__ARGB_,__ARGB_,__LinearGradientMode=_,__WrapMode=_)
+; LinearGradientModeHorizontal = 0
+; LinearGradientModeVertical = 1
+; LinearGradientModeForwardDiagonal = 2
+; LinearGradientModeBackwardDiagonal = 3
+Gdip_CreateLineBrushFromRect(x, y, w, h, ARGB1, ARGB2, LinearGradientMode=1, WrapMode=1)
 {
-	CreateRectF(RectF,__x,__y,__w,__h)
-	DllCall("gdiplus\GdipCreateLineBrushFromRect",__"uint",__&RectF,__"int",__ARGB_,__"int",__ARGB_,__"int",__LinearGradientMode,__"int",__WrapMode,__"uint*",__LGpBrush)
-	return__LGpBrush
+	CreateRectF(RectF, x, y, w, h)
+	DllCall("gdiplus\GdipCreateLineBrushFromRect", "uint", &RectF, "int", ARGB1, "int", ARGB2, "int", LinearGradientMode, "int", WrapMode, "uint*", LGpBrush)
+	return LGpBrush
 }
 
 ;#####################################################################################
 
 Gdip_CloneBrush(pBrush)
 {
-	DllCall("gdiplus\GdipCloneBrush",__"uint",__pBrush,__"uint*",__pBrushClone)
-	return__pBrushClone
+	DllCall("gdiplus\GdipCloneBrush", "uint", pBrush, "uint*", pBrushClone)
+	return pBrushClone
 }
 
 ;#####################################################################################
-;__Delete__resources
+; Delete resources
 ;#####################################################################################
 
 Gdip_DeletePen(pPen)
 {
-____return__DllCall("gdiplus\GdipDeletePen",__"uint",__pPen)
+   return DllCall("gdiplus\GdipDeletePen", "uint", pPen)
 }
 
 ;#####################################################################################
 
 Gdip_DeleteBrush(pBrush)
 {
-____return__DllCall("gdiplus\GdipDeleteBrush",__"uint",__pBrush)
+   return DllCall("gdiplus\GdipDeleteBrush", "uint", pBrush)
 }
 
 ;#####################################################################################
 
 Gdip_DisposeImage(pBitmap)
 {
-____return__DllCall("gdiplus\GdipDisposeImage",__"uint",__pBitmap)
+   return DllCall("gdiplus\GdipDisposeImage", "uint", pBitmap)
 }
 
 ;#####################################################################################
 
 Gdip_DeleteGraphics(pGraphics)
 {
-____return__DllCall("gdiplus\GdipDeleteGraphics",__"uint",__pGraphics)
+   return DllCall("gdiplus\GdipDeleteGraphics", "uint", pGraphics)
 }
 
 ;#####################################################################################
 
 Gdip_DisposeImageAttributes(ImageAttr)
 {
-	return__DllCall("gdiplus\GdipDisposeImageAttributes",__"uint",__ImageAttr)
+	return DllCall("gdiplus\GdipDisposeImageAttributes", "uint", ImageAttr)
 }
 
 ;#####################################################################################
 
 Gdip_DeleteFont(hFont)
 {
-____return__DllCall("gdiplus\GdipDeleteFont",__"uint",__hFont)
+   return DllCall("gdiplus\GdipDeleteFont", "uint", hFont)
 }
 
 ;#####################################################################################
 
 Gdip_DeleteStringFormat(hFormat)
 {
-____return__DllCall("gdiplus\GdipDeleteStringFormat",__"uint",__hFormat)
+   return DllCall("gdiplus\GdipDeleteStringFormat", "uint", hFormat)
 }
 
 ;#####################################################################################
 
 Gdip_DeleteFontFamily(hFamily)
 {
-____return__DllCall("gdiplus\GdipDeleteFontFamily",__"uint",__hFamily)
+   return DllCall("gdiplus\GdipDeleteFontFamily", "uint", hFamily)
 }
 
 ;#####################################################################################
 
 Gdip_DeleteMatrix(Matrix)
 {
-____return__DllCall("gdiplus\GdipDeleteMatrix",__"uint",__Matrix)
+   return DllCall("gdiplus\GdipDeleteMatrix", "uint", Matrix)
 }
 
 ;#####################################################################################
-;__Text__functions
+; Text functions
 ;#####################################################################################
 
-Gdip_TextToGraphics(pGraphics,__Text,__Options,__Font="Arial",__Width="",__Height="",__Measure=_)
+Gdip_TextToGraphics(pGraphics, Text, Options, Font="Arial", Width="", Height="", Measure=0)
 {
-	IWidth__:=__Width,__IHeight:=__Height
+	IWidth := Width, IHeight:= Height
 	
-	RegExMatch(Options,__"i)X([\-\d\.]+)(p*)",__xpos)
-	RegExMatch(Options,__"i)Y([\-\d\.]+)(p*)",__ypos)
-	RegExMatch(Options,__"i)W([\-\d\.]+)(p*)",__Width)
-	RegExMatch(Options,__"i)H([\-\d\.]+)(p*)",__Height)
-	RegExMatch(Options,__"i)C(?!(entre|enter))([a-f\d]+)",__Colour)
-	RegExMatch(Options,__"i)Top|Up|Bottom|Down|vCentre|vCenter",__vPos)
-	RegExMatch(Options,__"i)NoWrap",__NoWrap)
-	RegExMatch(Options,__"i)R(\d)",__Rendering)
-	RegExMatch(Options,__"i)S(\d+)(p*)",__Size)
+	RegExMatch(Options, "i)X([\-\d\.]+)(p*)", xpos)
+	RegExMatch(Options, "i)Y([\-\d\.]+)(p*)", ypos)
+	RegExMatch(Options, "i)W([\-\d\.]+)(p*)", Width)
+	RegExMatch(Options, "i)H([\-\d\.]+)(p*)", Height)
+	RegExMatch(Options, "i)C(?!(entre|enter))([a-f\d]+)", Colour)
+	RegExMatch(Options, "i)Top|Up|Bottom|Down|vCentre|vCenter", vPos)
+	RegExMatch(Options, "i)NoWrap", NoWrap)
+	RegExMatch(Options, "i)R(\d)", Rendering)
+	RegExMatch(Options, "i)S(\d+)(p*)", Size)
 
-	if__!Gdip_DeleteBrush(Gdip_CloneBrush(Colour_))
-		PassBrush__:=___,__pBrush__:=__Colour_
+	if !Gdip_DeleteBrush(Gdip_CloneBrush(Colour2))
+		PassBrush := 1, pBrush := Colour2
 	
-	if__!(IWidth__&&__IHeight)__&&__(xpos___||__ypos___||__Width___||__Height___||__Size_)
-		return__-_
+	if !(IWidth && IHeight) && (xpos2 || ypos2 || Width2 || Height2 || Size2)
+		return -1
 
-	Style__:=___,__Styles__:=__"Regular|Bold|Italic|BoldItalic|Underline|Strikeout"
-	Loop,__Parse,__Styles,__|
+	Style := 0, Styles := "Regular|Bold|Italic|BoldItalic|Underline|Strikeout"
+	Loop, Parse, Styles, |
 	{
-		if__RegExMatch(Options,__"\b"__A_loopField)
-		Style__|=__(A_LoopField__!=__"StrikeOut")__?__(A_Index-_)__:___
+		if RegExMatch(Options, "\b" A_loopField)
+		Style |= (A_LoopField != "StrikeOut") ? (A_Index-1) : 8
 	}
-__
-	Align__:=___,__Alignments__:=__"Near|Left|Centre|Center|Far|Right"
-	Loop,__Parse,__Alignments,__|
+  
+	Align := 0, Alignments := "Near|Left|Centre|Center|Far|Right"
+	Loop, Parse, Alignments, |
 	{
-		if__RegExMatch(Options,__"\b"__A_loopField)
-			Align__|=__A_Index//_._______;___|_|_|_|_|_
+		if RegExMatch(Options, "\b" A_loopField)
+			Align |= A_Index//2.1      ; 0|0|1|1|2|2
 	}
 
-	xpos__:=__(xpos___!=__"")__?__xpos___?__IWidth*(xpos_/___)__:__xpos___:___
-	ypos__:=__(ypos___!=__"")__?__ypos___?__IHeight*(ypos_/___)__:__ypos___:___
-	Width__:=__Width___?__Width___?__IWidth*(Width_/___)__:__Width___:__IWidth
-	Height__:=__Height___?__Height___?__IHeight*(Height_/___)__:__Height___:__IHeight
-	if__!PassBrush
-		Colour__:=__"_x"__(Colour___?__Colour___:__"ff______")
-	Rendering__:=__((Rendering___>=___)__&&__(Rendering___<=___))__?__Rendering___:___
-	Size__:=__(Size___>___)__?__Size___?__IHeight*(Size_/___)__:__Size___:____
+	xpos := (xpos1 != "") ? xpos2 ? IWidth*(xpos1/100) : xpos1 : 0
+	ypos := (ypos1 != "") ? ypos2 ? IHeight*(ypos1/100) : ypos1 : 0
+	Width := Width1 ? Width2 ? IWidth*(Width1/100) : Width1 : IWidth
+	Height := Height1 ? Height2 ? IHeight*(Height1/100) : Height1 : IHeight
+	if !PassBrush
+		Colour := "0x" (Colour2 ? Colour2 : "ff000000")
+	Rendering := ((Rendering1 >= 0) && (Rendering1 <= 5)) ? Rendering1 : 4
+	Size := (Size1 > 0) ? Size2 ? IHeight*(Size1/100) : Size1 : 12
 
-	hFamily__:=__Gdip_FontFamilyCreate(Font)
-	hFont__:=__Gdip_FontCreate(hFamily,__Size,__Style)
-	FormatStyle__:=__NoWrap__?___x______|___x______:___x____
-	hFormat__:=__Gdip_StringFormatCreate(FormatStyle)
-	pBrush__:=__PassBrush__?__pBrush__:__Gdip_BrushCreateSolid(Colour)
-	if__!(hFamily__&&__hFont__&&__hFormat__&&__pBrush__&&__pGraphics)
-		return__!pGraphics__?__-___:__!hFamily__?__-___:__!hFont__?__-___:__!hFormat__?__-___:__!pBrush__?__-___:___
-____
-	CreateRectF(RC,__xpos,__ypos,__Width,__Height)
-	Gdip_SetStringFormatAlign(hFormat,__Align)
-	Gdip_SetTextRenderingHint(pGraphics,__Rendering)
-	ReturnRC__:=__Gdip_MeasureString(pGraphics,__Text,__hFont,__hFormat,__RC)
+	hFamily := Gdip_FontFamilyCreate(Font)
+	hFont := Gdip_FontCreate(hFamily, Size, Style)
+	FormatStyle := NoWrap ? 0x4000 | 0x1000 : 0x4000
+	hFormat := Gdip_StringFormatCreate(FormatStyle)
+	pBrush := PassBrush ? pBrush : Gdip_BrushCreateSolid(Colour)
+	if !(hFamily && hFont && hFormat && pBrush && pGraphics)
+		return !pGraphics ? -2 : !hFamily ? -3 : !hFont ? -4 : !hFormat ? -5 : !pBrush ? -6 : 0
+   
+	CreateRectF(RC, xpos, ypos, Width, Height)
+	Gdip_SetStringFormatAlign(hFormat, Align)
+	Gdip_SetTextRenderingHint(pGraphics, Rendering)
+	ReturnRC := Gdip_MeasureString(pGraphics, Text, hFont, hFormat, RC)
 
-	if__vPos
+	if vPos
 	{
-		StringSplit,__ReturnRC,__ReturnRC,__|
+		StringSplit, ReturnRC, ReturnRC, |
 		
-		if__(vPos__=__"vCentre")__||__(vPos__=__"vCenter")
-			ypos__+=__(Height-ReturnRC_)//_
-		else__if__(vPos__=__"Top")__||__(vPos__=__"Up")
-			ypos__:=___
-		else__if__(vPos__=__"Bottom")__||__(vPos__=__"Down")
-			ypos__:=__Height-ReturnRC_
+		if (vPos = "vCentre") || (vPos = "vCenter")
+			ypos += (Height-ReturnRC4)//2
+		else if (vPos = "Top") || (vPos = "Up")
+			ypos := 0
+		else if (vPos = "Bottom") || (vPos = "Down")
+			ypos := Height-ReturnRC4
 		
-		CreateRectF(RC,__xpos,__ypos,__Width,__ReturnRC_)
-		ReturnRC__:=__Gdip_MeasureString(pGraphics,__Text,__hFont,__hFormat,__RC)
+		CreateRectF(RC, xpos, ypos, Width, ReturnRC4)
+		ReturnRC := Gdip_MeasureString(pGraphics, Text, hFont, hFormat, RC)
 	}
 
-	if__!Measure
-		E__:=__Gdip_DrawString(pGraphics,__Text,__hFont,__hFormat,__pBrush,__RC)
+	if !Measure
+		E := Gdip_DrawString(pGraphics, Text, hFont, hFormat, pBrush, RC)
 
-	if__!PassBrush
+	if !PassBrush
 		Gdip_DeleteBrush(pBrush)
-	Gdip_DeleteStringFormat(hFormat)____
+	Gdip_DeleteStringFormat(hFormat)   
 	Gdip_DeleteFont(hFont)
 	Gdip_DeleteFontFamily(hFamily)
-	return__E__?__E__:__ReturnRC
+	return E ? E : ReturnRC
 }
 
 ;#####################################################################################
 
-Gdip_DrawString(pGraphics,__sString,__hFont,__hFormat,__pBrush,__ByRef__RectF)
+Gdip_DrawString(pGraphics, sString, hFont, hFormat, pBrush, ByRef RectF)
 {
-	if__!A_IsUnicode
+	if !A_IsUnicode
 	{
-		nSize__:=__DllCall("MultiByteToWideChar",__"uint",___,__"uint",___,__"uint",__&sString,__"int",__-_,__"uint",___,__"int",___)
-		VarSetCapacity(wString,__nSize*_)
-		DllCall("MultiByteToWideChar",__"uint",___,__"uint",___,__"uint",__&sString,__"int",__-_,__"uint",__&wString,__"int",__nSize)
-		return__DllCall("gdiplus\GdipDrawString",__"uint",__pGraphics
-		,__"uint",__&wString,__"int",__-_,__"uint",__hFont,__"uint",__&RectF,__"uint",__hFormat,__"uint",__pBrush)
+		nSize := DllCall("MultiByteToWideChar", "uint", 0, "uint", 0, "uint", &sString, "int", -1, "uint", 0, "int", 0)
+		VarSetCapacity(wString, nSize*2)
+		DllCall("MultiByteToWideChar", "uint", 0, "uint", 0, "uint", &sString, "int", -1, "uint", &wString, "int", nSize)
+		return DllCall("gdiplus\GdipDrawString", "uint", pGraphics
+		, "uint", &wString, "int", -1, "uint", hFont, "uint", &RectF, "uint", hFormat, "uint", pBrush)
 	}
 	else
 	{
-		return__DllCall("gdiplus\GdipDrawString",__"uint",__pGraphics
-		,__"uint",__&sString,__"int",__-_,__"uint",__hFont,__"uint",__&RectF,__"uint",__hFormat,__"uint",__pBrush)
+		return DllCall("gdiplus\GdipDrawString", "uint", pGraphics
+		, "uint", &sString, "int", -1, "uint", hFont, "uint", &RectF, "uint", hFormat, "uint", pBrush)
 	}	
 }
 
 ;#####################################################################################
 
-Gdip_MeasureString(pGraphics,__sString,__hFont,__hFormat,__ByRef__RectF)
+Gdip_MeasureString(pGraphics, sString, hFont, hFormat, ByRef RectF)
 {
-	VarSetCapacity(RC,____)
-	if__!A_IsUnicode
+	VarSetCapacity(RC, 16)
+	if !A_IsUnicode
 	{
-		nSize__:=__DllCall("MultiByteToWideChar",__"uint",___,__"uint",___,__"uint",__&sString,__"int",__-_,__"uint",___,__"int",___)
-		VarSetCapacity(wString,__nSize*_)____
-		DllCall("MultiByteToWideChar",__"uint",___,__"uint",___,__"uint",__&sString,__"int",__-_,__"uint",__&wString,__"int",__nSize)
-		DllCall("gdiplus\GdipMeasureString",__"uint",__pGraphics
-		,__"uint",__&wString,__"int",__-_,__"uint",__hFont,__"uint",__&RectF,__"uint",__hFormat,__"uint",__&RC,__"uint*",__Chars,__"uint*",__Lines)
+		nSize := DllCall("MultiByteToWideChar", "uint", 0, "uint", 0, "uint", &sString, "int", -1, "uint", 0, "int", 0)
+		VarSetCapacity(wString, nSize*2)   
+		DllCall("MultiByteToWideChar", "uint", 0, "uint", 0, "uint", &sString, "int", -1, "uint", &wString, "int", nSize)
+		DllCall("gdiplus\GdipMeasureString", "uint", pGraphics
+		, "uint", &wString, "int", -1, "uint", hFont, "uint", &RectF, "uint", hFormat, "uint", &RC, "uint*", Chars, "uint*", Lines)
 	}
 	else
 	{
-		DllCall("gdiplus\GdipMeasureString",__"uint",__pGraphics
-		,__"uint",__&sString,__"int",__-_,__"uint",__hFont,__"uint",__&RectF,__"uint",__hFormat,__"uint",__&RC,__"uint*",__Chars,__"uint*",__Lines)
+		DllCall("gdiplus\GdipMeasureString", "uint", pGraphics
+		, "uint", &sString, "int", -1, "uint", hFont, "uint", &RectF, "uint", hFormat, "uint", &RC, "uint*", Chars, "uint*", Lines)
 	}
-	return__&RC__?__NumGet(RC,___,__"float")__"|"__NumGet(RC,___,__"float")__"|"__NumGet(RC,___,__"float")__"|"__NumGet(RC,____,__"float")__"|"__Chars__"|"__Lines__:___
+	return &RC ? NumGet(RC, 0, "float") "|" NumGet(RC, 4, "float") "|" NumGet(RC, 8, "float") "|" NumGet(RC, 12, "float") "|" Chars "|" Lines : 0
 }
 
-;__Near__=___
-;__Center__=___
-;__Far__=___
-Gdip_SetStringFormatAlign(hFormat,__Align)
+; Near = 0
+; Center = 1
+; Far = 2
+Gdip_SetStringFormatAlign(hFormat, Align)
 {
-____return__DllCall("gdiplus\GdipSetStringFormatAlign",__"uint",__hFormat,__"int",__Align)
+   return DllCall("gdiplus\GdipSetStringFormatAlign", "uint", hFormat, "int", Align)
 }
 
-;__StringFormatFlagsDirectionRightToLeft____=___x________
-;__StringFormatFlagsDirectionVertical________=___x________
-;__StringFormatFlagsNoFitBlackBox____________=___x________
-;__StringFormatFlagsDisplayFormatControl____=___x________
-;__StringFormatFlagsNoFontFallback__________=___x________
-;__StringFormatFlagsMeasureTrailingSpaces____=___x________
-;__StringFormatFlagsNoWrap__________________=___x________
-;__StringFormatFlagsLineLimit________________=___x________
-;__StringFormatFlagsNoClip__________________=___x__________
-Gdip_StringFormatCreate(Format=_,__Lang=_)
+; StringFormatFlagsDirectionRightToLeft    = 0x00000001
+; StringFormatFlagsDirectionVertical       = 0x00000002
+; StringFormatFlagsNoFitBlackBox           = 0x00000004
+; StringFormatFlagsDisplayFormatControl    = 0x00000020
+; StringFormatFlagsNoFontFallback          = 0x00000400
+; StringFormatFlagsMeasureTrailingSpaces   = 0x00000800
+; StringFormatFlagsNoWrap                  = 0x00001000
+; StringFormatFlagsLineLimit               = 0x00002000
+; StringFormatFlagsNoClip                  = 0x00004000 
+Gdip_StringFormatCreate(Format=0, Lang=0)
 {
-____DllCall("gdiplus\GdipCreateStringFormat",__"int",__Format,__"int",__Lang,__"uint*",__hFormat)
-____return__hFormat
+   DllCall("gdiplus\GdipCreateStringFormat", "int", Format, "int", Lang, "uint*", hFormat)
+   return hFormat
 }
 
-;__Regular__=___
-;__Bold__=___
-;__Italic__=___
-;__BoldItalic__=___
-;__Underline__=___
-;__Strikeout__=___
-Gdip_FontCreate(hFamily,__Size,__Style=_)
+; Regular = 0
+; Bold = 1
+; Italic = 2
+; BoldItalic = 3
+; Underline = 4
+; Strikeout = 8
+Gdip_FontCreate(hFamily, Size, Style=0)
 {
-____DllCall("gdiplus\GdipCreateFont",__"uint",__hFamily,__"float",__Size,__"int",__Style,__"int",___,__"uint*",__hFont)
-____return__hFont
+   DllCall("gdiplus\GdipCreateFont", "uint", hFamily, "float", Size, "int", Style, "int", 0, "uint*", hFont)
+   return hFont
 }
 
 Gdip_FontFamilyCreate(Font)
 {
-	if__!A_IsUnicode
+	if !A_IsUnicode
 	{
-		nSize__:=__DllCall("MultiByteToWideChar",__"uint",___,__"uint",___,__"uint",__&Font,__"int",__-_,__"uint",___,__"int",___)
-		VarSetCapacity(wFont,__nSize*_)
-		DllCall("MultiByteToWideChar",__"uint",___,__"uint",___,__"uint",__&Font,__"int",__-_,__"uint",__&wFont,__"int",__nSize)
-		DllCall("gdiplus\GdipCreateFontFamilyFromName",__"uint",__&wFont,__"uint",___,__"uint*",__hFamily)
+		nSize := DllCall("MultiByteToWideChar", "uint", 0, "uint", 0, "uint", &Font, "int", -1, "uint", 0, "int", 0)
+		VarSetCapacity(wFont, nSize*2)
+		DllCall("MultiByteToWideChar", "uint", 0, "uint", 0, "uint", &Font, "int", -1, "uint", &wFont, "int", nSize)
+		DllCall("gdiplus\GdipCreateFontFamilyFromName", "uint", &wFont, "uint", 0, "uint*", hFamily)
 	}
 	else
-		DllCall("gdiplus\GdipCreateFontFamilyFromName",__"uint",__&Font,__"uint",___,__"uint*",__hFamily)
-	return__hFamily
+		DllCall("gdiplus\GdipCreateFontFamilyFromName", "uint", &Font, "uint", 0, "uint*", hFamily)
+	return hFamily
 }
 
 ;#####################################################################################
-;__Matrix__functions
+; Matrix functions
 ;#####################################################################################
 
-Gdip_CreateAffineMatrix(m__,__m__,__m__,__m__,__x,__y)
+Gdip_CreateAffineMatrix(m11, m12, m21, m22, x, y)
 {
-____DllCall("gdiplus\GdipCreateMatrix_",__"float",__m__,__"float",__m__,__"float",__m__,__"float",__m__,__"float",__x,__"float",__y,__"uint*",__Matrix)
-____return__Matrix
+   DllCall("gdiplus\GdipCreateMatrix2", "float", m11, "float", m12, "float", m21, "float", m22, "float", x, "float", y, "uint*", Matrix)
+   return Matrix
 }
 
 Gdip_CreateMatrix()
 {
-____DllCall("gdiplus\GdipCreateMatrix",__"uint*",__Matrix)
-____return__Matrix
+   DllCall("gdiplus\GdipCreateMatrix", "uint*", Matrix)
+   return Matrix
 }
 
 ;#####################################################################################
-;__GraphicsPath__functions
+; GraphicsPath functions
 ;#####################################################################################
 
-;__Alternate__=___
-;__Winding__=___
-Gdip_CreatePath(BrushMode=_)
+; Alternate = 0
+; Winding = 1
+Gdip_CreatePath(BrushMode=0)
 {
-	DllCall("gdiplus\GdipCreatePath",__"int",__BrushMode,__"uint*",__Path)
-	return__Path
+	DllCall("gdiplus\GdipCreatePath", "int", BrushMode, "uint*", Path)
+	return Path
 }
 
-Gdip_AddPathEllipse(Path,__x,__y,__w,__h)
+Gdip_AddPathEllipse(Path, x, y, w, h)
 {
-	return__DllCall("gdiplus\GdipAddPathEllipse",__"uint",__Path,__"float",__x,__"float",__y,__"float",__w,__"float",__h)
+	return DllCall("gdiplus\GdipAddPathEllipse", "uint", Path, "float", x, "float", y, "float", w, "float", h)
 }
 
-Gdip_AddPathPolygon(Path,__Points)
+Gdip_AddPathPolygon(Path, Points)
 {
-	StringSplit,__Points,__Points,__|
-	VarSetCapacity(PointF,___*Points_)____
-	Loop,__%Points_%
+	StringSplit, Points, Points, |
+	VarSetCapacity(PointF, 8*Points0)   
+	Loop, %Points0%
 	{
-		StringSplit,__Coord,__Points%A_Index%,__`,
-		NumPut(Coord_,__PointF,___*(A_Index-_),__"float"),__NumPut(Coord_,__PointF,__(_*(A_Index-_))+_,__"float")
-	}____
+		StringSplit, Coord, Points%A_Index%, `,
+		NumPut(Coord1, PointF, 8*(A_Index-1), "float"), NumPut(Coord2, PointF, (8*(A_Index-1))+4, "float")
+	}   
 
-	return__DllCall("gdiplus\GdipAddPathPolygon",__"uint",__Path,__"uint",__&PointF,__"int",__Points_)
+	return DllCall("gdiplus\GdipAddPathPolygon", "uint", Path, "uint", &PointF, "int", Points0)
 }
 
 Gdip_DeletePath(Path)
 {
-	return__DllCall("gdiplus\GdipDeletePath",__"uint",__Path)
+	return DllCall("gdiplus\GdipDeletePath", "uint", Path)
 }
 
 ;#####################################################################################
-;__Quality__functions
+; Quality functions
 ;#####################################################################################
 
-;__SystemDefault__=___
-;__SingleBitPerPixelGridFit__=___
-;__SingleBitPerPixel__=___
-;__AntiAliasGridFit__=___
-;__AntiAlias__=___
-Gdip_SetTextRenderingHint(pGraphics,__RenderingHint)
+; SystemDefault = 0
+; SingleBitPerPixelGridFit = 1
+; SingleBitPerPixel = 2
+; AntiAliasGridFit = 3
+; AntiAlias = 4
+Gdip_SetTextRenderingHint(pGraphics, RenderingHint)
 {
-	return__DllCall("gdiplus\GdipSetTextRenderingHint",__"uint",__pGraphics,__"int",__RenderingHint)
+	return DllCall("gdiplus\GdipSetTextRenderingHint", "uint", pGraphics, "int", RenderingHint)
 }
 
-;__Default__=___
-;__LowQuality__=___
-;__HighQuality__=___
-;__Bilinear__=___
-;__Bicubic__=___
-;__NearestNeighbor__=___
-;__HighQualityBilinear__=___
-;__HighQualityBicubic__=___
-Gdip_SetInterpolationMode(pGraphics,__InterpolationMode)
+; Default = 0
+; LowQuality = 1
+; HighQuality = 2
+; Bilinear = 3
+; Bicubic = 4
+; NearestNeighbor = 5
+; HighQualityBilinear = 6
+; HighQualityBicubic = 7
+Gdip_SetInterpolationMode(pGraphics, InterpolationMode)
 {
-____return__DllCall("gdiplus\GdipSetInterpolationMode",__"uint",__pGraphics,__"int",__InterpolationMode)
+   return DllCall("gdiplus\GdipSetInterpolationMode", "uint", pGraphics, "int", InterpolationMode)
 }
 
-;__Default__=___
-;__HighSpeed__=___
-;__HighQuality__=___
-;__None__=___
-;__AntiAlias__=___
-Gdip_SetSmoothingMode(pGraphics,__SmoothingMode)
+; Default = 0
+; HighSpeed = 1
+; HighQuality = 2
+; None = 3
+; AntiAlias = 4
+Gdip_SetSmoothingMode(pGraphics, SmoothingMode)
 {
-____return__DllCall("gdiplus\GdipSetSmoothingMode",__"uint",__pGraphics,__"int",__SmoothingMode)
+   return DllCall("gdiplus\GdipSetSmoothingMode", "uint", pGraphics, "int", SmoothingMode)
 }
 
-;__CompositingModeSourceOver__=_____(blended)
-;__CompositingModeSourceCopy__=_____(overwrite)
-Gdip_SetCompositingMode(pGraphics,__CompositingMode=_)
+; CompositingModeSourceOver = 0 (blended)
+; CompositingModeSourceCopy = 1 (overwrite)
+Gdip_SetCompositingMode(pGraphics, CompositingMode=0)
 {
-____return__DllCall("gdiplus\GdipSetCompositingMode",__"uint",__pGraphics,__"int",__CompositingMode)
+   return DllCall("gdiplus\GdipSetCompositingMode", "uint", pGraphics, "int", CompositingMode)
 }
 
 ;#####################################################################################
-;__Extra__functions
+; Extra functions
 ;#####################################################################################
 
 Gdip_Startup()
 {
-	if__!DllCall("GetModuleHandle",__"str",__"gdiplus")
-		DllCall("LoadLibrary",__"str",__"gdiplus")
-	VarSetCapacity(si,____,___),__si__:=__Chr(_)
-	DllCall("gdiplus\GdiplusStartup",__"uint*",__pToken,__"uint",__&si,__"uint",___)
-	return__pToken
+	if !DllCall("GetModuleHandle", "str", "gdiplus")
+		DllCall("LoadLibrary", "str", "gdiplus")
+	VarSetCapacity(si, 16, 0), si := Chr(1)
+	DllCall("gdiplus\GdiplusStartup", "uint*", pToken, "uint", &si, "uint", 0)
+	return pToken
 }
 
 Gdip_Shutdown(pToken)
 {
-	DllCall("gdiplus\GdiplusShutdown",__"uint",__pToken)
-	if__hModule__:=__DllCall("GetModuleHandle",__"str",__"gdiplus")
-		DllCall("FreeLibrary",__"uint",__hModule)
-	return___
+	DllCall("gdiplus\GdiplusShutdown", "uint", pToken)
+	if hModule := DllCall("GetModuleHandle", "str", "gdiplus")
+		DllCall("FreeLibrary", "uint", hModule)
+	return 0
 }
 
-;__Prepend__=___;__The__new__operation__is__applied__before__the__old__operation.
-;__Append__=___;__The__new__operation__is__applied__after__the__old__operation.
-Gdip_RotateWorldTransform(pGraphics,__Angle,__MatrixOrder=_)
+; Prepend = 0; The new operation is applied before the old operation.
+; Append = 1; The new operation is applied after the old operation.
+Gdip_RotateWorldTransform(pGraphics, Angle, MatrixOrder=0)
 {
-	return__DllCall("gdiplus\GdipRotateWorldTransform",__"uint",__pGraphics,__"float",__Angle,__"int",__MatrixOrder)
+	return DllCall("gdiplus\GdipRotateWorldTransform", "uint", pGraphics, "float", Angle, "int", MatrixOrder)
 }
 
-Gdip_ScaleWorldTransform(pGraphics,__x,__y,__MatrixOrder=_)
+Gdip_ScaleWorldTransform(pGraphics, x, y, MatrixOrder=0)
 {
-	return__DllCall("gdiplus\GdipScaleWorldTransform",__"uint",__pGraphics,__"float",__x,__"float",__y,__"int",__MatrixOrder)
+	return DllCall("gdiplus\GdipScaleWorldTransform", "uint", pGraphics, "float", x, "float", y, "int", MatrixOrder)
 }
 
-Gdip_TranslateWorldTransform(pGraphics,__x,__y,__MatrixOrder=_)
+Gdip_TranslateWorldTransform(pGraphics, x, y, MatrixOrder=0)
 {
-	return__DllCall("gdiplus\GdipTranslateWorldTransform",__"uint",__pGraphics,__"float",__x,__"float",__y,__"int",__MatrixOrder)
+	return DllCall("gdiplus\GdipTranslateWorldTransform", "uint", pGraphics, "float", x, "float", y, "int", MatrixOrder)
 }
 
 Gdip_ResetWorldTransform(pGraphics)
 {
-	return__DllCall("gdiplus\GdipResetWorldTransform",__"uint",__pGraphics)
+	return DllCall("gdiplus\GdipResetWorldTransform", "uint", pGraphics)
 }
 
-Gdip_GetRotatedTranslation(Width,__Height,__Angle,__ByRef__xTranslation,__ByRef__yTranslation)
+Gdip_GetRotatedTranslation(Width, Height, Angle, ByRef xTranslation, ByRef yTranslation)
 {
-	pi__:=___._____,__TAngle__:=__Angle*(pi/___)	
+	pi := 3.14159, TAngle := Angle*(pi/180)	
 
-	Bound__:=__(Angle__>=___)__?__Mod(Angle,_____)__:_____-Mod(-Angle,__-___)
-	if__((Bound__>=___)__&&__(Bound__<=____))
-		xTranslation__:=__Height*Sin(TAngle),__yTranslation__:=___
-	else__if__((Bound__>____)__&&__(Bound__<=_____))
-		xTranslation__:=__(Height*Sin(TAngle))-(Width*Cos(TAngle)),__yTranslation__:=__-Height*Cos(TAngle)
-	else__if__((Bound__>_____)__&&__(Bound__<=_____))
-		xTranslation__:=__-(Width*Cos(TAngle)),__yTranslation__:=__-(Height*Cos(TAngle))-(Width*Sin(TAngle))
-	else__if__((Bound__>_____)__&&__(Bound__<=_____))
-		xTranslation__:=___,__yTranslation__:=__-Width*Sin(TAngle)
+	Bound := (Angle >= 0) ? Mod(Angle, 360) : 360-Mod(-Angle, -360)
+	if ((Bound >= 0) && (Bound <= 90))
+		xTranslation := Height*Sin(TAngle), yTranslation := 0
+	else if ((Bound > 90) && (Bound <= 180))
+		xTranslation := (Height*Sin(TAngle))-(Width*Cos(TAngle)), yTranslation := -Height*Cos(TAngle)
+	else if ((Bound > 180) && (Bound <= 270))
+		xTranslation := -(Width*Cos(TAngle)), yTranslation := -(Height*Cos(TAngle))-(Width*Sin(TAngle))
+	else if ((Bound > 270) && (Bound <= 360))
+		xTranslation := 0, yTranslation := -Width*Sin(TAngle)
 }
 
-Gdip_GetRotatedDimensions(Width,__Height,__Angle,__ByRef__RWidth,__ByRef__RHeight)
+Gdip_GetRotatedDimensions(Width, Height, Angle, ByRef RWidth, ByRef RHeight)
 {
-	pi__:=___._____,__TAngle__:=__Angle*(pi/___)
-	if__!(Width__&&__Height)
-		return__-_
-	RWidth__:=__Ceil(Abs(Width*Cos(TAngle))+Abs(Height*Sin(TAngle)))
-	RHeight__:=__Ceil(Abs(Width*Sin(TAngle))+Abs(Height*Cos(Tangle)))
+	pi := 3.14159, TAngle := Angle*(pi/180)
+	if !(Width && Height)
+		return -1
+	RWidth := Ceil(Abs(Width*Cos(TAngle))+Abs(Height*Sin(TAngle)))
+	RHeight := Ceil(Abs(Width*Sin(TAngle))+Abs(Height*Cos(Tangle)))
 }
 
-;__RotateNoneFlipNone____=___
-;__Rotate__FlipNone______=___
-;__Rotate___FlipNone____=___
-;__Rotate___FlipNone____=___
-;__RotateNoneFlipX______=___
-;__Rotate__FlipX________=___
-;__Rotate___FlipX________=___
-;__Rotate___FlipX________=___
-;__RotateNoneFlipY______=__Rotate___FlipX
-;__Rotate__FlipY________=__Rotate___FlipX
-;__Rotate___FlipY________=__RotateNoneFlipX
-;__Rotate___FlipY________=__Rotate__FlipX
-;__RotateNoneFlipXY______=__Rotate___FlipNone
-;__Rotate__FlipXY________=__Rotate___FlipNone
-;__Rotate___FlipXY______=__RotateNoneFlipNone
-;__Rotate___FlipXY______=__Rotate__FlipNone__
+; RotateNoneFlipNone   = 0
+; Rotate90FlipNone     = 1
+; Rotate180FlipNone    = 2
+; Rotate270FlipNone    = 3
+; RotateNoneFlipX      = 4
+; Rotate90FlipX        = 5
+; Rotate180FlipX       = 6
+; Rotate270FlipX       = 7
+; RotateNoneFlipY      = Rotate180FlipX
+; Rotate90FlipY        = Rotate270FlipX
+; Rotate180FlipY       = RotateNoneFlipX
+; Rotate270FlipY       = Rotate90FlipX
+; RotateNoneFlipXY     = Rotate180FlipNone
+; Rotate90FlipXY       = Rotate270FlipNone
+; Rotate180FlipXY      = RotateNoneFlipNone
+; Rotate270FlipXY      = Rotate90FlipNone 
 
-Gdip_ImageRotateFlip(pBitmap,__RotateFlipType=_)
+Gdip_ImageRotateFlip(pBitmap, RotateFlipType=1)
 {
-	return__DllCall("gdiplus\GdipImageRotateFlip",__"uint",__pBitmap,__"int",__RotateFlipType)
+	return DllCall("gdiplus\GdipImageRotateFlip", "uint", pBitmap, "int", RotateFlipType)
 }
 
-;__Replace__=___
-;__Intersect__=___
-;__Union__=___
-;__Xor__=___
-;__Exclude__=___
-;__Complement__=___
-Gdip_SetClipRect(pGraphics,__x,__y,__w,__h,__CombineMode=_)
+; Replace = 0
+; Intersect = 1
+; Union = 2
+; Xor = 3
+; Exclude = 4
+; Complement = 5
+Gdip_SetClipRect(pGraphics, x, y, w, h, CombineMode=0)
 {
-____return__DllCall("gdiplus\GdipSetClipRect",__"uint",__pGraphics,__"float",__x,__"float",__y,__"float",__w,__"float",__h,__"int",__CombineMode)
+   return DllCall("gdiplus\GdipSetClipRect", "uint", pGraphics, "float", x, "float", y, "float", w, "float", h, "int", CombineMode)
 }
 
-Gdip_SetClipPath(pGraphics,__Path,__CombineMode=_)
+Gdip_SetClipPath(pGraphics, Path, CombineMode=0)
 {
-____return__DllCall("gdiplus\GdipSetClipPath",__"uint",__pGraphics,__"uint",__Path,__"int",__CombineMode)
+   return DllCall("gdiplus\GdipSetClipPath", "uint", pGraphics, "uint", Path, "int", CombineMode)
 }
 
 Gdip_ResetClip(pGraphics)
 {
-____return__DllCall("gdiplus\GdipResetClip",__"uint",__pGraphics)
+   return DllCall("gdiplus\GdipResetClip", "uint", pGraphics)
 }
 
 Gdip_GetClipRegion(pGraphics)
 {
-	Region__:=__Gdip_CreateRegion()
-	DllCall("gdiplus\GdipGetClip",__"uint"__pGraphics,__"uint*",__Region)
-	return__Region
+	Region := Gdip_CreateRegion()
+	DllCall("gdiplus\GdipGetClip", "uint" pGraphics, "uint*", Region)
+	return Region
 }
 
-Gdip_SetClipRegion(pGraphics,__Region,__CombineMode=_)
+Gdip_SetClipRegion(pGraphics, Region, CombineMode=0)
 {
-	return__DllCall("gdiplus\GdipSetClipRegion",__"uint",__pGraphics,__"uint",__Region,__"int",__CombineMode)
+	return DllCall("gdiplus\GdipSetClipRegion", "uint", pGraphics, "uint", Region, "int", CombineMode)
 }
 
 Gdip_CreateRegion()
 {
-	DllCall("gdiplus\GdipCreateRegion",__"uint*",__Region)
-	return__Region
+	DllCall("gdiplus\GdipCreateRegion", "uint*", Region)
+	return Region
 }
 
 Gdip_DeleteRegion(Region)
 {
-	return__DllCall("gdiplus\GdipDeleteRegion",__"uint",__Region)
+	return DllCall("gdiplus\GdipDeleteRegion", "uint", Region)
 }
 
 ;#####################################################################################
-;__BitmapLockBits
+; BitmapLockBits
 ;#####################################################################################
 
-Gdip_LockBits(pBitmap,__x,__y,__w,__h,__ByRef__Stride,__ByRef__Scan_,__ByRef__BitmapData,__LockMode__=___,__PixelFormat__=___x_____a)
-{____
-	CreateRect(Rect,__x,__y,__w,__h)
-	VarSetCapacity(BitmapData,____,___)
-	E__:=__DllCall("Gdiplus\GdipBitmapLockBits",__"uint",__pBitmap,__"uint",__&Rect,__"uint",__LockMode,__"int",__PixelFormat,__"uint",__&BitmapData)
-	Stride__:=__NumGet(BitmapData,___)
-	Scan___:=__NumGet(BitmapData,____)
-	return__E
+Gdip_LockBits(pBitmap, x, y, w, h, ByRef Stride, ByRef Scan0, ByRef BitmapData, LockMode = 3, PixelFormat = 0x26200a)
+{   
+	CreateRect(Rect, x, y, w, h)
+	VarSetCapacity(BitmapData, 21, 0)
+	E := DllCall("Gdiplus\GdipBitmapLockBits", "uint", pBitmap, "uint", &Rect, "uint", LockMode, "int", PixelFormat, "uint", &BitmapData)
+	Stride := NumGet(BitmapData, 8)
+	Scan0 := NumGet(BitmapData, 16)
+	return E
 }
 
 ;#####################################################################################
 
-Gdip_UnlockBits(pBitmap,__ByRef__BitmapData)
+Gdip_UnlockBits(pBitmap, ByRef BitmapData)
 {
-	return__DllCall("Gdiplus\GdipBitmapUnlockBits",__"uint",__pBitmap,__"uint",__&BitmapData)
+	return DllCall("Gdiplus\GdipBitmapUnlockBits", "uint", pBitmap, "uint", &BitmapData)
 }
 
 ;#####################################################################################
 
-Gdip_SetLockBitPixel(ARGB,__Scan_,__x,__y,__Stride)
+Gdip_SetLockBitPixel(ARGB, Scan0, x, y, Stride)
 {
-	Numput(ARGB,__Scan_+_,__(x*_)+(y*Stride))
+	Numput(ARGB, Scan0+0, (x*4)+(y*Stride))
 }
 
 ;#####################################################################################
 
-Gdip_GetLockBitPixel(Scan_,__x,__y,__Stride)
+Gdip_GetLockBitPixel(Scan0, x, y, Stride)
 {
-	return__NumGet(Scan_+_,__(x*_)+(y*Stride))
+	return NumGet(Scan0+0, (x*4)+(y*Stride))
 }
 
 ;#####################################################################################
 
-Gdip_PixelateBitmap(pBitmap,__ByRef__pBitmapOut,__BlockSize)
+Gdip_PixelateBitmap(pBitmap, ByRef pBitmapOut, BlockSize)
 {
-	static__PixelateBitmap
-	if__!PixelateBitmap
+	static PixelateBitmap
+	if !PixelateBitmap
 	{
-		MCode_PixelateBitmap__:=__"__EC___B_____________B_____C__F_FE_B_C___C_B_C_______BF__BCA___C___C___C______FF_F_E_E_______B_____"
-		.__"___F_FE___C______________C________________________CEB___D______FF___C_______C_____F_E_________BCE_FAFCE___C_____DA_______"
-		.__"______C__BF__________________________F_E_A_______B_C___C_D_D___BD__BD___C____________D_CBB_FAFFE_BD__BD____________BD__BD"
-		.__"___F____C___________C_BCF_BFE_DA____________B_C_____FB__C_B__C__FB______C_____B_C_____FB__C_B___C_____FB__C_____C______C_"
-		.__"____EF____D__B_C_______C___C___C___C_____C______B__B_C_____B_C___C_B_C_____B_C______F_F__________B________F_F__________B_"
-		.__"_______F_F__________B________F_F___________F__F_E_________D_B___BC__BC__D_____B_____C_D__B__FAFC__BD__BD____________BD__B"
-		.__"D___C________C________EB___D_____BC__BFE_FB________B_C___________FB____________FB____________B_FB____________A__C_____EF_"
-		.__"___D__B_____C_______C___C_____________C__BE_B_C_____B_C_____B_C___C_B_C_______B_C_______C_____F_C_FFEFFFF_B_C___C__D_____"
-		.__"_____F____________C__BF________________________________________C_F_E________EB____D__________E_F_B_C______C__FAF_C___C_B_"
-		.__"______FAFC__D______CA_D_C___BC__BC___C____________BC__BC____BFD_BFA_B_______________________B_______FB______FB___________"
-		.__"_B_______________FB____A_FB_______________________C______C________CF_B_____C___BC________C_C___B_C_____B_______FAFCE__F_F"
-		.__"__________B________F_F__________B________F_F__________B________F_F___________C________C__F__F_E_F_________C_______E_F_B_C"
-		.__"______C__FAF_C___C_B_______FAFC__D______CA_D_C___BC__BC___C____________BC__BC____BFB_BFA_B_______________________FB______"
-		.__"__B_____________FB________FB____________B_____________FB_______________C______C________CF_B_____C___BC________C_C___B_C__"
-		.__"_C_B_____C_______C___________C_______F__F_FCFFFF_B________F_FE__________________C__F_E_________BF__FAFFE__D____C___C_____"
-		.__"___________EB____D___C__BCA_________________________________________F_E_________BF__E___B_C_____FAFCE__C__FAF_C___C___C__"
-		.__"___D_____BC__BC___C____________BC__BC____BFD__CA_________BFA___________B_______FB____A_FB____________B_______________FB__"
-		.__"____FB____F__________________C______C________CF_B_______B_C___C_B_C___C__D____BC__________F_C_CFFFFFF_B________F_FF______"
-		.__"___B________F_FF_________B________F_FF_________B________F_FF__________C___________C__F_E__________F__E___B_C_____FAFCE__C"
-		.__"__FAF_C___C___C_____D_____BC__BC___C____________BC__BC____BFB__CA_________BFA_________D_____FB________B_____________FB___"
-		.__"_____FB____________B_____________FB_______________C______C________CF_B_______B_C___C_B_C___C___BC__________C___D__B______"
-		.__"______________C_______F___CFEFFFF__D___C__BCA_________________________________________F_E_A______EB___BFF__D__________F_E"
-		.__"_D_______B_C_____FAFCE__C__FAF_C___C_B_______FAFC__D______CA_D_C___BC__BC___C____________BC__BC____________BC__BC__B_____"
-		.__"__________DA____________B_______FB____A_________FB____________B_______FB____A_________FB_______________C______C________CF"
-		.__"_B_______B_C___C___BC__________F_C_AFFFFFF_FAF_C_____B________F_F__________B________F_F__________B________F_F__________B_"
-		.__"_______F_F___________C________C_________F_E_B_______B_C______FF_E___B_C_____FAFCE__C__FAF_C___C_B_______FAFC__D______CA_D"
-		.__"_C___BC__BC___C____________BC__BC____BEB_________BEA_FB________B_____________FB________FB____________B_____________FB____"
-		.__"___________C_____EF____D__B_________B_____C_________C___F_E_D__C__B__C___C_"
-		VarSetCapacity(PixelateBitmap,__StrLen(MCode_PixelateBitmap)//_)
-		Loop__%__StrLen(MCode_PixelateBitmap)//_		;%
-			NumPut("_x"__SubStr(MCode_PixelateBitmap,__(_*A_Index)-_,___),__PixelateBitmap,__A_Index-_,__"char")
+		MCode_PixelateBitmap := "83EC388B4424485355568B74245C99F7FE8B5C244C8B6C2448578BF88BCA894C241C897C243485FF0F8E2E0300008B44245"
+		. "499F7FE897C24448944242833C089542418894424308944242CEB038D490033FF397C2428897C24380F8E750100008BCE0FAFCE894C24408DA4240000"
+		. "000033C03BF08944241089442460894424580F8E8A0000008B5C242C8D4D028BD52BD183C203895424208D3CBB0FAFFE8BD52BD142895424248BD52BD"
+		. "103F9897C24148974243C8BCF8BFE8DA424000000008B5C24200FB61C0B03C30FB619015C24588B5C24240FB61C0B015C24600FB61C11015C241083C1"
+		. "0483EF0175D38B7C2414037C245C836C243C01897C241475B58B7C24388B6C244C8B5C24508B4C244099F7F9894424148B44245899F7F9894424588B4"
+		. "4246099F7F9894424608B44241099F7F98944241085F60F8E820000008D4B028BC32BC18D68038B44242C8D04B80FAFC68BD32BD142895424248BD32B"
+		. "D103C18944243C89742420EB038D49008BC88BFE0FB64424148B5C24248804290FB644245888010FB644246088040B0FB644241088040A83C10483EF0"
+		. "175D58B44243C0344245C836C2420018944243C75BE8B4C24408B5C24508B6C244C8B7C2438473B7C2428897C24380F8C9FFEFFFF8B4C241C33D23954"
+		. "24180F846401000033C03BF2895424108954246089542458895424148944243C0F8E82000000EB0233D2395424187E6F8B4C243003C80FAF4C245C8B4"
+		. "424280FAFC68D550203CA8D0C818BC52BC283C003894424208BC52BC2408BFD2BFA8B54241889442424895424408B4424200FB614080FB60101542414"
+		. "8B542424014424580FB6040A0FB61439014424600154241083C104836C24400175CF8B44243C403BC68944243C7C808B4C24188B4424140FAFCE99F7F"
+		. "9894424148B44245899F7F9894424588B44246099F7F9894424608B44241099F7F98944241033C08944243C85F60F8E7F000000837C2418007E6F8B4C"
+		. "243003C80FAF4C245C8B4424280FAFC68D530203CA8D0C818BC32BC283C003894424208BC32BC2408BFB2BFA8B54241889442424895424400FB644241"
+		. "48B5424208804110FB64424580FB654246088018B4424248814010FB654241088143983C104836C24400175CF8B44243C403BC68944243C7C818B4C24"
+		. "1C8B44245C0144242C01742430836C2444010F85F4FCFFFF8B44245499F7FE895424188944242885C00F8E890100008BF90FAFFE33D2897C243C89542"
+		. "45489442438EB0233D233C03BCA89542410895424608954245889542414894424400F8E840000003BF27E738B4C24340FAFCE03C80FAF4C245C034C24"
+		. "548D55028BC52BC283C003894424208BC52BC2408BFD03CA894424242BFA89742444908B5424200FB6040A0FB611014424148B442424015424580FB61"
+		. "4080FB6040F015424600144241083C104836C24440175CF8B4424408B7C243C8B4C241C33D2403BC1894424400F8C7CFFFFFF8B44241499F7FF894424"
+		. "148B44245899F7FF894424588B44246099F7FF894424608B44241099F7FF8944241033C08944244085C90F8E8000000085F67E738B4C24340FAFCE03C"
+		. "80FAF4C245C034C24548D53028BC32BC283C003894424208BC32BC2408BFB03CA894424242BFA897424448D49000FB65424148B4424208814010FB654"
+		. "24580FB644246088118B5424248804110FB644241088043983C104836C24440175CF8B4424408B7C243C8B4C241C403BC1894424407C808D04B500000"
+		. "00001442454836C2438010F858CFEFFFF33D233C03BCA89542410895424608954245889542414894424440F8E9A000000EB048BFF33D2395424180F8E"
+		. "7D0000008B4C24340FAFCE03C80FAF4C245C8B4424280FAFC68D550203CA8D0C818BC52BC283C003894424208BC52BC240894424248BC52BC28B54241"
+		. "8895424548DA424000000008B5424200FB6140A015424140FB611015424588B5424240FB6140A015424600FB614010154241083C104836C24540175CF"
+		. "8B4424448B4C241C403BC1894424440F8C6AFFFFFF0FAF4C24188B44241499F7F9894424148B44245899F7F9894424588B44246099F7F9894424608B4"
+		. "4241099F7F98944241033C03944241C894424540F8E7B0000008B7C241885FF7E688B4C24340FAFCE03C80FAF4C245C8B4424280FAFC68D530203CA8D"
+		. "0C818BC32BC283C003894424208BC32BC2408BEB894424242BEA0FB65424148B4424208814010FB65424580FB644246088118B5424248804110FB6442"
+		. "41088042983C10483EF0175D18B442454403B44241C894424547C855F5E5D33C05B83C438C3"
+		VarSetCapacity(PixelateBitmap, StrLen(MCode_PixelateBitmap)//2)
+		Loop % StrLen(MCode_PixelateBitmap)//2		;%
+			NumPut("0x" SubStr(MCode_PixelateBitmap, (2*A_Index)-1, 2), PixelateBitmap, A_Index-1, "char")
 	}
 
-	Gdip_GetImageDimensions(pBitmap,__Width,__Height)
-	if__(Width__!=__Gdip_GetImageWidth(pBitmapOut)__||__Height__!=__Gdip_GetImageHeight(pBitmapOut))
-		return__-_
-	if__(BlockSize__>__Width__||__BlockSize__>__Height)
-		return__-_
+	Gdip_GetImageDimensions(pBitmap, Width, Height)
+	if (Width != Gdip_GetImageWidth(pBitmapOut) || Height != Gdip_GetImageHeight(pBitmapOut))
+		return -1
+	if (BlockSize > Width || BlockSize > Height)
+		return -2
 
-	E___:=__Gdip_LockBits(pBitmap,___,___,__Width,__Height,__Stride_,__Scan__,__BitmapData_)
-	E___:=__Gdip_LockBits(pBitmapOut,___,___,__Width,__Height,__Stride_,__Scan__,__BitmapData_)
-	if__(E___||__E_)
-		return__-_
+	E1 := Gdip_LockBits(pBitmap, 0, 0, Width, Height, Stride1, Scan01, BitmapData1)
+	E2 := Gdip_LockBits(pBitmapOut, 0, 0, Width, Height, Stride2, Scan02, BitmapData2)
+	if (E1 || E2)
+		return -3
 
-	E__:=__DllCall(&PixelateBitmap,__"uint",__Scan__,__"uint",__Scan__,__"int",__Width,__"int",__Height,__"int",__Stride_,__"int",__BlockSize)
-	Gdip_UnlockBits(pBitmap,__BitmapData_),__Gdip_UnlockBits(pBitmapOut,__BitmapData_)
-	return___
+	E := DllCall(&PixelateBitmap, "uint", Scan01, "uint", Scan02, "int", Width, "int", Height, "int", Stride1, "int", BlockSize)
+	Gdip_UnlockBits(pBitmap, BitmapData1), Gdip_UnlockBits(pBitmapOut, BitmapData2)
+	return 0
 }
 
 ;#####################################################################################
 
-Gdip_ToARGB(A,__R,__G,__B)
+Gdip_ToARGB(A, R, G, B)
 {
-	return__(A__<<____)__|__(R__<<____)__|__(G__<<___)__|__B
+	return (A << 24) | (R << 16) | (G << 8) | B
 }
 
 ;#####################################################################################
 
-Gdip_FromARGB(ARGB,__ByRef__A,__ByRef__R,__ByRef__G,__ByRef__B)
+Gdip_FromARGB(ARGB, ByRef A, ByRef R, ByRef G, ByRef B)
 {
-	A__:=__(_xff________&__ARGB)__>>____
-	R__:=__(_x__ff______&__ARGB)__>>____
-	G__:=__(_x____ff____&__ARGB)__>>___
-	B__:=___x______ff__&__ARGB
+	A := (0xff000000 & ARGB) >> 24
+	R := (0x00ff0000 & ARGB) >> 16
+	G := (0x0000ff00 & ARGB) >> 8
+	B := 0x000000ff & ARGB
 }
 
 ;#####################################################################################
 
 Gdip_AFromARGB(ARGB)
 {
-	return__(_xff________&__ARGB)__>>____
+	return (0xff000000 & ARGB) >> 24
 }
 
 ;#####################################################################################
 
 Gdip_RFromARGB(ARGB)
 {
-	return__(_x__ff______&__ARGB)__>>____
+	return (0x00ff0000 & ARGB) >> 16
 }
 
 ;#####################################################################################
 
 Gdip_GFromARGB(ARGB)
 {
-	return__(_x____ff____&__ARGB)__>>___
+	return (0x0000ff00 & ARGB) >> 8
 }
 
 ;#####################################################################################
 
 Gdip_BFromARGB(ARGB)
 {
-	return___x______ff__&__ARGB
+	return 0x000000ff & ARGB
 }

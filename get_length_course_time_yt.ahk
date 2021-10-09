@@ -1,66 +1,66 @@
-#SingleInstance__force
+#SingleInstance force
 
-;;__Save__output__cmd__command
-;~__MsgBox__%__RunWaitOne("dir__"__A_ScriptDir)
-;~__RunWaitOne(command)__{
-____;~__shell__:=__ComObjCreate("WScript.Shell")
-____;~__exec__:=__shell.Exec(ComSpec__"__/C__"__command)
-____;~__return__exec.StdOut.ReadAll()
-;~__}
+;; Save output cmd command
+;~ MsgBox % RunWaitOne("dir " A_ScriptDir)
+;~ RunWaitOne(command) {
+    ;~ shell := ComObjCreate("WScript.Shell")
+    ;~ exec := shell.Exec(ComSpec " /C " command)
+    ;~ return exec.StdOut.ReadAll()
+;~ }
 
 
-times__:=__ComObjCreate("WScript.Shell").Exec("cmd.exe__/q__/c__youtube-dl.exe__--flat-playlist__--get-duration__https://www.youtube.com/playlist?list=PLfHPAKSz_DJqmJJIW_P_DM_hMlaP__ivp").StdOut.ReadAll()
+times := ComObjCreate("WScript.Shell").Exec("cmd.exe /q /c youtube-dl.exe --flat-playlist --get-duration https://www.youtube.com/playlist?list=PLEEZ1LvolrJc02zElBtxQL_zM_ARJcUck").StdOut.ReadAll()
 
-timer_work__:=_____;_____hour__in__day
-sum_hour__:=___
-sum_min__:=___
-sum_sec__:=___
+timer_work := 4 ; 4 hour in day
+sum_hour := 0
+sum_min := 0
+sum_sec := 0
 
-Loop,__Parse,__times,__`n
+Loop, Parse, times, `n
 {
-	;;;;;__Count__char__in__string__;;;;;;
-	;way_
-	;~__str__=__the__dog__went__for__a__run__with__another__dog
-	;~__match__=__dog
-	;~__msgbox__%__"Found__"__(__count,__regexReplace(__str
-			__;~__,__"("__match__")",__match,__count__))
-			__;~__.__"__instance"__(__count!=___?__"s"__:__""__)
-			__;~__.__"__of__"__match__"."
-			__
-	;way_
-	word__:=__":"__
-	var__:=__A_loopfield
-	StringReplace,__var,__var,__%word%,__%word%,__UseErrorLevel
-	count__:=__ErrorLevel
-	if__(count__==___)
+	;;;;; Count char in string ;;;;;;
+	;way1
+	;~ str = the dog went for a run with another dog
+	;~ match = dog
+	;~ msgbox % "Found " ( count, regexReplace( str
+			 ;~ , "(" match ")", match, count ))
+			 ;~ . " instance" ( count!=1 ? "s" : "" )
+			 ;~ . " of " match "."
+			 
+	;way2
+	word := ":" 
+	var := A_loopfield
+	StringReplace, var, var, %word%, %word%, UseErrorLevel
+	count := ErrorLevel
+	if (count == 2)
 	{
-		;_____=__h,m,s
-		arr__:=__StrSplit(A_loopfield,__":")
-		sum_hour__+=__arr[_]
-		sum_min__+=__arr[_]
-		sum_sec__+=__arr[_]
+		; 2 = h,m,s
+		arr := StrSplit(A_loopfield, ":")
+		sum_hour += arr[1]
+		sum_min += arr[2]
+		sum_sec += arr[3]
 	}
-	else__if__(count__==___)
+	else if (count == 1)
 	{
-		;_____=__m,s
-		arr__:=__StrSplit(A_loopfield,__":")
-		sum_min__+=__arr[_]
-		sum_sec__+=__arr[_]
+		; 1 = m,s
+		arr := StrSplit(A_loopfield, ":")
+		sum_min += arr[1]
+		sum_sec += arr[2]
 	}
 	
 }
-calc__:=__sum_hour__+__(sum_min__/____)__+__(sum_sec__/______)
-finished__:=__calc__/__timer_work
-result__=__
+calc := sum_hour + (sum_min / 60) + (sum_sec / 3600)
+finished := calc / timer_work
+result = 
 (
-%sum_hour%__hours
-%sum_min%__minutes
-%sum_sec%__seconds
+%sum_hour% hours
+%sum_min% minutes
+%sum_sec% seconds
 -----------------
-total__of__hours__=__%calc%
-%timer_work%__hours__in__day__=>__finished__in__%finished%__days
+total of hours = %calc%
+%timer_work% hours in day => finished in %finished% days
 )
-MsgBox__%__result
+MsgBox % result
 
 return
 Esc::ExitApp

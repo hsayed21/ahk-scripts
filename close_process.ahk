@@ -1,5 +1,5 @@
-﻿Loop__{
-	Process,__Wait,__notepad.exe
-	Sleep,______
-	Process,__Close,__notepad.exe
+﻿Loop {
+	Process, Wait, notepad.exe
+	Sleep, 5000
+	Process, Close, notepad.exe
 }

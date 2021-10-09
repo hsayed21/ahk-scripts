@@ -1,88 +1,88 @@
-﻿;__Joystick__Test__Script
-;__https://www.autohotkey.com
-;__This__script__helps__determine__the__button__numbers__and__other__attributes
-;__of__your__joystick.__It__might__also__reveal__if__your__joystick__is__in__need
-;__of__calibration;__that__is,__whether__the__range__of__motion__of__each__of__its
-;__axes__is__from_____to_______percent__as__it__should__be.__If__calibration__is
-;__needed,__use__the__operating__system's__control__panel__or__the__software
-;__that__came__with__your__joystick.
+﻿; Joystick Test Script
+; https://www.autohotkey.com
+; This script helps determine the button numbers and other attributes
+; of your joystick. It might also reveal if your joystick is in need
+; of calibration; that is, whether the range of motion of each of its
+; axes is from 0 to 100 percent as it should be. If calibration is
+; needed, use the operating system's control panel or the software
+; that came with your joystick.
 
-;__July___,______:__Added__auto-detection__of__joystick__number.
-;__May___,________:__Fixed:__JoyAxes__is__no__longer__queried__as__a__means__of
-;__detecting__whether__the__joystick__is__connected.__Some__joysticks__are
-;__gamepads__and__don't__have__even__a__single__axis.
+; July 6, 2005: Added auto-detection of joystick number.
+; May 8, 2005 : Fixed: JoyAxes is no longer queried as a means of
+; detecting whether the joystick is connected.  Some joysticks are
+; gamepads and don't have even a single axis.
 
-;__If__you__want__to__unconditionally__use__a__specific__joystick__number,__change
-;__the__following__value__from_____to__the__number__of__the__joystick__(_-__).
-;__A__value__of_____causes__the__joystick__number__to__be__auto-detected:
-JoystickNumber__=___
+; If you want to unconditionally use a specific joystick number, change
+; the following value from 0 to the number of the joystick (1-16).
+; A value of 0 causes the joystick number to be auto-detected:
+JoystickNumber = 0
 
-;__END__OF__CONFIG__SECTION.__Do__not__make__changes__below__this__point__unless
-;__you__wish__to__alter__the__basic__functionality__of__the__script.
+; END OF CONFIG SECTION. Do not make changes below this point unless
+; you wish to alter the basic functionality of the script.
 
-;__Auto-detect__the__joystick__number__if__called__for:
-if__JoystickNumber__<=___
+; Auto-detect the joystick number if called for:
+if JoystickNumber <= 0
 {
-	Loop______;__Query__each__joystick__number__to__find__out__which__ones__exist.
+	Loop 16  ; Query each joystick number to find out which ones exist.
 	{
-		GetKeyState,__JoyName,__%A_Index%JoyName
-		if__JoyName__<>
+		GetKeyState, JoyName, %A_Index%JoyName
+		if JoyName <>
 		{
-			JoystickNumber__=__%A_Index%
+			JoystickNumber = %A_Index%
 			break
 		}
 	}
-	if__JoystickNumber__<=___
+	if JoystickNumber <= 0
 	{
-		MsgBox__The__system__does__not__appear__to__have__any__joysticks.
+		MsgBox The system does not appear to have any joysticks.
 		ExitApp
 	}
 }
 
 #SingleInstance
-SetFormat,__float,______;__Omit__decimal__point__from__axis__position__percentages.
-GetKeyState,__joy_buttons,__%JoystickNumber%JoyButtons
-GetKeyState,__joy_name,__%JoystickNumber%JoyName
-GetKeyState,__joy_info,__%JoystickNumber%JoyInfo
+SetFormat, float, 03  ; Omit decimal point from axis position percentages.
+GetKeyState, joy_buttons, %JoystickNumber%JoyButtons
+GetKeyState, joy_name, %JoystickNumber%JoyName
+GetKeyState, joy_info, %JoystickNumber%JoyInfo
 Loop
 {
-	buttons_down__=
-	Loop,__%joy_buttons%
+	buttons_down =
+	Loop, %joy_buttons%
 	{
-		GetKeyState,__joy%A_Index%,__%JoystickNumber%joy%A_Index%
-		if__joy%A_Index%__=__D
-			buttons_down__=__%buttons_down%%A_Space%%A_Index%
+		GetKeyState, joy%A_Index%, %JoystickNumber%joy%A_Index%
+		if joy%A_Index% = D
+			buttons_down = %buttons_down%%A_Space%%A_Index%
 	}
-	GetKeyState,__JoyX,__%JoystickNumber%JoyX
-	axis_info__=__X%JoyX%
-	GetKeyState,__JoyY,__%JoystickNumber%JoyY
-	axis_info__=__%axis_info%%A_Space%%A_Space%Y%JoyY%
-	IfInString,__joy_info,__Z
+	GetKeyState, JoyX, %JoystickNumber%JoyX
+	axis_info = X%JoyX%
+	GetKeyState, JoyY, %JoystickNumber%JoyY
+	axis_info = %axis_info%%A_Space%%A_Space%Y%JoyY%
+	IfInString, joy_info, Z
 	{
-		GetKeyState,__JoyZ,__%JoystickNumber%JoyZ
-		axis_info__=__%axis_info%%A_Space%%A_Space%Z%JoyZ%
+		GetKeyState, JoyZ, %JoystickNumber%JoyZ
+		axis_info = %axis_info%%A_Space%%A_Space%Z%JoyZ%
 	}
-	IfInString,__joy_info,__R
+	IfInString, joy_info, R
 	{
-		GetKeyState,__JoyR,__%JoystickNumber%JoyR
-		axis_info__=__%axis_info%%A_Space%%A_Space%R%JoyR%
+		GetKeyState, JoyR, %JoystickNumber%JoyR
+		axis_info = %axis_info%%A_Space%%A_Space%R%JoyR%
 	}
-	IfInString,__joy_info,__U
+	IfInString, joy_info, U
 	{
-		GetKeyState,__JoyU,__%JoystickNumber%JoyU
-		axis_info__=__%axis_info%%A_Space%%A_Space%U%JoyU%
+		GetKeyState, JoyU, %JoystickNumber%JoyU
+		axis_info = %axis_info%%A_Space%%A_Space%U%JoyU%
 	}
-	IfInString,__joy_info,__V
+	IfInString, joy_info, V
 	{
-		GetKeyState,__JoyV,__%JoystickNumber%JoyV
-		axis_info__=__%axis_info%%A_Space%%A_Space%V%JoyV%
+		GetKeyState, JoyV, %JoystickNumber%JoyV
+		axis_info = %axis_info%%A_Space%%A_Space%V%JoyV%
 	}
-	IfInString,__joy_info,__P
+	IfInString, joy_info, P
 	{
-		GetKeyState,__joyp,__%JoystickNumber%JoyPOV
-		axis_info__=__%axis_info%%A_Space%%A_Space%POV%joyp%
+		GetKeyState, joyp, %JoystickNumber%JoyPOV
+		axis_info = %axis_info%%A_Space%%A_Space%POV%joyp%
 	}
-	ToolTip,__%joy_name%__(#%JoystickNumber%):`n%axis_info%`nButtons__Down:__%buttons_down%`n`n(right-click__the__tray__icon__to__exit)
-	Sleep,_____
+	ToolTip, %joy_name% (#%JoystickNumber%):`n%axis_info%`nButtons Down: %buttons_down%`n`n(right-click the tray icon to exit)
+	Sleep, 100
 }
 return

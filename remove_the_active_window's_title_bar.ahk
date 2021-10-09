@@ -1,20 +1,20 @@
-﻿#NoEnv__;__Recommended__for__performance__and__compatibility__with__future__AutoHotkey__releases.
+﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #SingleInstance,Force
 #Persistent
 
-my_path:=__"C:`\Intel"
+my_path:= "C:`\Intel"
 
-toggle=_
+toggle=1
 
-While__toggle
+While toggle
 {
 	
-	IfWinExist,__ahk_class__CabinetWClass,__%my_path%
+	IfWinExist, ahk_class CabinetWClass, %my_path%
 	{
-		ToolTip,__is__opened
-		WinSet,Style,-_xC_____,__A
-		;WinSet,Disable,,ahk_class__CabinetWClass,__%my_path%
-		;WinSet,Enable,,ahk_class__CabinetWClass,__%my_path%
+		ToolTip, is opened
+		WinSet,Style,-0xC00000, A
+		;WinSet,Disable,,ahk_class CabinetWClass, %my_path%
+		;WinSet,Enable,,ahk_class CabinetWClass, %my_path%
 	}
 	
 }

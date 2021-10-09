@@ -1,71 +1,71 @@
-#SingleInstance,__force
+#SingleInstance, force
 #Persistent
 
-;~__~LButton::
-;~__if__(a_timesincepriorhotkey__!=__-___&&__a_timesincepriorhotkey__<_____)
-	;~__cnt__+=___
-;~__else__if__(a_timesincepriorhotkey__>_____)
-	;~__cnt__:=___
+;~ ~LButton::
+;~ if (a_timesincepriorhotkey != -1 && a_timesincepriorhotkey < 200)
+	;~ cnt += 1
+;~ else if (a_timesincepriorhotkey > 400)
+	;~ cnt := 0
 
-;~__if__(cnt__==___)
-	;~__MsgBox,__double__click
+;~ if (cnt == 1)
+	;~ MsgBox, double click
 
 
-;~__return
+;~ return
 
-;~__keywait,__LButton,__t_._
-;~__if__errorlevel__=___
-;~__{
-	;~__msgbox__hold
-;~__return
-;~__}
-;~__else
-	;~__keywait,__LButton,__d,__t_._
-;~__if__errorlevel__=___
-;~__{
-	;~__msgbox__double
-;~__return
-;~__}
-;~__else__{
-	;~__MouseClick,R		;__add__this__line__when__you__want__to__RClick__after__action
-	;~__msgbox__nothing
-;~__return
-;~__}
+;~ keywait, LButton, t0.5
+;~ if errorlevel = 1
+;~ {
+	;~ msgbox hold
+;~ return
+;~ }
+;~ else
+	;~ keywait, LButton, d, t0.5
+;~ if errorlevel = 0
+;~ {
+	;~ msgbox double
+;~ return
+;~ }
+;~ else {
+	;~ MouseClick,R		; add this line when you want to RClick after action
+	;~ msgbox nothing
+;~ return
+;~ }
 
-;;__pause/resume__when__click
+;; pause/resume when click
 ~LButton::
 
 MouseGetPos,,,win,con
-if__inStr(con,"VLC__video__output")
+if inStr(con,"VLC video output")
 {
-	if__(a_timesincepriorhotkey__!=__-___&&__a_timesincepriorhotkey__<_____)
-		cnt__+=___
-	else__if__(a_timesincepriorhotkey__>_____)
-		cnt__:=___
+	if (a_timesincepriorhotkey != -1 && a_timesincepriorhotkey < 200)
+		cnt += 1
+	else if (a_timesincepriorhotkey > 400)
+		cnt := 0
 
-	if__(cnt__==___)
+	if (cnt == 1)
 	{
-		;MsgBox,__double__click
-		click,_
+		;MsgBox, double click
+		click,2
 		return
 	}
-	ControlSend,,__{space},__ahk_class__Qt_QWindowIcon
+	ControlSend,, {space}, ahk_class Qt5QWindowIcon
 }
 return
 
-;;__pause/resume__when__Alt+z
+;; pause/resume when Alt+z
 !z::
-ControlSend,,__{space},__ahk_class__Qt_QWindowIcon
+ControlSend,, {space}, ahk_class Qt5QWindowIcon
 return
 
-;;__backward______sec__
+;; backward 10 sec 
 !Left::
-ControlSend,,{Left},ahk_exe__vlc.exe
+ControlSend,,{Left},ahk_exe vlc.exe
 return
 
-;;__forward______sec
+;; forward 10 sec
 !Right::
-ControlSend,,{Right},ahk_exe__vlc.exe
+ControlSend,,{Right},ahk_exe vlc.exe
 return
 
 ;Esc::ExitApp

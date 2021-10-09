@@ -1,26 +1,26 @@
 ﻿
-JoystickNumber__=___
+JoystickNumber = 2
 
 
 #SingleInstance
-SetFormat,__float,______;__Omit__decimal__point__from__axis__position__percentages.
-GetKeyState,__joy_buttons,__%JoystickNumber%JoyButtons
-GetKeyState,__joy_name,__%JoystickNumber%JoyName
-GetKeyState,__joy_info,__%JoystickNumber%JoyInfo
+SetFormat, float, 03  ; Omit decimal point from axis position percentages.
+GetKeyState, joy_buttons, %JoystickNumber%JoyButtons
+GetKeyState, joy_name, %JoystickNumber%JoyName
+GetKeyState, joy_info, %JoystickNumber%JoyInfo
 Loop
 {
-	GetKeyState,__JoyX,__%JoystickNumber%JoyX
-	axis_info__=__X%JoyX%
-	if__(axis_info__=__"X___")
+	GetKeyState, JoyX, %JoystickNumber%JoyX
+	axis_info = X%JoyX%
+	if (axis_info = "X000")
 	{
-		;MsgBox__You__pressed__on__left__arrow.
-		;axis_info__=__X%___%
-		;Send__{Joy_}__
+		;MsgBox You pressed on left arrow.
+		;axis_info = X%100%
+		;Send {Joy1} 
 		
-	}__
+	} 
 	
 	
-	ToolTip,__%joy_name%__(#%JoystickNumber%):`n%axis_info%`n`n(right-click__the__tray__icon__to__exit)
-	Sleep,_____
+	ToolTip, %joy_name% (#%JoystickNumber%):`n%axis_info%`n`n(right-click the tray icon to exit)
+	Sleep, 100
 }
 return

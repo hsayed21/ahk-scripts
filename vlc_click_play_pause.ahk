@@ -1,13 +1,13 @@
-#SingleInstance,__force
-SetTitleMatchMode,__RegEx
+#SingleInstance, force
+SetTitleMatchMode, RegEx
 
 ~LButton::
 MouseGetPos,,,win,con
-;MsgBox__%__win__"__-__"__con
-if__inStr(con,"VLC__video__output")
+;MsgBox % win " - " con
+if inStr(con,"VLC video output")
 {
-	;MsgBox,__yes__you__press__on__vlc__output__control
-	ControlSend,,__{space},__ahk_class__Qt_QWindowIcon
+	;MsgBox, yes you press on  vlc output control
+	ControlSend,, {space}, ahk_class Qt5QWindowIcon
 	
 }
 return

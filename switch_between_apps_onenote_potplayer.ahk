@@ -1,16 +1,16 @@
 `::
-if__WinActive("ahk_class__PotPlayer__")
+if WinActive("ahk_class PotPlayer64")
 {
-	Send__{Space}
-	WinActivate,__ahk_exe__ONENOTE.EXE
-	WinWait,__ahk_exe__ONENOTE.EXE__;__Wait__for__it__to__appear.
+	Send {Space}
+	WinActivate, ahk_exe ONENOTE.EXE
+	WinWait, ahk_exe ONENOTE.EXE  ; Wait for it to appear.
 }
 else
 {
-	WinActivate,__ahk_class__PotPlayer__
-	WinWait,__ahk_class__PotPlayer____;__Wait__for__it__to__appear.
-	Send__{Space}
-	WinActivate,__ahk_exe__ONENOTE.EXE
-	WinWait,__ahk_exe__ONENOTE.EXE__;__Wait__for__it__to__appear.
+	WinActivate, ahk_class PotPlayer64
+	WinWait, ahk_class PotPlayer64  ; Wait for it to appear.
+	Send {Space}
+	WinActivate, ahk_exe ONENOTE.EXE
+	WinWait, ahk_exe ONENOTE.EXE  ; Wait for it to appear.
 }	
 return

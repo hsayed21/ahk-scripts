@@ -1,58 +1,58 @@
-﻿#NoEnv__;__Recommended__for__performance__and__compatibility__with__future__AutoHotkey__releases.
+﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #SingleInstance,Force
 #Persistent
 
 
-#singleInstance,__force
+#singleInstance, force
 #Persistent
 
-stat__=__Disable
+stat = Disable
 Loop
 {
-____if__(winActive("ahk_class__CabinetWClass"))
-____{
-______WinGet,__winid__,__ID,__A__;
-______ControlGetText,__currentPath,__ToolbarWindow___,__ahk_id__%winid%
-______if__(inStr(currentPath,__"eFootball__PES______"))
-______{
-__________;MsgBox,__url__contains__Drives
-__________WinSet,__%stat%__,,__ahk_id__%winid%
-__________;WinSet,__Enable__,,__ahk_id__%winid%
-__________;break
-______}
-______;MsgBox,__is__active
-____}
-____Sleep_____
+   if (winActive("ahk_class CabinetWClass"))
+   {
+      WinGet, winid , ID, A ;
+      ControlGetText, currentPath, ToolbarWindow323,  ahk_id %winid%
+      if (inStr(currentPath, "eFootball PES 2021"))
+      {
+         ;MsgBox, url contains Drives
+         WinSet, %stat% ,, ahk_id %winid%
+         ;WinSet, Enable ,, ahk_id %winid%
+         ;break
+      }
+      ;MsgBox, is active
+   }
+   Sleep 200
 }
 return
-____
-RCtrl__&__NumpadDiv::
-if__(stat__==__"Disable")
+   
+RCtrl & NumpadDiv::
+if (stat == "Disable")
 {
-____stat__=__Enable
+   stat = Enable
 }
-else__if__(stat__==__"Enable")
+else if (stat == "Enable")
 {
-____stat__=__Disable
+   stat = Disable
 }
 
 return
 
 
-/*__Other__Way
+/* Other Way
 
-my_path:=__"C:`\Intel"
+my_path:= "C:`\Intel"
 
-toggle=_
+toggle=1
 
-While__toggle
+While toggle
 {
 	
-	IfWinExist,__ahk_class__CabinetWClass,__%my_path%
+	IfWinExist, ahk_class CabinetWClass, %my_path%
 	{
-		ToolTip,__is__opened
-		WinSet,Disable,,ahk_class__CabinetWClass,__%my_path%
-		;WinSet,Enable,,ahk_class__CabinetWClass,__%my_path%
+		ToolTip, is opened
+		WinSet,Disable,,ahk_class CabinetWClass, %my_path%
+		;WinSet,Enable,,ahk_class CabinetWClass, %my_path%
 	}
 	
 }

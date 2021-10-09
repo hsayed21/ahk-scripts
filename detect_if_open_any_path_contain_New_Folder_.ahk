@@ -1,11 +1,11 @@
 ﻿q::
-GroupAdd,__vGroupFolder,__ahk_class__CabinetWClass
-GroupAdd,__vGroupFolder,__ahk_class__ExploreWClass
-SetTitleMatchMode,___
-hWnd___:=__WinExist("New__Folder__ahk_group__vGroupFolder")
-hWnd___:=__WinExist("New__Folder__(_)__ahk_group__vGroupFolder")
-if__(hWnd___&&__hWnd_)
-MsgBox__%__"both__windows__exist"
+GroupAdd, vGroupFolder, ahk_class CabinetWClass
+GroupAdd, vGroupFolder, ahk_class ExploreWClass
+SetTitleMatchMode, 3
+hWnd1 := WinExist("New Folder ahk_group vGroupFolder")
+hWnd2 := WinExist("New Folder (2) ahk_group vGroupFolder")
+if (hWnd1 && hWnd2)
+MsgBox % "both windows exist"
 else
-MsgBox__%__"at__least__one__window__doesn't__exist"
+MsgBox % "at least one window doesn't exist"
 Return

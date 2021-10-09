@@ -1,16 +1,16 @@
-#SingleInstance__force
+#SingleInstance force
 
-c__:=___
+c := 1
 
-Gui__Add,Text,__w_____Center__vMy,__%c%
-Gui__Show
+Gui Add,Text, w150 Center vMy, %c%
+Gui Show
 
-SetTimer,__counter,______
+SetTimer, counter, 1000
 return
 
 counter:
-c__+=___
-GuiControl,,My,__%c%
+c += 1
+GuiControl,,My, %c%
 return
 
 

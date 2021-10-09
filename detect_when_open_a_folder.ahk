@@ -1,16 +1,16 @@
 ﻿
-;~__run__it__with__loop__for__alaways__detect__when__open__a__folder
-my_path:=__"C:`\Intel"
+;~ run it with loop for alaways detect when open a folder
+my_path:= "C:`\Intel"
 
-IfWinExist,__ahk_class__CabinetWClass,__%my_path%
+IfWinExist, ahk_class CabinetWClass, %my_path%
 {
-	msgbox__%__"The__folder__is__opened__in__Explorer"
-	;WinMinimize,__ahk_class__CabinetWClass,__%my_path%
-	;WinClose,__ahk_class__CabinetWClass,__%my_path%
+	msgbox % "The folder is opened in Explorer"
+	;WinMinimize, ahk_class CabinetWClass, %my_path%
+	;WinClose, ahk_class CabinetWClass, %my_path%
 	
 }
-else__{
-	msgbox__%__"Either__Explorer__or__the__folder__is__not__opened"
+else {
+	msgbox % "Either Explorer or the folder is not opened"
 }
 
 

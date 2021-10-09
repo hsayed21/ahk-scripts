@@ -1,130 +1,130 @@
-;Blank__all__monitors
-;Copyright__Stephen__Millard__-__thoughtasylum.com
-;For__more__information__see__http://www.thoughtasylum.com/blog/____/_/__/blank-all-of-your-screens-with-an-autohotkey-script.html
-;Press__CTRL+WIN+b__to__blank__screen
-;Press__SHIFT+CTRL+WIN+b__to__set__screen__blanking__colour
+;Blank all monitors
+;Copyright Stephen Millard - thoughtasylum.com
+;For more information see http://www.thoughtasylum.com/blog/2014/7/30/blank-all-of-your-screens-with-an-autohotkey-script.html
+;Press CTRL+WIN+b to blank screen
+;Press SHIFT+CTRL+WIN+b to set screen blanking colour
 
-#Include__Lib-Colours.ahk
+#Include Lib-Colours.ahk
 
 
-;Set__global__colour__variable__and__default__to__black
+;Set global colour variable and default to black
 InitBlankScreen()
 {
-____global__strBlankColour,__strBlankColourValue
-____if__strBlankColour__=__
-________strBlankColour__=__Black
-____if__strBlankColourValue__=__
-________strBlankColourValue__=__Black
+    global strBlankColour, strBlankColourValue
+    if strBlankColour = 
+        strBlankColour = Black
+    if strBlankColourValue = 
+        strBlankColourValue = Black
 }
 
 
-;Blank__all__screens
+;Blank all screens
 ;Ctrl+Win+b
 ^#b::
 ;Initialise
 InitBlankScreen()
-global__strBlankColourValue
+global strBlankColourValue
 
-;Set__a__new__window__to__have__a__background__colour__and__remove__its__chrome
-Gui,__Color,__%strBlankColourValue%
-Gui,__+ToolWindow__-Caption__+AlwaysOnTop
+;Set a new window to have a background colour and remove its chrome
+Gui, Color, %strBlankColourValue%
+Gui, +ToolWindow -Caption +AlwaysOnTop
 
 
-;The__virtual__screen__is__the__bounding__rectangle__of__all__display__monitors.
-;We__need__an__x__&__y__origin__and__the__height__&__width__to__create__our__overlay.
-SysGet,__intOriginX,____
-SysGet,__intOriginY,____
-SysGet,__intWidth,____
-SysGet,__intHeight,____
+;The virtual screen is the bounding rectangle of all display monitors.
+;We need an x & y origin and the height & width to create our overlay.
+SysGet, intOriginX, 76
+SysGet, intOriginY, 77
+SysGet, intWidth, 78
+SysGet, intHeight, 79
 
-;Display__the__overlay__until__user__presses__ESC__key
-Gui,__show,__x%intOriginX%__y%intOriginY%__w%intWidth%__h%intHeight%,__NA
+;Display the overlay until user presses ESC key
+Gui, show, x%intOriginX% y%intOriginY% w%intWidth% h%intHeight%, NA
 return
 
 
-;__Create__a__pop-up__menu.
+; Create a pop-up menu.
 BuildBlankScreenColourMenu()
 {
-____;Initialise
-____InitBlankScreen()
-____global__strBlankColour
-____
-____Menu,__menuBlankScreen,__Add
-____Menu,__menuBlankScreen,__DeleteAll
-____
-____;Add__a__header__to__the__menu
-____Menu,__menuBlankScreen,__Add,__Select__Blank__Screen__Colour,__MenuHandler
-____Menu,__menuBlankScreen,__Disable,__Select__Blank__Screen__Colour
-____Menu,__menuBlankScreen,__Add
-____
-____;Add__colours__to__the__menu
-____Menu,__menuBlankScreen,__Add,__Black,__MenuHandler
-____Menu,__menuBlankScreen,__Add,__Red,__MenuHandler
-____Menu,__menuBlankScreen,__Add,__Blue,__MenuHandler
-____Menu,__menuBlankScreen,__Add,__Green,__MenuHandler
-____Menu,__menuBlankScreen,__Add,__Orange,__MenuHandler
-____Menu,__menuBlankScreen,__Add,__Yellow,__MenuHandler
-____Menu,__menuBlankScreen,__Add,__Purple,__MenuHandler
-____Menu,__menuBlankScreen,__Add,__Silver,__MenuHandler
-____Menu,__menuBlankScreen,__Add,__White,__MenuHandler
-____Menu,__menuBlankScreen,__Add,__Custom,__MenuHandler
-____
-____;Set__a__check__mark__against__the__colour__to__be__used
-____Menu,__menuBlankScreen,__Check,__%strBlankColour%
-____
-____return
+    ;Initialise
+    InitBlankScreen()
+    global strBlankColour
+    
+    Menu, menuBlankScreen, Add
+    Menu, menuBlankScreen, DeleteAll
+    
+    ;Add a header to the menu
+    Menu, menuBlankScreen, Add, Select Blank Screen Colour, MenuHandler
+    Menu, menuBlankScreen, Disable, Select Blank Screen Colour
+    Menu, menuBlankScreen, Add
+    
+    ;Add colours to the menu
+    Menu, menuBlankScreen, Add, Black, MenuHandler
+    Menu, menuBlankScreen, Add, Red, MenuHandler
+    Menu, menuBlankScreen, Add, Blue, MenuHandler
+    Menu, menuBlankScreen, Add, Green, MenuHandler
+    Menu, menuBlankScreen, Add, Orange, MenuHandler
+    Menu, menuBlankScreen, Add, Yellow, MenuHandler
+    Menu, menuBlankScreen, Add, Purple, MenuHandler
+    Menu, menuBlankScreen, Add, Silver, MenuHandler
+    Menu, menuBlankScreen, Add, White, MenuHandler
+    Menu, menuBlankScreen, Add, Custom, MenuHandler
+    
+    ;Set a check mark against the colour to be used
+    Menu, menuBlankScreen, Check, %strBlankColour%
+    
+    return
 }
 
 
-;Process__the__menu__selection
+;Process the menu selection
 MenuHandler:
 ;Initialise
 InitBlankScreen()
-global__strBlankColour,__strBlankColourValue
+global strBlankColour, strBlankColourValue
 
-;Uncheck__the__current__blanking__colour__in__the__menu
-;Menu,__menuBlankScreen,__Uncheck,__%strBlankColour%
+;Uncheck the current blanking colour in the menu
+;Menu, menuBlankScreen, Uncheck, %strBlankColour%
 
-;Set__the__colour__as__the__selected__menu__item
-strBlankColour__=__%A_ThisMenuItem%
-strBlankColourValue__=__%A_ThisMenuItem%
+;Set the colour as the selected menu item
+strBlankColour = %A_ThisMenuItem%
+strBlankColourValue = %A_ThisMenuItem%
 
-;Override__for__any__non-standard__colours
-IfEqual,__strBlankColour,__Orange
+;Override for any non-standard colours
+IfEqual, strBlankColour, Orange
 {
-____strBlankColourValue__=__FF____
+    strBlankColourValue = FF6600
 }
 
-;For__a__custom__colour__use__a__standard__OS__colour__picker
-IfEqual,__strBlankColour,__Custom
+;For a custom colour use a standard OS colour picker
+IfEqual, strBlankColour, Custom
 {
-____SetFormat__IntegerFast,__H
+    SetFormat IntegerFast, H
 
-____Colours__:=__[_x__FF__,___xFF____,___xFF__FF]
-____SelectedColour__:=__ChooseColor(_x__FF,__GuiHwnd,__,__,__Colours*)
-____
-____IfEqual,__ErrorLevel,___x_
-____{
-________StringTrimLeft,__SelectedColour,__SelectedColour,___
-________strBlankColourValue__=__%SelectedColour%
-____}
-____Else
-____{
-________;Default__to__black__because__it__was__cancelled
-________strBlankColour__=__Black
-________strBlankColourValue__=__Black
-____}
-____
+    Colours := [0x00FF00, 0xFF0000, 0xFF00FF]
+    SelectedColour := ChooseColor(0x80FF, GuiHwnd, , , Colours*)
+    
+    IfEqual, ErrorLevel, 0x0
+    {
+        StringTrimLeft, SelectedColour, SelectedColour, 2
+        strBlankColourValue = %SelectedColour%
+    }
+    Else
+    {
+        ;Default to black because it was cancelled
+        strBlankColour = Black
+        strBlankColourValue = Black
+    }
+   
 }
 
 return
 
 
-;Display__pop-up__menu
+;Display pop-up menu
 ;Shift+Ctrl+Win+b
 +^#b::
 BuildBlankScreenColourMenu()
-Menu,__menuBlankScreen,__Show__
+Menu, menuBlankScreen, Show 
 return
 
 Esc::ExitApp

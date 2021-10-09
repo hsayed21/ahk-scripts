@@ -1,15 +1,15 @@
-﻿ToggleKeys__:=___
+﻿ToggleKeys := 1
 
-#If__ToggleKeys
-Joy_::
-SoundPlay,__C:\WINDOWS\Media\chimes.wav
+#If ToggleKeys
+Joy1::
+SoundPlay, C:\WINDOWS\Media\chimes.wav
 Return
 
-Joy_::
-SoundPlay,__C:\WINDOWS\Media\chord.wav
+Joy2::
+SoundPlay, C:\WINDOWS\Media\chord.wav
 Return
 #If
 
-^F_::	;__Ctrl+F___disables__hotkeys.
-ToggleKeys__:=__!ToggleKeys
+^F2::	; Ctrl+F2 disables hotkeys.
+ToggleKeys := !ToggleKeys
 return

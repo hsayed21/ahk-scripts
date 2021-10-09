@@ -1,14 +1,14 @@
-﻿#SingleInstance,__Force
-;~__If__!A_IsAdmin
-__;~__Run__*RunAs__"%A_ScriptFullPath%"
+﻿#SingleInstance, Force
+;~ If !A_IsAdmin
+ ;~ Run *RunAs "%A_ScriptFullPath%"
 
-^!SPACE::__Gosub,__Alwaysontop
+^!SPACE:: Gosub, Alwaysontop
 
 AlwaysonTop:
-WinGet,__ExStyle,__ExStyle,__A
-if__(ExStyle__&___x_)__{
-__Winset,__Alwaysontop,__Off__,__A
-}__else__{
-__Winset,__Alwaysontop,__,__A
+WinGet, ExStyle, ExStyle, A
+if (ExStyle & 0x8) {
+ Winset, Alwaysontop, Off , A
+} else {
+ Winset, Alwaysontop, , A
 }
 return

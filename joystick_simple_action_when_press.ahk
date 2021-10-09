@@ -1,7 +1,7 @@
 ﻿
-JoystickNumber__=___
-Joy_::
-Send__{Left__down}__;__Hold__down__the__left-arrow__key.
-KeyWait__Joy___;__Wait__for__the__user__to__release__the__joystick__button.
-Send__{Left__up}__;__Release__the__left-arrow__key.
+JoystickNumber = 2
+Joy2::
+Send {Left down}  ; Hold down the left-arrow key.
+KeyWait Joy2  ; Wait for the user to release the joystick button.
+Send {Left up}  ; Release the left-arrow key.
 return

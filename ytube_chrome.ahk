@@ -1,48 +1,48 @@
 #Persistent
 #NoEnv
-#SingleInstance,__Force
-DetectHiddenWindows,__On
-SetWorkingDir__%A_ScriptDir%
-SetTitleMatchMode,___
+#SingleInstance, Force
+DetectHiddenWindows, On
+SetWorkingDir %A_ScriptDir%
+SetTitleMatchMode, 2
 
-controlN__:=___
+controlN := 0
 
 return
 
-#IfWinNotActive,__ahk_exe__chrome.exe
-z__&__space::
-____chromeSend("{Space}")
+#IfWinNotActive, ahk_exe chrome.exe
+z & space::
+    chromeSend("{Space}")
 return
 
 
-z__&__right::
-____chromeSend("{Right}")
+z & right::
+    chromeSend("{Right}")
 return
 
-z__&__left::
-____chromeSend("{Left}")
+z & left::
+    chromeSend("{Left}")
 return
 
 chromeSend(keys)
 {
-____ControlGet,__controlN,__Hwnd,,Chrome_RenderWidgetHostHWND_,__Google__Chrome
-____ControlFocus,,ahk_id__%controlN%
-____Sleep,____
-____ControlSend,__Chrome_RenderWidgetHostHWND_,__%keys%__,__Google__Chrome
+    ControlGet, controlN, Hwnd,,Chrome_RenderWidgetHostHWND1, Google Chrome
+    ControlFocus,,ahk_id %controlN%
+    Sleep, 50
+    ControlSend, Chrome_RenderWidgetHostHWND1, %keys% , Google Chrome
 }
 
 
 
-#IfWinActive,__ahk_exe__chrome.exe
-z__&__space::
-____chromeSend("k")
+#IfWinActive, ahk_exe chrome.exe
+z & space::
+    chromeSend("k")
 return
 
 
-z__&__right::
-____chromeSend("{Right}")
+z & right::
+    chromeSend("{Right}")
 return
 
-z__&__left::
-____chromeSend("{Left}")
+z & left::
+    chromeSend("{Left}")
 return

@@ -1,13 +1,13 @@
-﻿#NoEnv__;__Recommended__for__performance__and__compatibility__with__future__AutoHotkey__releases.
-;__#Warn__;__Enable__warnings__to__assist__with__detecting__common__errors.
-SendMode__Input__;__Recommended__for__new__scripts__due__to__its__superior__speed__and__reliability.
-SetWorkingDir__%A_ScriptDir%__;__Ensures__a__consistent__starting__directory.
+﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+; #Warn  ; Enable warnings to assist with detecting common errors.
+SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 
 x::
-	while__(GetKeyState("x",__"P"))__{____;__P__==__Pressed
-		send_____
-		sleep_____
+	while (GetKeyState("x", "P")) {   ; P == Pressed
+		send 123
+		sleep 500
 	}
 	
 	

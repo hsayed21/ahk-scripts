@@ -1,33 +1,33 @@
 #Persistent
 #NoEnv
-#SingleInstance,__Force
+#SingleInstance, Force
 
-SetTitleMatchMode,___
+SetTitleMatchMode, 2
 
-;ahk_class__MozillaWindowClass
-;ahk_class__Chrome_WidgetWin__
+;ahk_class MozillaWindowClass
+;ahk_class Chrome_WidgetWin_1
 
 
-z__&__space::
-	if__WinExist("ahk_class__MozillaWindowClass"){
-		WinActivate,__ahk_class__MozillaWindowClass
-		Send,__k
+z & space::
+	if WinExist("ahk_class MozillaWindowClass"){
+		WinActivate, ahk_class MozillaWindowClass
+		Send, k
 	}
 return
 
 
-z__&__left::
-	if__WinExist("ahk_class__MozillaWindowClass"){
-		WinActivate,__ahk_class__MozillaWindowClass
-		Send,__{Left}
+z & left::
+	if WinExist("ahk_class MozillaWindowClass"){
+		WinActivate, ahk_class MozillaWindowClass
+		Send, {Left}
 	}
 return
 
 
-z__&__right::
-	if__WinExist("ahk_class__MozillaWindowClass"){
-		WinActivate,__ahk_class__MozillaWindowClass
-		Send,__{Right}
+z & right::
+	if WinExist("ahk_class MozillaWindowClass"){
+		WinActivate, ahk_class MozillaWindowClass
+		Send, {Right}
 	}
 return
 

@@ -1,6 +1,6 @@
-#singleInstance,__force
+#singleInstance, force
 #persistent
 
 Browser_Home::
-Run,__C:\Program__Files__(x__)\Google\Chrome\Application\chrome.exe__--profile-directory="Profile___"
+Run, C:\Program Files (x86)\Google\Chrome\Application\chrome.exe --profile-directory="Profile 1"
 return

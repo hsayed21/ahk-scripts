@@ -1,116 +1,116 @@
-﻿#NoEnv__;__Recommended__for__performance__and__compatibility__with__future__AutoHotkey__releases.
-;__#Warn__;__Enable__warnings__to__assist__with__detecting__common__errors.
-SendMode__Input__;__Recommended__for__new__scripts__due__to__its__superior__speed__and__reliability.
-SetWorkingDir__%A_ScriptDir%__;__Ensures__a__consistent__starting__directory.
+﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+; #Warn  ; Enable warnings to assist with detecting common errors.
+SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
-;Auto__copy__clipboard
+;Auto copy clipboard
 ~Lshift::
-TimeButtonDown__=__%A_TickCount%
-;__Wait__for__it__to__be__released
+TimeButtonDown = %A_TickCount%
+; Wait for it to be released
 Loop
 {
-____Sleep____
-____GetKeyState,__LshiftState,__Lshift,__P
-____if__LshiftState__=__U__;__Button__has__been__released.
-______break
-____elapsed__=__%A_TickCount%
-____elapsed__-=__%TimeButtonDown%
-____if__elapsed__>_______;__Button__was__held__down__long__enough
-____{
-______x___=__A_CaretX
-______y___=__A_CaretY
-______Loop
-____{
-______Sleep________________________;__yield__time__to__others
-______GetKeyState__keystate,__Lshift
-______IfEqual__keystate,__U,__{
-________x___=__A_CaretX
-________y___=__A_CaretY
-________break
-______}
-____}
-____if__(x-x___>_____or__x-x___<__-___or__y-y___>_____or__y-y___<__-_)
-____{______________________________;__Caret__has__moved
-______clip___:=__ClipBoardAll______;__save__old__clipboard
-______;ClipBoard__=
-______Send__^c____________________;__selection__->__clipboard
-______ClipWait___,_________________;__restore__clipboard__if__no__data
-	__
-	__ControlSend,___WwG_,__%clipboard%__,__ahk_exe__WINWORD.EXE
-	__ControlSend,___WwG_,__{Enter}__,__ahk_exe__WINWORD.EXE
-	__
-______IfEqual__ClipBoard,,__SetEnv__ClipBoard,__%clip_%
-	__
-	__sleep_______;__wait__for__the__paste__to__be__over
-	__
-____}
-______return
-____}
+   Sleep 10
+   GetKeyState, LshiftState, Lshift, P
+   if LshiftState = U  ; Button has been released.
+      break
+   elapsed = %A_TickCount%
+   elapsed -= %TimeButtonDown%
+   if elapsed > 200  ; Button was held down long enough
+   {
+      x0 = A_CaretX
+      y0 = A_CaretY
+      Loop
+   {
+     Sleep 20                    ; yield time to others
+     GetKeyState keystate, Lshift
+     IfEqual keystate, U, {
+       x0 = A_CaretX
+       y0 = A_CaretY
+       break
+     }
+   }
+   if (x-x0 > 5 or x-x0 < -5 or y-y0 > 5 or y-y0 < -5)
+   {                             ; Caret has moved
+      clip0 := ClipBoardAll      ; save old clipboard
+      ;ClipBoard =
+      Send ^c                    ; selection -> clipboard
+      ClipWait 1, 1              ; restore clipboard if no data
+	  
+	  ControlSend, _WwG1, %clipboard% , ahk_exe WINWORD.EXE
+	  ControlSend, _WwG1, {Enter} , ahk_exe WINWORD.EXE
+	  
+      IfEqual ClipBoard,, SetEnv ClipBoard, %clip0%
+	  
+	  sleep 200 ; wait for the paste to be over
+	  
+   }
+      return
+   }
 }
 
 ~LButton::
-TimeButtonDown__=__%A_TickCount%
-;__Wait__for__it__to__be__released
+TimeButtonDown = %A_TickCount%
+; Wait for it to be released
 Loop
 {
-____Sleep____
-____GetKeyState,__LButtonState,__LButton,__P
-____if__LButtonState__=__U__;__Button__has__been__released.
-______break
-____elapsed__=__%A_TickCount%
-____elapsed__-=__%TimeButtonDown%
-____if__elapsed__>_______;__Button__was__held__down__too__long,__so__assume__it's__not__a__double-click.
-____{
-______MouseGetPos__x_,__y_____________;__save__start__mouse__position
-______Loop
-____{
-______Sleep________________________;__yield__time__to__others
-______GetKeyState__keystate,__LButton
-______IfEqual__keystate,__U,__{
-________MouseGetPos__x,__y__________;__position__when__button__released
-________break
-______}
-____}
-____if__(x-x___>_____or__x-x___<__-___or__y-y___>_____or__y-y___<__-_)
-____{______________________________;__mouse__has__moved
-______clip___:=__ClipBoardAll______;__save__old__clipboard
-______;ClipBoard__=
-______Send__^c____________________;__selection__->__clipboard
-______ClipWait___,_________________;__restore__clipboard__if__no__data
-	__ControlSend,___WwG_,__%clipboard%__,__ahk_exe__WINWORD.EXE
-	__ControlSend,___WwG_,__{Enter}__,__ahk_exe__WINWORD.EXE
-	__
-______IfEqual__ClipBoard,,__SetEnv__ClipBoard,__%clip_%
-	__
-	__sleep_______;__wait__for__the__paste__to__be__over
-	__
-____}
-______return
-____}
+   Sleep 10
+   GetKeyState, LButtonState, LButton, P
+   if LButtonState = U  ; Button has been released.
+      break
+   elapsed = %A_TickCount%
+   elapsed -= %TimeButtonDown%
+   if elapsed > 200  ; Button was held down too long, so assume it's not a double-click.
+   {
+      MouseGetPos x0, y0            ; save start mouse position
+      Loop
+   {
+     Sleep 20                    ; yield time to others
+     GetKeyState keystate, LButton
+     IfEqual keystate, U, {
+       MouseGetPos x, y          ; position when button released
+       break
+     }
+   }
+   if (x-x0 > 5 or x-x0 < -5 or y-y0 > 5 or y-y0 < -5)
+   {                             ; mouse has moved
+      clip0 := ClipBoardAll      ; save old clipboard
+      ;ClipBoard =
+      Send ^c                    ; selection -> clipboard
+      ClipWait 1, 1              ; restore clipboard if no data
+	  ControlSend, _WwG1, %clipboard% , ahk_exe WINWORD.EXE
+	  ControlSend, _WwG1, {Enter} , ahk_exe WINWORD.EXE
+	  
+      IfEqual ClipBoard,, SetEnv ClipBoard, %clip0%
+	  
+	  sleep 200 ; wait for the paste to be over
+	  
+   }
+      return
+   }
 }
-;__Otherwise,__button__was__released__quickly__enough.__Wait__to__see__if__it's__a__double-click:
-TimeButtonUp__=__%A_TickCount%
+; Otherwise, button was released quickly enough.  Wait to see if it's a double-click:
+TimeButtonUp = %A_TickCount%
 Loop
 {
-____Sleep____
-____GetKeyState,__LButtonState,__LButton,__P
-____if__LButtonState__=__D__;__Button__has__been__pressed__down__again.
-______break
-____elapsed__=__%A_TickCount%
-____elapsed__-=__%TimeButtonUp%
-____if__elapsed__>_______;__No__click__has__occurred__within__the__allowed__time,__so__assume__it's__not__a__double-click.
-____{
-______;MouseClick,__Left
-______return
-____}
+   Sleep 10
+   GetKeyState, LButtonState, LButton, P
+   if LButtonState = D  ; Button has been pressed down again.
+      break
+   elapsed = %A_TickCount%
+   elapsed -= %TimeButtonUp%
+   if elapsed > 350  ; No click has occurred within the allowed time, so assume it's not a double-click.
+   {
+      ;MouseClick, Left
+      return
+   }
 }
-;__Since__above__didn't__return,__it's__a__double-click:
-Sleep,____
-Send,__^c
+; Since above didn't return, it's a double-click:
+Sleep, 10
+Send, ^c
 ClipWait
-ControlSend,___WwG_,__%clipboard%__,__ahk_exe__WINWORD.EXE
-ControlSend,___WwG_,__{Enter}__,__ahk_exe__WINWORD.EXE
+ControlSend, _WwG1, %clipboard% , ahk_exe WINWORD.EXE
+ControlSend, _WwG1, {Enter} , ahk_exe WINWORD.EXE
 
-sleep_______;
+sleep 200 ;
 
 return

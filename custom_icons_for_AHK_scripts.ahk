@@ -1,23 +1,23 @@
-﻿#NoEnv__;__Recommended__for__performance__and__compatibility__with__future__AutoHotkey__releases.
-;__#Warn__;__Enable__warnings__to__assist__with__detecting__common__errors.
-SendMode__Input__;__Recommended__for__new__scripts__due__to__its__superior__speed__and__reliability.
-SetWorkingDir__%A_ScriptDir%__;__Ensures__a__consistent__starting__directory.
+﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+; #Warn  ; Enable warnings to assist with detecting common errors.
+SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 
-Menu,__Tray,__Icon,__icon_path.ico__;__prefer__put__ico__by__side__script
+Menu, Tray, Icon, icon_path.ico  ; prefer put ico by side script
 
-State:=__"Off"
+State:= "Off"
 
-F__::
-	if__(State__=__"Off")
+F12::
+	if (State = "Off")
 	{
-		Menu,__Tray,__Icon,__green-circle.ico__
-		State:=__"On"
+		Menu, Tray, Icon, green-circle.ico  
+		State:= "On"
 	}
-	else__if__(State__=__"On")
+	else if (State = "On")
 	{
-		Menu,__Tray,__Icon,__red-circle.ico__
-		State:=__"Off"
+		Menu, Tray, Icon, red-circle.ico  
+		State:= "Off"
 	}
 	
 	return
