@@ -9,7 +9,7 @@
 
 #Requires AutoHotkey v2.0
 #SingleInstance force
-#include Lib\UIA.ahk
+#include Lib\UIA.ahk ;https://github.com/Descolada/UIA-v2
 #WinActivateForce
 SetWorkingDir A_ScriptDir
 SetControlDelay(-1)
