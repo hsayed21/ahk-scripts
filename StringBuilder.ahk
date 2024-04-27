@@ -1,9 +1,11 @@
-/******************************************
- * @file StringBuilder.ahk
- * @description: Most of the time, I need to convert a list of sql queries to a StringBuilder object in C#.
- * @author hsayed
- * @date 2024-04-27
- ******************************************/
+/*
+*****************************************
+* @file StringBuilder.ahk
+* @description: Most of the time, I need to convert a list of sql queries to a StringBuilder object in C#.
+* @author hsayed
+* @date 2024-04-27
+*****************************************
+*/
 #Requires Autohotkey v2.0
 #SingleInstance Force
  

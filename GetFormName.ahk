@@ -1,10 +1,11 @@
-﻿/******************************************
- * @file GetFormName.ahk
- * @description: Get name of the form under the mouse cursor
- * @author hsayed
- * @date 2024-03-30
- * @version 1.0.0
-*******************************************/
+﻿/*
+*****************************************
+* @file GetFormName.ahk
+* @description: Get name of the form under the mouse cursor
+* @author hsayed
+* @date 2024-03-30
+******************************************
+*/
 
 #Requires AutoHotkey v2.0
 #SingleInstance force

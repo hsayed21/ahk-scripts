@@ -1,10 +1,11 @@
-/******************************************
- * @file ContextMenu.ahk
- * @description: class to create context menu with submenus and actions
- * @author hsayed
- * @date 2024-04-11
- * @version 1.0.0
-*******************************************/
+/*
+*****************************************
+* @file ContextMenu.ahk
+* @description: class to create context menu with submenus and actions
+* @author hsayed
+* @date 2024-04-11
+******************************************
+*/
 
 class MenuItem {
     __New(name, func := "") {
