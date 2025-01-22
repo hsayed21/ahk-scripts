@@ -69,9 +69,8 @@ class BarcodeScanner {
     }
 
     SendBarcode(barcode) {
-        A_Clipboard := barcode
         SoundPlay(this.scan_wav)
-        Send("^v")
+        Send(barcode "{Enter}")
     }
 
     DeleteSelected(*) {
